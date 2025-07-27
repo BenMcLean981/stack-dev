@@ -1,0 +1,7 @@
+{
+  "extends": "@stack-dev/typescript-config/tsconfig.node.json",
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}

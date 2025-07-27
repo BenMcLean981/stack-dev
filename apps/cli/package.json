@@ -1,0 +1,21 @@
+{
+  "name": "@stack-dev/cli",
+  "version": "0.1.0",
+  "bin": {
+    "stack": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsup src/index.ts --watch",
+    "build": "tsup src/index.ts --dts --format esm",
+    "start": "node dist/index.js",
+    "check-types": "tsc --noEmit"
+  },
+  "dependencies": {
+    "commander": "^11.1.0"
+  },
+  "devDependencies": {
+    "@stack-dev/typescript-config": "workspace:*",
+    "tsup": "^7.3.0",
+    "@types/node": "^24.0.15"
+  }
+}
