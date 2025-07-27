@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import { createMonorepo } from "./create";
 
 const program = new Command();
 
@@ -10,9 +11,15 @@ program
 program
   .command("create <name>")
   .description("Create a new monorepo project")
-  .action((name) => {
-    console.log(`✨ Creating monorepo: ${name}`);
-    // TODO: call core scaffolding logic here
+  .option(
+    "-o, --output <dir>",
+    "Target directory to create the project in",
+    "."
+  )
+  .action(async (name) => {
+    const output = program.opts().output;
+
+    await createMonorepo(name, output);
   });
 
 program.parse();
