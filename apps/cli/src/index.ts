@@ -16,8 +16,8 @@ program
     "Target directory to create the workspace in",
     "."
   )
-  .action(async (name) => {
-    const output = program.opts().output ?? process.cwd();
+  .action(async (name, options) => {
+    const output = options.output ?? process.cwd();
 
     await createWorkspace(name, output);
   });

@@ -23,9 +23,9 @@ export class PackageGenerator {
   public async generate(): Promise<void> {
     const all = [this._packageJson, ...this._fileGenerators];
 
-    await fs.mkdir(this._root);
+    await fs.mkdir(this._root, { recursive: true });
 
-    await Promise.all(all.map((gen) => gen.generate()));
+    await Promise.all(all.map((gen) => this.write(gen)));
   }
 
   private async write(fileGenerator: FileGenerator): Promise<void> {

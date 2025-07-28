@@ -12,14 +12,15 @@ export async function createWorkspace(name: string, directory: string) {
 
   const namespace = `@${name}`;
   const PACKAGES = [
-    await makeRootPackage(directory, name),
-    await makeTypescriptConfig(directory, namespace),
+    await makeRootPackage(fullPath, name),
+    await makeTypescriptConfig(fullPath, namespace),
   ];
 
   await Promise.all(PACKAGES.map((p) => p.generate()));
 
-  // Add a README or .gitignore if you want here
-  console.log(`✅ Monorepo created at: ${fullPath}`);
+  console.log(`✅ Workspace created at: ${fullPath}`);
+  console.log("");
+  console.log(`Run "cd ${fullPath}" followed by "pnpm install"`);
 }
 
 async function validateNotInWorkspace(directory: string): Promise<void> {
