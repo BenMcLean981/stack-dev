@@ -2,27 +2,54 @@ import { FileGeneratorImp } from "../file-generator/file-generator-imp";
 import { PackageGenerator } from "../utils/package-generator";
 import { PackageJsonGenerator } from "../file-generator";
 
-const PACKAGE_JSON = new PackageJsonGenerator(
-  "package.json",
-  [],
-  [{ name: "turbo", version: "^2.5.4" }],
-  {
-    description: "",
-    keywords: [],
-    author: "",
-    license: "ISC",
-    packageManager: "pnpm@10.13.1",
-  }
-);
+export async function makeRootPackage(name: string): Promise<PackageGenerator> {
+  const PACKAGE_JSON = new PackageJsonGenerator(
+    "package.json",
+    name,
+    [],
+    [{ name: "turbo", version: "^2.5.4" }],
+    {
+      description: "",
+      keywords: [],
+      author: "",
+      license: "ISC",
+      packageManager: "pnpm@10.13.1",
+    }
+  );
 
-const PNPM_WORKSPACE = new FileGeneratorImp(
-  "pnpm-workspace.yaml",
-  ["packages:", "  - apps/*", "  - packages/*", "  - configs/*"].join("\n")
-);
+  const PNPM_WORKSPACE = new FileGeneratorImp(
+    "pnpm-workspace.yaml",
+    ["packages:", "  - apps/*", "  - packages/*", "  - configs/*"].join("\n")
+  );
 
-const GITIGNORE = new FileGeneratorImp(
-  ".gitignore",
-  `# Logs
+  const GITIGNORE = new FileGeneratorImp(".gitignore", GITIGNORE_CONTENT);
+
+  const TURBO_JSON = new FileGeneratorImp(
+    "turbo.json",
+    JSON.stringify(
+      {
+        pipeline: {
+          build: {
+            dependsOn: ["^build"],
+            outputs: ["dist/**"],
+          },
+          lint: {},
+          test: {},
+        },
+      },
+      null,
+      2
+    )
+  );
+
+  return new PackageGenerator(".", PACKAGE_JSON, [
+    PNPM_WORKSPACE,
+    GITIGNORE,
+    TURBO_JSON,
+  ]);
+}
+
+const GITIGNORE_CONTENT = `# Logs
 logs
 *.log
 npm-debug.log*
@@ -161,29 +188,4 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-`
-);
-
-const TURBO_JSON = new FileGeneratorImp(
-  "turbo.json",
-  JSON.stringify(
-    {
-      pipeline: {
-        build: {
-          dependsOn: ["^build"],
-          outputs: ["dist/**"],
-        },
-        lint: {},
-        test: {},
-      },
-    },
-    null,
-    2
-  )
-);
-
-export const ROOT_PACKAGE = new PackageGenerator(".", PACKAGE_JSON, [
-  PNPM_WORKSPACE,
-  GITIGNORE,
-  PACKAGE_JSON,
-]);
+`;
