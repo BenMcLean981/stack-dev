@@ -1,8 +1,10 @@
 import { FileGeneratorImp } from "../file-generator/file-generator-imp";
 import { PackageGenerator } from "../utils/package-generator";
 import { PackageJsonGenerator } from "../file-generator";
+import path from "path";
 
 export async function makeTypescriptConfig(
+  directory: string,
   namespace: string
 ): Promise<PackageGenerator> {
   const PACKAGE_JSON = new PackageJsonGenerator(
@@ -13,11 +15,9 @@ export async function makeTypescriptConfig(
     {}
   );
 
-  return new PackageGenerator("configs/typescript-config", PACKAGE_JSON, [
-    BASE,
-    REACT,
-    NODE,
-  ]);
+  const fullPath = path.join(directory, "configs/typescript-config");
+
+  return new PackageGenerator(fullPath, PACKAGE_JSON, [BASE, REACT, NODE]);
 }
 
 export const BASE = new FileGeneratorImp(

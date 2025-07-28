@@ -1,1 +1,1 @@
-export * from "./create-monorepo";
+export * from "./create-workspace";

@@ -2,7 +2,10 @@ import { FileGeneratorImp } from "../file-generator/file-generator-imp";
 import { PackageGenerator } from "../utils/package-generator";
 import { PackageJsonGenerator } from "../file-generator";
 
-export async function makeRootPackage(name: string): Promise<PackageGenerator> {
+export async function makeRootPackage(
+  name: string,
+  directory: string
+): Promise<PackageGenerator> {
   const PACKAGE_JSON = new PackageJsonGenerator(
     "package.json",
     name,
@@ -42,7 +45,7 @@ export async function makeRootPackage(name: string): Promise<PackageGenerator> {
     )
   );
 
-  return new PackageGenerator(".", PACKAGE_JSON, [
+  return new PackageGenerator(directory, PACKAGE_JSON, [
     PNPM_WORKSPACE,
     GITIGNORE,
     TURBO_JSON,
