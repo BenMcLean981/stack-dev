@@ -8,13 +8,14 @@ export class PackageJsonGenerator implements FileGenerator {
 
   private readonly _devDependencies: ReadonlyArray<Dependency>;
 
-  private readonly _options: Record<string, string>;
+  // TODO: Snapshot
+  private readonly _options: Record<string, string | ReadonlyArray<string>>;
 
   public constructor(
     filepath: string,
     dependencies: ReadonlyArray<Dependency>,
     devDependencies: ReadonlyArray<Dependency>,
-    options: Record<string, string> = {}
+    options: Record<string, string | ReadonlyArray<string>> = {}
   ) {
     this._filepath = filepath;
     this._dependencies = dependencies;
@@ -24,7 +25,7 @@ export class PackageJsonGenerator implements FileGenerator {
   }
 
   public get filepath(): string {
-    return "package.json";
+    return this._filepath;
   }
 
   public async generate(): Promise<string> {
