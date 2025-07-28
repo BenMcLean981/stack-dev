@@ -23,7 +23,7 @@ export async function createWorkspace(name: string, directory: string) {
 }
 
 async function validateNotInWorkspace(directory: string): Promise<void> {
-  const namespace = getNamespace(directory);
+  const namespace = await getNamespace(directory);
 
   if (namespace !== undefined) {
     throw new Error(`Currently in workspace "${namespace}".`);

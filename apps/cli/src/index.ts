@@ -17,7 +17,7 @@ program
     "."
   )
   .action(async (name) => {
-    const output = program.opts().output;
+    const output = program.opts().output ?? process.cwd();
 
     await createWorkspace(name, output);
   });

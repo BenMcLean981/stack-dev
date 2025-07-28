@@ -1,22 +1,24 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-export async function getNamespace(cwd: string): Promise<string | undefined> {
+export async function getNamespace(
+  directory: string
+): Promise<string | undefined> {
   while (true) {
-    const parent = path.dirname(cwd);
+    const parent = path.dirname(directory);
 
-    const packageJson = await getPackageJson(cwd);
+    const packageJson = await getPackageJson(directory);
 
     if (packageJson !== undefined) {
       const name = JSON.parse(packageJson).name;
 
       return `@${name}`;
     } else {
-      if (parent === cwd) {
+      if (parent === directory) {
         break;
       }
 
-      cwd = parent;
+      directory = parent;
     }
   }
 
@@ -45,7 +47,7 @@ async function getPackageJson(directory: string): Promise<string | undefined> {
 
 async function fileExists(filepath: string): Promise<boolean> {
   try {
-    await fs.access("/path/to/file", fs.constants.F_OK);
+    await fs.access(filepath, fs.constants.F_OK);
 
     return true;
   } catch {
