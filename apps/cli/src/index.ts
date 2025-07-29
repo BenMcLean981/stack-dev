@@ -25,20 +25,37 @@ program
 
 program
   .command('g <name>')
-  .description('Create a new package')
+  .description('Generate a new package or app')
   .option(
-    '-c, --config',
-    'Whether or not a config package should be generated',
-    false
+    '-t, --type <type>',
+    'Type of package to generate (library, config, react, cli, next)',
+    'library'
   )
   .action(async (name, options) => {
-    const config = options.config ?? false
+    const type = options.type ?? 'library'
 
-    if (config) {
-      await createConfigPackage(name)
-    } else {
-      throw new Error('Not implemented.')
+    switch (type) {
+      case 'library':
+        // await createLibraryPackage(name)
+        break
+      case 'config':
+        await createConfigPackage(name)
+        break
+      case 'react':
+        // await createReactPackage(name)
+        break
+      case 'cli':
+        // await createCliPackage(name)
+        break
+      case 'next':
+        // await createNextPackage(name)
+        break
+      default:
+        console.error(`Unknown package type: ${type}`)
+        process.exit(1)
     }
   })
+
+program.parse()
 
 program.parse()
