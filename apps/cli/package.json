@@ -13,7 +13,8 @@
     "format": "prettier . --write"
   },
   "dependencies": {
-    "commander": "^11.1.0"
+    "commander": "^11.1.0",
+    "enquirer": "^2.4.1"
   },
   "devDependencies": {
     "@stack-dev/eslint-config": "workspace:*",
