@@ -10,7 +10,7 @@
     "start": "node dist/index.js",
     "check-types": "tsc --noEmit",
     "lint": "eslint .",
-    "format": "stack-prettier . --write"
+    "format": "prettier . --write"
   },
   "dependencies": {
     "commander": "^11.1.0"
@@ -21,6 +21,8 @@
     "@stack-dev/typescript-config": "workspace:*",
     "@types/node": "^24.0.15",
     "eslint": "^9.32.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-organize-imports": "^4.2.0",
     "tsup": "^7.3.0"
   }
 }
