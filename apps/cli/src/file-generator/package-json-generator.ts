@@ -29,14 +29,6 @@ export class PackageJsonGenerator implements FileGenerator {
   }
 
   public async generate(): Promise<string> {
-    const dependencies: Record<string, string> = {};
-
-    this._dependencies.forEach((dependency: Dependency) => {
-      dependencies[dependency.name] = dependency.version;
-    });
-
-    const devDependencies: Record<string, string> = {};
-
     return JSON.stringify(
       {
         name: this._name,
