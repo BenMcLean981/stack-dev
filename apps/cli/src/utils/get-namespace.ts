@@ -4,45 +4,42 @@ import path from "node:path";
 export async function getNamespace(
   directory: string
 ): Promise<string | undefined> {
-  while (true) {
-    const parent = path.dirname(directory);
+  const root = await getWorkspaceRoot(directory);
 
-    const packageJson = await getPackageJson(directory);
+  const packageJson = await fs.readFile(path.join(root, "package.json"), {
+    encoding: "utf-8",
+  });
 
-    if (packageJson !== undefined) {
-      const name = JSON.parse(packageJson).name;
+  const result = JSON.parse(packageJson).name;
 
-      return `@${name}`;
-    } else {
-      if (parent === directory) {
-        break;
-      }
-
-      directory = parent;
-    }
+  if (!result) {
+    throw new Error("Missing name.");
   }
 
-  return undefined;
+  return result;
 }
 
-async function getPackageJson(directory: string): Promise<string | undefined> {
-  const packageJsonPath = path.join(directory, "package.json");
+export async function getWorkspaceRoot(
+  directory: string = process.cwd()
+): Promise<string> {
+  const parent = path.dirname(directory);
 
-  const isWorkspace =
-    (await fileExists(path.join(directory, "pnpm-workspace.yaml"))) ||
-    (await fileExists(path.join(directory, "pnpm-workspace.yml")));
-
-  if (isWorkspace) {
-    try {
-      return fs.readFile(packageJsonPath, "utf8");
-    } catch (e) {
-      console.error(e);
-
-      throw new Error("Workspace root missing package.json.");
-    }
+  if (parent === directory) {
+    throw new Error("Not a workspace.");
   }
 
-  return undefined;
+  if (await isWorkspaceRoot(directory)) {
+    return directory;
+  }
+
+  return getWorkspaceRoot(parent);
+}
+
+async function isWorkspaceRoot(directory: string): Promise<boolean> {
+  return (
+    (await fileExists(path.join(directory, "pnpm-workspace.yaml"))) ||
+    (await fileExists(path.join(directory, "pnpm-workspace.yml")))
+  );
 }
 
 async function fileExists(filepath: string): Promise<boolean> {

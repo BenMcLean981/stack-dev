@@ -7,7 +7,6 @@ export async function makeRootPackage(
   name: string
 ): Promise<PackageGenerator> {
   const PACKAGE_JSON = new PackageJsonGenerator(
-    "package.json",
     name,
     [],
     [{ name: "turbo", version: "^2.5.4" }],

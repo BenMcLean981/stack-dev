@@ -8,7 +8,6 @@ export async function makeTypescriptConfig(
   namespace: string
 ): Promise<PackageGenerator> {
   const PACKAGE_JSON = new PackageJsonGenerator(
-    "package.json",
     `${namespace}/typescript-config`,
     [{ name: "typescript", version: "^5.8.3" }],
     [],
