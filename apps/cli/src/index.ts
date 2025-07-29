@@ -1,5 +1,5 @@
 import { Command } from 'commander'
-import { createConfigPackage } from './config-package'
+import { createConfigPackage } from './packages'
 import { createWorkspace } from './workspace'
 
 const program = new Command()
