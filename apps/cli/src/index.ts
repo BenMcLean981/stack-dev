@@ -1,13 +1,13 @@
-import { Command } from 'commander'
-import { createConfigPackage } from './packages'
-import { createWorkspace } from './workspace'
+import { Command } from 'commander';
+import { createConfigPackage } from './packages';
+import { createWorkspace } from './workspace';
 
-const program = new Command()
+const program = new Command();
 
 program
   .name('stack')
   .description('Opinionated TypeScript workspace manager')
-  .version('0.1.0')
+  .version('0.1.0');
 
 program
   .command('create <name>')
@@ -15,13 +15,13 @@ program
   .option(
     '-o, --output <dir>',
     'Target directory to create the workspace in',
-    '.'
+    '.',
   )
   .action(async (name, options) => {
-    const output = options.output ?? process.cwd()
+    const output = options.output ?? process.cwd();
 
-    await createWorkspace(name, output)
-  })
+    await createWorkspace(name, output);
+  });
 
 program
   .command('g <name>')
@@ -29,33 +29,33 @@ program
   .option(
     '-t, --type <type>',
     'Type of package to generate (library, config, react, cli, next)',
-    'library'
+    'library',
   )
   .action(async (name, options) => {
-    const type = options.type ?? 'library'
+    const type = options.type ?? 'library';
 
     switch (type) {
       case 'library':
         // await createLibraryPackage(name)
-        break
+        break;
       case 'config':
-        await createConfigPackage(name)
-        break
+        await createConfigPackage(name);
+        break;
       case 'react':
         // await createReactPackage(name)
-        break
+        break;
       case 'cli':
         // await createCliPackage(name)
-        break
+        break;
       case 'next':
         // await createNextPackage(name)
-        break
+        break;
       default:
-        console.error(`Unknown package type: ${type}`)
-        process.exit(1)
+        console.error(`Unknown package type: ${type}`);
+        process.exit(1);
     }
-  })
+  });
 
-program.parse()
+program.parse();
 
-program.parse()
+program.parse();

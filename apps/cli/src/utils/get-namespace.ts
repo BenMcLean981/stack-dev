@@ -1,53 +1,53 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
+import fs from 'node:fs/promises';
+import path from 'node:path';
 
 export async function getNamespace(
-  directory: string
+  directory: string,
 ): Promise<string | undefined> {
-  const root = await getWorkspaceRoot(directory)
+  const root = await getWorkspaceRoot(directory);
 
   const packageJson = await fs.readFile(path.join(root, 'package.json'), {
     encoding: 'utf-8',
-  })
+  });
 
-  const result = JSON.parse(packageJson).name
+  const result = JSON.parse(packageJson).name;
 
   if (!result) {
-    throw new Error('Missing name.')
+    throw new Error('Missing name.');
   }
 
-  return result
+  return result;
 }
 
 export async function getWorkspaceRoot(
-  directory: string = process.cwd()
+  directory: string = process.cwd(),
 ): Promise<string> {
-  const parent = path.dirname(directory)
+  const parent = path.dirname(directory);
 
   if (parent === directory) {
-    throw new Error('Not a workspace.')
+    throw new Error('Not a workspace.');
   }
 
   if (await isWorkspaceRoot(directory)) {
-    return directory
+    return directory;
   }
 
-  return getWorkspaceRoot(parent)
+  return getWorkspaceRoot(parent);
 }
 
 async function isWorkspaceRoot(directory: string): Promise<boolean> {
   return (
     (await fileExists(path.join(directory, 'pnpm-workspace.yaml'))) ||
     (await fileExists(path.join(directory, 'pnpm-workspace.yml')))
-  )
+  );
 }
 
 async function fileExists(filepath: string): Promise<boolean> {
   try {
-    await fs.access(filepath, fs.constants.F_OK)
+    await fs.access(filepath, fs.constants.F_OK);
 
-    return true
+    return true;
   } catch {
-    return false
+    return false;
   }
 }

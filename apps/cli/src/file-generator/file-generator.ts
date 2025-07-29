@@ -1,5 +1,5 @@
 export interface FileGenerator {
-  readonly filepath: string
+  readonly filepath: string;
 
-  generate(): Promise<string>
+  generate(): Promise<string>;
 }

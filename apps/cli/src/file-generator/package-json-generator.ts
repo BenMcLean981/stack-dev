@@ -1,31 +1,31 @@
-import { Dependency } from './dependency'
-import { FileGenerator } from './file-generator'
+import { Dependency } from './dependency';
+import { FileGenerator } from './file-generator';
 
 export class PackageJsonGenerator implements FileGenerator {
-  private readonly _name: string
+  private readonly _name: string;
 
-  private readonly _dependencies: ReadonlyArray<Dependency>
+  private readonly _dependencies: ReadonlyArray<Dependency>;
 
-  private readonly _devDependencies: ReadonlyArray<Dependency>
+  private readonly _devDependencies: ReadonlyArray<Dependency>;
 
   // TODO: Snapshot
-  private readonly _options: Record<string, string | ReadonlyArray<string>>
+  private readonly _options: Record<string, string | ReadonlyArray<string>>;
 
   public constructor(
     name: string,
     dependencies: ReadonlyArray<Dependency> = [],
     devDependencies: ReadonlyArray<Dependency> = [],
-    options: Record<string, string | ReadonlyArray<string>> = {}
+    options: Record<string, string | ReadonlyArray<string>> = {},
   ) {
-    this._name = name
-    this._dependencies = dependencies
-    this._devDependencies = devDependencies
+    this._name = name;
+    this._dependencies = dependencies;
+    this._devDependencies = devDependencies;
 
-    this._options = options
+    this._options = options;
   }
 
   public get filepath(): string {
-    return 'package.json'
+    return 'package.json';
   }
 
   public async generate(): Promise<string> {
@@ -39,19 +39,19 @@ export class PackageJsonGenerator implements FileGenerator {
         ...this._options,
       },
       null,
-      2
-    )
+      2,
+    );
   }
 }
 
 function makeDependencyMap(
-  dependencies: ReadonlyArray<Dependency>
+  dependencies: ReadonlyArray<Dependency>,
 ): Record<string, string> {
-  const result: Record<string, string> = {}
+  const result: Record<string, string> = {};
 
   dependencies.forEach(
-    (dependency: Dependency) => (result[dependency.name] = dependency.version)
-  )
+    (dependency: Dependency) => (result[dependency.name] = dependency.version),
+  );
 
-  return result
+  return result;
 }
