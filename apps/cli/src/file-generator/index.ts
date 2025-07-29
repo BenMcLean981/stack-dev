@@ -1,5 +1,5 @@
-export * from "./file-generator";
+export * from './file-generator'
 
-export * from "./package-json-generator";
+export * from './package-json-generator'
 
-export * from "./dependency";
+export * from './dependency'

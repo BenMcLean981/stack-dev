@@ -1,5 +1,5 @@
 export type Dependency = {
-  name: string;
+  name: string
 
-  version: string;
-};
+  version: string
+}

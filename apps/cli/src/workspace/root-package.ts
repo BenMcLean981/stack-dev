@@ -1,54 +1,54 @@
-import { FileGeneratorImp } from "../file-generator/file-generator-imp";
-import { PackageGenerator } from "../utils/package-generator";
-import { PackageJsonGenerator } from "../file-generator";
+import { PackageJsonGenerator } from '../file-generator'
+import { FileGeneratorImp } from '../file-generator/file-generator-imp'
+import { PackageGenerator } from '../utils/package-generator'
 
 export async function makeRootPackage(
   directory: string,
-  name: string,
+  name: string
 ): Promise<PackageGenerator> {
   const PACKAGE_JSON = new PackageJsonGenerator(
     name,
     [],
-    [{ name: "turbo", version: "^2.5.4" }],
+    [{ name: 'turbo', version: '^2.5.4' }],
     {
-      description: "",
+      description: '',
       keywords: [],
-      author: "",
-      license: "ISC",
-      packageManager: "pnpm@10.13.1",
-    },
-  );
+      author: '',
+      license: 'ISC',
+      packageManager: 'pnpm@10.13.1',
+    }
+  )
 
   const PNPM_WORKSPACE = new FileGeneratorImp(
-    "pnpm-workspace.yaml",
-    ["packages:", "  - apps/*", "  - packages/*", "  - configs/*"].join("\n"),
-  );
+    'pnpm-workspace.yaml',
+    ['packages:', '  - apps/*', '  - packages/*', '  - configs/*'].join('\n')
+  )
 
-  const GITIGNORE = new FileGeneratorImp(".gitignore", GITIGNORE_CONTENT);
+  const GITIGNORE = new FileGeneratorImp('.gitignore', GITIGNORE_CONTENT)
 
   const TURBO_JSON = new FileGeneratorImp(
-    "turbo.json",
+    'turbo.json',
     JSON.stringify(
       {
         pipeline: {
           build: {
-            dependsOn: ["^build"],
-            outputs: ["dist/**"],
+            dependsOn: ['^build'],
+            outputs: ['dist/**'],
           },
           lint: {},
           test: {},
         },
       },
       null,
-      2,
-    ),
-  );
+      2
+    )
+  )
 
   return new PackageGenerator(directory, PACKAGE_JSON, [
     PNPM_WORKSPACE,
     GITIGNORE,
     TURBO_JSON,
-  ]);
+  ])
 }
 
 const GITIGNORE_CONTENT = `# Logs
@@ -190,4 +190,4 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-`;
+`

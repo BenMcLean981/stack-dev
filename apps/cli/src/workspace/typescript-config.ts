@@ -1,32 +1,32 @@
-import { FileGeneratorImp } from "../file-generator/file-generator-imp";
-import { PackageGenerator } from "../utils/package-generator";
-import { PackageJsonGenerator } from "../file-generator";
-import path from "path";
+import path from 'path'
+import { PackageJsonGenerator } from '../file-generator'
+import { FileGeneratorImp } from '../file-generator/file-generator-imp'
+import { PackageGenerator } from '../utils/package-generator'
 
 export async function makeTypescriptConfig(
   directory: string,
-  namespace: string,
+  namespace: string
 ): Promise<PackageGenerator> {
   const PACKAGE_JSON = new PackageJsonGenerator(
     `${namespace}/typescript-config`,
-    [{ name: "typescript", version: "^5.8.3" }],
+    [{ name: 'typescript', version: '^5.8.3' }],
     [],
-    {},
-  );
+    {}
+  )
 
-  const fullPath = path.join(directory, "configs/typescript-config");
+  const fullPath = path.join(directory, 'configs/typescript-config')
 
-  return new PackageGenerator(fullPath, PACKAGE_JSON, [BASE, REACT, NODE]);
+  return new PackageGenerator(fullPath, PACKAGE_JSON, [BASE, REACT, NODE])
 }
 
 export const BASE = new FileGeneratorImp(
-  "tsconfig.base.json",
+  'tsconfig.base.json',
   JSON.stringify(
     {
       compilerOptions: {
-        target: "ES2022",
-        module: "ESNext",
-        moduleResolution: "bundler",
+        target: 'ES2022',
+        module: 'ESNext',
+        moduleResolution: 'bundler',
         resolveJsonModule: true,
         isolatedModules: true,
         strict: true,
@@ -39,37 +39,37 @@ export const BASE = new FileGeneratorImp(
       },
     },
     null,
-    2,
-  ),
-);
+    2
+  )
+)
 
 const REACT = new FileGeneratorImp(
-  "tsconfig.react.json",
+  'tsconfig.react.json',
   JSON.stringify(
     {
-      extends: "./tsconfig.base.json",
+      extends: './tsconfig.base.json',
       compilerOptions: {
-        jsx: "react-jsx",
-        lib: ["DOM", "DOM.Iterable", "ES2022"],
+        jsx: 'react-jsx',
+        lib: ['DOM', 'DOM.Iterable', 'ES2022'],
         types: [],
       },
     },
     null,
-    2,
-  ),
-);
+    2
+  )
+)
 
 const NODE = new FileGeneratorImp(
-  "tsconfig.node.json",
+  'tsconfig.node.json',
   JSON.stringify(
     {
-      extends: "./tsconfig.base.json",
+      extends: './tsconfig.base.json',
       compilerOptions: {
-        lib: ["ES2022"],
-        types: ["node"],
+        lib: ['ES2022'],
+        types: ['node'],
       },
     },
     null,
-    2,
-  ),
-);
+    2
+  )
+)

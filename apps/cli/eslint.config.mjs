@@ -1,3 +1,3 @@
-import base from "@stack-dev/eslint-config/base.mjs";
+import base from '@stack-dev/eslint-config/base.mjs'
 
-export default [...base, { ignores: ["**/dist/**"] }];
+export default [...base, { ignores: ['**/dist/**'] }]
