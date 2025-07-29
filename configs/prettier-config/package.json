@@ -1,0 +1,8 @@
+{
+  "name": "@stack-dev/prettier-config",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "prettier": "^3.6.2"
+  }
+}

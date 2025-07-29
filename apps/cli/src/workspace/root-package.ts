@@ -4,7 +4,7 @@ import { PackageJsonGenerator } from "../file-generator";
 
 export async function makeRootPackage(
   directory: string,
-  name: string
+  name: string,
 ): Promise<PackageGenerator> {
   const PACKAGE_JSON = new PackageJsonGenerator(
     name,
@@ -16,12 +16,12 @@ export async function makeRootPackage(
       author: "",
       license: "ISC",
       packageManager: "pnpm@10.13.1",
-    }
+    },
   );
 
   const PNPM_WORKSPACE = new FileGeneratorImp(
     "pnpm-workspace.yaml",
-    ["packages:", "  - apps/*", "  - packages/*", "  - configs/*"].join("\n")
+    ["packages:", "  - apps/*", "  - packages/*", "  - configs/*"].join("\n"),
   );
 
   const GITIGNORE = new FileGeneratorImp(".gitignore", GITIGNORE_CONTENT);
@@ -40,8 +40,8 @@ export async function makeRootPackage(
         },
       },
       null,
-      2
-    )
+      2,
+    ),
   );
 
   return new PackageGenerator(directory, PACKAGE_JSON, [

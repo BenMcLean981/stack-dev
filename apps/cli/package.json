@@ -9,16 +9,19 @@
     "build": "tsup src/index.ts --dts --format esm,cjs",
     "start": "node dist/index.js",
     "check-types": "tsc --noEmit",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier . --write"
   },
   "dependencies": {
     "commander": "^11.1.0"
   },
   "devDependencies": {
-    "@stack-dev/typescript-config": "workspace:*",
     "@stack-dev/eslint-config": "workspace:*",
+    "@stack-dev/prettier-config": "workspace:*",
+    "@stack-dev/typescript-config": "workspace:*",
+    "@types/node": "^24.0.15",
     "eslint": "^9.32.0",
-    "tsup": "^7.3.0",
-    "@types/node": "^24.0.15"
+    "prettier": "^3.6.2",
+    "tsup": "^7.3.0"
   }
 }

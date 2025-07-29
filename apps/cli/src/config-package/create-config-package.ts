@@ -16,7 +16,7 @@ export async function createConfigPackage(name: string): Promise<void> {
   const generator = new PackageGenerator(
     directory,
     new PackageJsonGenerator(packageName),
-    []
+    [],
   );
 
   await generator.generate();

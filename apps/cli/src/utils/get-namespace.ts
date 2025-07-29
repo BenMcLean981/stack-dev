@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 export async function getNamespace(
-  directory: string
+  directory: string,
 ): Promise<string | undefined> {
   const root = await getWorkspaceRoot(directory);
 
@@ -20,7 +20,7 @@ export async function getNamespace(
 }
 
 export async function getWorkspaceRoot(
-  directory: string = process.cwd()
+  directory: string = process.cwd(),
 ): Promise<string> {
   const parent = path.dirname(directory);
 

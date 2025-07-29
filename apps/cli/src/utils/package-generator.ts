@@ -13,7 +13,7 @@ export class PackageGenerator {
   public constructor(
     root: string,
     packageJson: PackageJsonGenerator,
-    fileGenerators: ReadonlyArray<FileGenerator> = []
+    fileGenerators: ReadonlyArray<FileGenerator> = [],
   ) {
     this._root = root;
     this._packageJson = packageJson;

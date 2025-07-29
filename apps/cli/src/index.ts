@@ -15,7 +15,7 @@ program
   .option(
     "-o, --output <dir>",
     "Target directory to create the workspace in",
-    "."
+    ".",
   )
   .action(async (name, options) => {
     const output = options.output ?? process.cwd();
@@ -29,7 +29,7 @@ program
   .option(
     "-c, --config",
     "Whether or not a config package should be generated",
-    false
+    false,
   )
   .action(async (name, options) => {
     const config = options.config ?? false;

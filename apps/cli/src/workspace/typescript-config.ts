@@ -5,13 +5,13 @@ import path from "path";
 
 export async function makeTypescriptConfig(
   directory: string,
-  namespace: string
+  namespace: string,
 ): Promise<PackageGenerator> {
   const PACKAGE_JSON = new PackageJsonGenerator(
     `${namespace}/typescript-config`,
     [{ name: "typescript", version: "^5.8.3" }],
     [],
-    {}
+    {},
   );
 
   const fullPath = path.join(directory, "configs/typescript-config");
@@ -39,8 +39,8 @@ export const BASE = new FileGeneratorImp(
       },
     },
     null,
-    2
-  )
+    2,
+  ),
 );
 
 const REACT = new FileGeneratorImp(
@@ -55,8 +55,8 @@ const REACT = new FileGeneratorImp(
       },
     },
     null,
-    2
-  )
+    2,
+  ),
 );
 
 const NODE = new FileGeneratorImp(
@@ -70,6 +70,6 @@ const NODE = new FileGeneratorImp(
       },
     },
     null,
-    2
-  )
+    2,
+  ),
 );

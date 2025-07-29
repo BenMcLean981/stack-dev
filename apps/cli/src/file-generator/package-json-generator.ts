@@ -15,7 +15,7 @@ export class PackageJsonGenerator implements FileGenerator {
     name: string,
     dependencies: ReadonlyArray<Dependency> = [],
     devDependencies: ReadonlyArray<Dependency> = [],
-    options: Record<string, string | ReadonlyArray<string>> = {}
+    options: Record<string, string | ReadonlyArray<string>> = {},
   ) {
     this._name = name;
     this._dependencies = dependencies;
@@ -39,18 +39,18 @@ export class PackageJsonGenerator implements FileGenerator {
         ...this._options,
       },
       null,
-      2
+      2,
     );
   }
 }
 
 function makeDependencyMap(
-  dependencies: ReadonlyArray<Dependency>
+  dependencies: ReadonlyArray<Dependency>,
 ): Record<string, string> {
   const result: Record<string, string> = {};
 
   dependencies.forEach(
-    (dependency: Dependency) => (result[dependency.name] = dependency.version)
+    (dependency: Dependency) => (result[dependency.name] = dependency.version),
   );
 
   return result;
