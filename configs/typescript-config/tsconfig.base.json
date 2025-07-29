@@ -6,6 +6,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "strict": true,
+    "allowJs": false,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
