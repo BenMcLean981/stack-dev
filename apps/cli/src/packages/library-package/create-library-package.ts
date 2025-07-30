@@ -7,7 +7,7 @@ import { PackageGenerator } from '../../utils/package-generator';
 
 export async function createLibraryPackage(name: string): Promise<void> {
   const rootDir = await getWorkspaceRoot();
-  const directory = path.join(rootDir, 'configs', name);
+  const directory = path.join(rootDir, 'packages', name);
 
   const namespace = await getNamespace(rootDir);
   const packageName = `@${namespace}/${name}`;
@@ -77,7 +77,8 @@ const ADD_TS = `export function add(n1: number, n2: number): number {
 `;
 
 const ADD_SPEC_TS = `import { describe, it, expect } from 'vitest';
-import { add } from './add';
+
+import { add } from '../add';
 
 describe('add', () => {
   it('adds two numbers', () => {

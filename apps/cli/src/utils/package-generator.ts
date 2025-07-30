@@ -33,6 +33,10 @@ export class PackageGenerator {
 
     const filepath = path.join(this._root, fileGenerator.filepath);
 
+    const directory = path.dirname(filepath);
+
+    await fs.mkdir(directory, { recursive: true });
+
     await fs.writeFile(filepath, contents);
   }
 }

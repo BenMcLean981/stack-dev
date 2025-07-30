@@ -1,6 +1,7 @@
+import { createConfigPackage, createLibraryPackage } from './packages';
+
 import { Command } from 'commander';
 import { prompt } from 'enquirer';
-import { createConfigPackage } from './packages';
 import { createWorkspace } from './workspace';
 
 const program = new Command();
@@ -40,7 +41,7 @@ program
 
     switch (type) {
       case 'library':
-        // await createLibraryPackage(name)
+        await createLibraryPackage(name);
         break;
       case 'config':
         await createConfigPackage(name);
