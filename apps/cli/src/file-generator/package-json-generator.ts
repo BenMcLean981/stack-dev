@@ -9,13 +9,13 @@ export class PackageJsonGenerator implements FileGenerator {
   private readonly _devDependencies: ReadonlyArray<Dependency>;
 
   // TODO: Snapshot
-  private readonly _options: Record<string, string | ReadonlyArray<string>>;
+  private readonly _options: Snapshot;
 
   public constructor(
     name: string,
     dependencies: ReadonlyArray<Dependency> = [],
     devDependencies: ReadonlyArray<Dependency> = [],
-    options: Record<string, string | ReadonlyArray<string>> = {},
+    options: Snapshot = {},
   ) {
     this._name = name;
     this._dependencies = dependencies;
@@ -55,3 +55,16 @@ function makeDependencyMap(
 
   return result;
 }
+
+// TODO: Move this
+export type Snapshot = {
+  [key: string]: SnapshotValue;
+};
+
+export type SnapshotValue =
+  | string
+  | number
+  | boolean
+  | undefined
+  | Snapshot
+  | ReadonlyArray<SnapshotValue>;
