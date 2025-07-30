@@ -56,6 +56,9 @@ program
         // await createNextPackage(name)
         break;
     }
+
+    console.log('');
+    console.log('Run pnpm install to finish linking.');
   });
 
 program.parse();
