@@ -1,9 +1,8 @@
-import { getNamespace, getWorkspaceRoot } from '../../utils/utils';
-
 import path from 'node:path';
 import { PackageJsonGenerator } from '../../file-generator';
 import { FileGeneratorImp } from '../../file-generator/file-generator-imp';
 import { PackageGenerator } from '../../utils/package-generator';
+import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 
 export async function createLibraryPackage(name: string): Promise<void> {
   const rootDir = await getWorkspaceRoot();

@@ -1,13 +1,15 @@
 import { createConfigPackage, createLibraryPackage } from './packages';
-import { packageTypes, pickPackageType } from './utils/package-type';
 import {
   comparePackages,
   getAllPackages,
   getCurrentPackage,
-} from './utils/utils';
+  getPackageByName,
+} from './utils/package';
+import { packageTypes, pickPackageType } from './utils/package-type';
 
 import { Command } from 'commander';
 import { prompt } from 'enquirer';
+import { linkPackages } from './link';
 import { createWorkspace } from './workspace';
 
 const program = new Command();
@@ -65,13 +67,22 @@ program
 
 program
   .command('link [name]')
+  .alias('l')
+  .option('-D, --dev', 'Whether to link as a devDependency.', false)
   .description('Link to the specified package')
-  .action(async (name) => {
+  .action(async (name, options) => {
     name = name ?? (await promptForPackageName());
+
+    const development = options.dev ?? false;
 
     if (!isValidPackageName(name)) {
       throw new Error(`Package name "${name}" is not a valid option.`);
     }
+
+    const current = await getCurrentPackage();
+    const target = await getPackageByName(name);
+
+    await linkPackages(current, target, development);
   });
 
 async function promptForPackageName(): Promise<string> {
@@ -79,7 +90,7 @@ async function promptForPackageName(): Promise<string> {
   const currentPackage = await getCurrentPackage();
 
   const validOptions = options
-    .filter((o) => o.name !== currentPackage)
+    .filter((o) => o.name !== currentPackage.name)
     .toSorted(comparePackages);
 
   const response = await prompt<{ packageName: string }>({
@@ -104,5 +115,7 @@ async function getValidPackageNames(): Promise<ReadonlyArray<string>> {
   const options = await getAllPackages();
   const currentPackage = await getCurrentPackage();
 
-  return options.map((o) => o.name).filter((o) => o !== currentPackage);
+  return options
+    .filter((o) => o.name !== currentPackage.name)
+    .map((o) => o.name);
 }
