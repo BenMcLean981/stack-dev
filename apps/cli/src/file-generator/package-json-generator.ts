@@ -1,3 +1,4 @@
+import { Snapshot } from '@stack-dev/core';
 import { Dependency } from './dependency';
 import { FileGenerator } from './file-generator';
 
@@ -55,16 +56,3 @@ function makeDependencyMap(
 
   return result;
 }
-
-// TODO: Move this
-export type Snapshot = {
-  [key: string]: SnapshotValue;
-};
-
-export type SnapshotValue =
-  | string
-  | number
-  | boolean
-  | undefined
-  | Snapshot
-  | ReadonlyArray<SnapshotValue>;
