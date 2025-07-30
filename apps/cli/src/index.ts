@@ -1,4 +1,10 @@
 import { createConfigPackage, createLibraryPackage } from './packages';
+import { packageTypes, pickPackageType } from './utils/package-type';
+import {
+  comparePackages,
+  getAllPackages,
+  getCurrentPackage,
+} from './utils/utils';
 
 import { Command } from 'commander';
 import { prompt } from 'enquirer';
@@ -24,10 +30,6 @@ program
 
     await createWorkspace(name, output);
   });
-
-const packageTypes = ['library', 'config', 'react', 'cli', 'next'] as const;
-
-type PackageType = (typeof packageTypes)[number];
 
 program
   .command('g <name>')
@@ -61,35 +63,46 @@ program
     console.log('Run pnpm install to finish linking.');
   });
 
-program.parse();
+program
+  .command('link [name]')
+  .description('Link to the specified package')
+  .action(async (name) => {
+    name = name ?? (await promptForPackageName());
 
-async function pickPackageType(
-  options: Record<string, string>,
-): Promise<PackageType> {
-  if (options.type && isPackageType(options.type)) {
-    return options.type;
-  } else if (options.type && !isPackageType(options.type)) {
-    throw new Error(
-      `--type setting "${options.type}" is invalid, must be one of ${packageTypes.join(', ')}.`,
-    );
-  }
-
-  const response = await prompt<{ type: string }>({
-    type: 'select',
-    name: 'type',
-    message: 'What kind of package do you want?',
-    choices: [...packageTypes],
+    if (!isValidPackageName(name)) {
+      throw new Error(`Package name "${name}" is not a valid option.`);
+    }
   });
 
-  if (!isPackageType(response.type)) {
-    throw new Error(
-      `Type "${response.type}" is invalid, must be one of ${packageTypes.join(', ')}.`,
-    );
-  }
+async function promptForPackageName(): Promise<string> {
+  const options = await getAllPackages();
+  const currentPackage = await getCurrentPackage();
 
-  return response.type;
+  const validOptions = options
+    .filter((o) => o.name !== currentPackage)
+    .toSorted(comparePackages);
+
+  const response = await prompt<{ packageName: string }>({
+    type: 'select',
+    name: 'packageName',
+    message: 'What package do you want to link to?',
+    choices: [...validOptions],
+  });
+
+  return response.packageName;
 }
 
-function isPackageType(s: string): s is PackageType {
-  return packageTypes.some((p) => p === s);
+program.parse();
+
+async function isValidPackageName(packageName: string): Promise<boolean> {
+  const options = await getValidPackageNames();
+
+  return options.some((o) => o === packageName);
+}
+
+async function getValidPackageNames(): Promise<ReadonlyArray<string>> {
+  const options = await getAllPackages();
+  const currentPackage = await getCurrentPackage();
+
+  return options.map((o) => o.name).filter((o) => o !== currentPackage);
 }

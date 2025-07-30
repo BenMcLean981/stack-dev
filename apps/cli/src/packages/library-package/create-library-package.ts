@@ -1,4 +1,4 @@
-import { getNamespace, getWorkspaceRoot } from '../../utils/get-namespace';
+import { getNamespace, getWorkspaceRoot } from '../../utils/utils';
 
 import path from 'node:path';
 import { PackageJsonGenerator } from '../../file-generator';

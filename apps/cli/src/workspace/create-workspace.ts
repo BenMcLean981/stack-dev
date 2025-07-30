@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { getNamespace } from '../utils/get-namespace';
+import { getNamespace } from '../utils/utils';
 import { makeRootPackage } from './root-package';
 import { makeTypescriptConfig } from './typescript-config';
 
