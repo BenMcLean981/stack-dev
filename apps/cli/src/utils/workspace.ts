@@ -5,7 +5,27 @@ import fs from 'node:fs/promises';
 import path from 'path';
 import yaml from 'yaml';
 
-export async function getDirectoryWorkspaceFile(directory: string): Snapshot {
+export type WorkspaceYaml = {
+  packages: ReadonlyArray<string>;
+};
+
+export async function getDirectoryWorkspaceFile(
+  directory: string,
+): Promise<WorkspaceYaml> {
+  const raw = await getRawDirectoryWorkspaceFile(directory);
+
+  if ('packages' in raw && raw.packages instanceof Array) {
+    return {
+      packages: raw.packages.filter((p): p is string => typeof p === 'string'),
+    };
+  } else {
+    return { packages: [] };
+  }
+}
+
+async function getRawDirectoryWorkspaceFile(
+  directory: string,
+): Promise<Snapshot> {
   const case1 = path.join(directory, 'pnpm-workspace.yaml');
   const case2 = path.join(directory, 'pnpm-workspace.yml');
 

@@ -1,9 +1,10 @@
 import { getDirectoryPackageJson, getPackageJSONPath } from './utils/utils';
 
-import { Snapshot } from '@stack-dev/core';
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { Dependency } from './utils/dependency';
 import { Package } from './utils/package';
+import { PackageJson } from './utils/package-json';
 
 export async function linkPackages(
   current: Package,
@@ -20,32 +21,25 @@ async function updatePackageJSON(
   development: boolean,
 ) {
   const packageJSON = await getDirectoryPackageJson(current.directory);
-
-  if (development) {
-    addDevelopmentDependency(packageJSON, target);
-  } else {
-    addDependency(packageJSON, target);
-  }
+  const updated = addDependency(packageJSON, target, development);
 
   const packageJSONPath = getPackageJSONPath(current.directory);
 
-  await fs.writeFile(packageJSONPath, JSON.stringify(packageJSON, null, 2));
+  await fs.writeFile(packageJSONPath, updated.format());
 }
 
-function addDevelopmentDependency(packageJSON: Snapshot, target: Package) {
-  if (packageJSON.devDependencies === undefined) {
-    packageJSON.devDependencies = {};
+function addDependency(
+  packageJSON: PackageJson,
+  target: Package,
+  development: boolean,
+): PackageJson {
+  const dependency = new Dependency(target.name, 'workspace:*');
+
+  if (development) {
+    return packageJSON.addDevDependency(dependency);
+  } else {
+    return packageJSON.addDependency(dependency);
   }
-
-  packageJSON.devDependencies[target.name] = 'workspace:*';
-}
-
-function addDependency(packageJSON: Snapshot, target: Package) {
-  if (packageJSON.dependencies === undefined) {
-    packageJSON.dependencies = {};
-  }
-
-  packageJSON.dependencies[target.name] = 'workspace:*';
 }
 
 async function updateTSConfig(current: Package, target: Package) {

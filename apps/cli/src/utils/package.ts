@@ -4,6 +4,7 @@ import { getDirectoryWorkspaceFile, getWorkspaceRoot } from './workspace';
 import { glob } from 'fast-glob';
 import path from 'node:path';
 
+// TODO: make into class with PackageJSON.
 export type Package = {
   name: string;
 
