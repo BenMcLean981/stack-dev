@@ -1,8 +1,10 @@
+import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
+
 import path from 'node:path';
 import { PackageJsonGenerator } from '../../file-generator';
 import { FileGeneratorImp } from '../../file-generator/file-generator-imp';
+import { Dependency } from '../../utils/dependency';
 import { PackageGenerator } from '../../utils/package-generator';
-import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 
 export async function createLibraryPackage(name: string): Promise<void> {
   const rootDir = await getWorkspaceRoot();
@@ -19,15 +21,15 @@ export async function createLibraryPackage(name: string): Promise<void> {
       packageName,
       [],
       [
-        { name: '@stack-dev/eslint-config', version: 'workspace:*' },
-        { name: '@stack-dev/prettier-config', version: 'workspace:*' },
-        { name: '@stack-dev/typescript-config', version: 'workspace:*' },
-        { name: 'eslint', version: '^9.32.0' },
-        { name: 'prettier', version: '^3.6.2' },
-        { name: 'prettier-plugin-organize-imports', version: '^4.2.0' },
-        { name: 'tsup', version: '^7.3.0' },
-        { name: 'vitest', version: '^3.2.4' },
-        { name: '@vitest/coverage-v8', version: '^3.2.4' },
+        new Dependency('@stack-dev/eslint-config', 'workspace:*'),
+        new Dependency('@stack-dev/prettier-config', 'workspace:*'),
+        new Dependency('@stack-dev/typescript-config', 'workspace:*'),
+        new Dependency('eslint', '^9.32.0'),
+        new Dependency('prettier', '^3.6.2'),
+        new Dependency('prettier-plugin-organize-imports', '^4.2.0'),
+        new Dependency('tsup', '^7.3.0'),
+        new Dependency('vitest', '^3.2.4'),
+        new Dependency('@vitest/coverage-v8', '^3.2.4'),
       ],
       {
         main: 'dist/index.js',

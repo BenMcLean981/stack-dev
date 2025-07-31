@@ -1,5 +1,6 @@
 import { PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
+import { Dependency } from '../utils/dependency';
 import { PackageGenerator } from '../utils/package-generator';
 
 export async function makeRootPackage(
@@ -9,7 +10,7 @@ export async function makeRootPackage(
   const PACKAGE_JSON = new PackageJsonGenerator(
     name,
     [],
-    [{ name: 'turbo', version: '^2.5.4' }],
+    [new Dependency('turbo', '^2.5.4')],
     {
       description: '',
       keywords: [],

@@ -1,5 +1,5 @@
 import { Snapshot } from '@stack-dev/core';
-import { Dependency } from './dependency';
+import { Dependency } from '../utils/dependency';
 import { FileGenerator } from './file-generator';
 
 export class PackageJsonGenerator implements FileGenerator {
@@ -9,9 +9,9 @@ export class PackageJsonGenerator implements FileGenerator {
 
   private readonly _devDependencies: ReadonlyArray<Dependency>;
 
-  // TODO: Snapshot
   private readonly _options: Snapshot;
 
+  // TODO: Change to take a PackageJSON
   public constructor(
     name: string,
     dependencies: ReadonlyArray<Dependency> = [],
