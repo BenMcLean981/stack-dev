@@ -3,7 +3,7 @@ import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 import path from 'node:path';
 import { PackageJsonGenerator } from '../../file-generator';
 import { FileGeneratorImp } from '../../file-generator/file-generator-imp';
-import { Dependency } from '../../utils/dependency';
+import { Dependency } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
 
 export async function createLibraryPackage(name: string): Promise<void> {

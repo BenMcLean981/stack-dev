@@ -2,9 +2,8 @@ import { getDirectoryPackageJson, getPackageJSONPath } from './utils/utils';
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { Dependency } from './utils/dependency';
+import { Dependency, PackageJson } from './package-json';
 import { Package } from './utils/package';
-import { PackageJson } from './utils/package-json';
 
 export async function linkPackages(
   current: Package,

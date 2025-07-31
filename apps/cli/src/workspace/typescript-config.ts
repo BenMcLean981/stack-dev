@@ -1,7 +1,7 @@
 import path from 'path';
 import { PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
-import { Dependency } from '../utils/dependency';
+import { Dependency } from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
 
 export async function makeTypescriptConfig(

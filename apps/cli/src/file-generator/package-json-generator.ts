@@ -1,5 +1,5 @@
 import { Snapshot } from '@stack-dev/core';
-import { Dependency } from '../utils/dependency';
+import { Dependency } from '../package-json';
 import { FileGenerator } from './file-generator';
 
 export class PackageJsonGenerator implements FileGenerator {

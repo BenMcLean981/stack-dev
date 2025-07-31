@@ -1,6 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { PackageJson } from './package-json';
+import { PackageJson } from '../package-json/package-json';
 
 export async function getDirectoryPackageJson(
   directory: string,
