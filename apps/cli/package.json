@@ -13,17 +13,20 @@
     "format": "prettier . --write"
   },
   "dependencies": {
+    "@stack-dev/core": "workspace:*",
     "commander": "^11.1.0",
     "enquirer": "^2.4.1",
     "fast-glob": "^3.3.3",
     "glob": "^11.0.3",
-    "yaml": "^2.8.0",
-    "@stack-dev/core": "workspace:*"
+    "json5": "^2.2.3",
+    "lodash": "^4.17.21",
+    "yaml": "^2.8.0"
   },
   "devDependencies": {
     "@stack-dev/eslint-config": "workspace:*",
     "@stack-dev/prettier-config": "workspace:*",
     "@stack-dev/typescript-config": "workspace:*",
+    "@types/lodash": "^4.17.20",
     "@types/node": "^24.0.15",
     "eslint": "^9.32.0",
     "prettier": "^3.6.2",
