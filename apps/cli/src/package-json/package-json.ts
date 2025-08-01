@@ -9,7 +9,6 @@ export type ConstructorArgs = {
   name: string;
   dependencies?: ReadonlyArray<Dependency>;
   devDependencies?: ReadonlyArray<Dependency>;
-  workspaces?: ReadonlyArray<string>;
   additionalData?: Snapshot;
 };
 
@@ -20,15 +19,12 @@ export class PackageJSON implements Equalable {
 
   private readonly _devDependencies: ReadonlyArray<Dependency>;
 
-  private readonly _workspaces: ReadonlyArray<string>;
-
   private readonly _additionalData: Snapshot;
 
   public constructor(args: ConstructorArgs) {
     this._name = args.name;
     this._dependencies = args.dependencies ?? [];
     this._devDependencies = args.devDependencies ?? [];
-    this._workspaces = args.workspaces ?? [];
     this._additionalData = args.additionalData ?? {};
   }
 
@@ -44,16 +40,11 @@ export class PackageJSON implements Equalable {
     return this._devDependencies;
   }
 
-  public get workspaces(): ReadonlyArray<string> {
-    return this._workspaces;
-  }
-
   public addDependency(dependency: Dependency): PackageJSON {
     return new PackageJSON({
       name: this.name,
       dependencies: [...this.dependencies, dependency],
       devDependencies: this.devDependencies,
-      workspaces: this.workspaces,
       additionalData: this._additionalData,
     });
   }
@@ -63,7 +54,6 @@ export class PackageJSON implements Equalable {
       name: this.name,
       dependencies: this.dependencies,
       devDependencies: [...this.devDependencies, dependency],
-      workspaces: this.workspaces,
       additionalData: this._additionalData,
     });
   }
@@ -73,7 +63,6 @@ export class PackageJSON implements Equalable {
       name: this.name,
       dependencies: this.dependencies.filter((d) => d.name !== name),
       devDependencies: this.devDependencies,
-      workspaces: this.workspaces,
       additionalData: this._additionalData,
     });
   }
@@ -83,7 +72,6 @@ export class PackageJSON implements Equalable {
       name: this.name,
       dependencies: this.dependencies,
       devDependencies: this.devDependencies.filter((d) => d.name !== name),
-      workspaces: this.workspaces,
       additionalData: this._additionalData,
     });
   }
@@ -95,19 +83,15 @@ export class PackageJSON implements Equalable {
     const dependencies = PackageJSON.parseDependencies(json);
     const devDependencies = PackageJSON.parseDevDependencies(json);
 
-    const workspaces = json.workspaces as ReadonlyArray<string>;
-
     const additionalData = { ...json };
     delete additionalData['name'];
     delete additionalData['dependencies'];
     delete additionalData['devDependencies'];
-    delete additionalData['workspaces'];
 
     return new PackageJSON({
       name,
       dependencies,
       devDependencies,
-      workspaces,
       additionalData,
     });
   }
@@ -137,7 +121,6 @@ export class PackageJSON implements Equalable {
       name: this._name,
       dependencies: makeDependencyObject(this._dependencies),
       devDependencies: makeDependencyObject(this._devDependencies),
-      workspaces: this._workspaces,
       ...this._additionalData,
     };
 
@@ -158,13 +141,10 @@ export class PackageJSON implements Equalable {
         (d1, d2) => d1.equals(d2),
       );
 
-      const sameWorkspaces = haveSameItems(this._workspaces, other._workspaces);
-
       return (
         this._name === other._name &&
         sameDependencies &&
         sameDevDependencies &&
-        sameWorkspaces &&
         isEqual(this._additionalData, other._additionalData)
       );
     } else {
