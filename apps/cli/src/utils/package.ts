@@ -5,6 +5,7 @@ import { glob } from 'fast-glob';
 import path from 'node:path';
 
 // TODO: make into class with PackageJSON.
+// TODO: Create Workspace/context...
 export type Package = {
   name: string;
 
