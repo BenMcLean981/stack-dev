@@ -1,10 +1,14 @@
 {
-  "extends": "@stack-dev/typescript-config/tsconfig.node.json",
   "compilerOptions": {
-    "outDir": "dist",
     "paths": {
-      "@stack-dev/core": ["../../packages/core/src/index.ts"]
+      "@stack-dev/core": [
+        "../../packages/core/src/index.ts"
+      ]
     }
   },
-  "include": ["src"]
+  "references": [],
+  "extends": "@stack-dev/typescript-config/tsconfig.node.json",
+  "include": [
+    "src"
+  ]
 }

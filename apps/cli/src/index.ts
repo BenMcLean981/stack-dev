@@ -10,6 +10,7 @@ import { packageTypes, pickPackageType } from './utils/package-type';
 import { Command } from 'commander';
 import { prompt } from 'enquirer';
 import { linkPackages } from './link-packages';
+import { unlinkPackages } from './unlink-packages';
 import { getDirectoryPackageJson } from './utils/utils';
 import { getNamespace } from './utils/workspace';
 import { createWorkspace } from './workspace';
@@ -91,10 +92,8 @@ program
   .command('unlink [name]')
   .alias('u')
   .description('Unlink the specified package')
-  .action(async (name, options) => {
+  .action(async (name) => {
     name = name ?? (await promptForPackageToUnlinkFrom());
-
-    const development = options.dev ?? false;
 
     if (!isValidPackageName(name)) {
       throw new Error(`Package name "${name}" is not a valid option.`);
@@ -103,7 +102,7 @@ program
     const current = await getCurrentPackage();
     const target = await getPackageByName(name);
 
-    await linkPackages(current, target, development);
+    await unlinkPackages(current, target);
   });
 
 async function promptForPackageToLinkTo(): Promise<string> {
