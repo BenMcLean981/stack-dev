@@ -155,7 +155,12 @@ export class PackageJSON implements Equalable {
 
 function makeDependencyObject(
   dependencies: ReadonlyArray<Dependency>,
-): Record<string, string> {
+): Record<string, string> | undefined {
+  // TODO: isEmpty
+  if (dependencies.length === 0) {
+    return undefined;
+  }
+
   const result: Record<string, string> = {};
 
   dependencies.forEach((d) => (result[d.name] = d.version));

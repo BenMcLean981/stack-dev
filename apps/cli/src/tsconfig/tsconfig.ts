@@ -84,7 +84,10 @@ export class TSConfig implements Equalable {
 
   public format(): string {
     const json = {
-      compilerOptions: this._compilerOptions.format(),
+      compilerOptions: {
+        paths: this._compilerOptions.paths,
+        ...this._compilerOptions.additionalData,
+      },
       references: this._references.map((r) => ({ path: r.path })),
       ...this._additionalData,
     };
