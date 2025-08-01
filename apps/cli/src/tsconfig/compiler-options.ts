@@ -1,6 +1,7 @@
 import { Equalable, Snapshot } from '@stack-dev/core';
 
 import JSON5 from 'json5';
+import { isEqual } from 'lodash';
 
 export type ConstructorArgs = {
   paths?: Record<string, ReadonlyArray<string>>;
@@ -39,7 +40,16 @@ export class CompilerOptions implements Equalable {
     return JSON5.stringify(json);
   }
 
-  public equals(other: unknown, tol?: number): boolean {
-    throw new Error('Method not implemented.');
+  public equals(other: unknown): boolean {
+    // TODO: Get rid of lodash.
+
+    if (other instanceof CompilerOptions) {
+      return (
+        isEqual(this._paths, other._paths) &&
+        isEqual(this._additionalData, other._additionalData)
+      );
+    } else {
+      return false;
+    }
   }
 }
