@@ -141,7 +141,7 @@ export class PackageJSON implements Equalable {
       ...this._additionalData,
     };
 
-    return JSON5.stringify(json, null, 2);
+    return JSON.stringify(json, null, 2);
   }
 
   public equals(other: unknown): boolean {

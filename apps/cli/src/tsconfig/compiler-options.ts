@@ -1,6 +1,5 @@
 import { Equalable, Snapshot } from '@stack-dev/core';
 
-import JSON5 from 'json5';
 import { isEqual } from 'lodash';
 
 export type ConstructorArgs = {
@@ -37,7 +36,7 @@ export class CompilerOptions implements Equalable {
       ...this._additionalData,
     };
 
-    return JSON5.stringify(json, null, 2);
+    return JSON.stringify(json, null, 2);
   }
 
   public equals(other: unknown): boolean {
