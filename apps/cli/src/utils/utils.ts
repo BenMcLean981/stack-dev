@@ -1,16 +1,16 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import { PackageJson } from '../package-json/package-json';
+import { PackageJSON } from '../package-json/package-json';
 
 export async function getDirectoryPackageJson(
   directory: string,
-): Promise<PackageJson> {
+): Promise<PackageJSON> {
   const packageJsonPath = getPackageJSONPath(directory);
   const packageJsonText = await fs.readFile(packageJsonPath, {
     encoding: 'utf-8',
   });
 
-  return PackageJson.parse(packageJsonText);
+  return PackageJSON.parse(packageJsonText);
 }
 
 export function getPackageJSONPath(directory: string) {

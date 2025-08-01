@@ -13,7 +13,7 @@ export type ConstructorArgs = {
   additionalData?: Snapshot;
 };
 
-export class PackageJson implements Equalable {
+export class PackageJSON implements Equalable {
   private readonly _name: string;
 
   private readonly _dependencies: ReadonlyArray<Dependency>;
@@ -48,8 +48,8 @@ export class PackageJson implements Equalable {
     return this._workspaces;
   }
 
-  public addDependency(dependency: Dependency): PackageJson {
-    return new PackageJson({
+  public addDependency(dependency: Dependency): PackageJSON {
+    return new PackageJSON({
       name: this.name,
       dependencies: [...this.dependencies, dependency],
       devDependencies: this.devDependencies,
@@ -58,8 +58,8 @@ export class PackageJson implements Equalable {
     });
   }
 
-  public addDevDependency(dependency: Dependency): PackageJson {
-    return new PackageJson({
+  public addDevDependency(dependency: Dependency): PackageJSON {
+    return new PackageJSON({
       name: this.name,
       dependencies: this.dependencies,
       devDependencies: [...this.devDependencies, dependency],
@@ -68,7 +68,7 @@ export class PackageJson implements Equalable {
     });
   }
 
-  public static parse(s: string): PackageJson {
+  public static parse(s: string): PackageJSON {
     const json = JSON5.parse(s);
 
     const name = json.name;
@@ -88,7 +88,7 @@ export class PackageJson implements Equalable {
     delete additionalData['devDependencies'];
     delete additionalData['workspaces'];
 
-    return new PackageJson({
+    return new PackageJSON({
       name,
       dependencies,
       devDependencies,
@@ -110,7 +110,7 @@ export class PackageJson implements Equalable {
   }
 
   public equals(other: unknown): boolean {
-    if (other instanceof PackageJson) {
+    if (other instanceof PackageJSON) {
       const sameDependencies = haveSameItems(
         this._dependencies,
         other._dependencies,
