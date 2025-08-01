@@ -49,9 +49,7 @@ export class TSConfig implements Equalable {
   public static parse(s: string): TSConfig {
     const json = JSON5.parse(s);
 
-    const references = json.references.map(
-      (r: Record<string, string>) => new Reference(r.path),
-    );
+    const references = TSConfig.parseReferences(json);
 
     const compilerOptions = new CompilerOptions({
       paths: json.compilerOptions?.paths,
@@ -69,6 +67,21 @@ export class TSConfig implements Equalable {
     });
   }
 
+  private static parseReferences(json: unknown): ReadonlyArray<Reference> {
+    if (
+      typeof json === 'object' &&
+      json !== null &&
+      'references' in json &&
+      json.references instanceof Array
+    ) {
+      return json.references.map(
+        (r: Record<string, string>) => new Reference(r.path),
+      );
+    } else {
+      return [];
+    }
+  }
+
   public format(): string {
     const json = {
       compilerOptions: this._compilerOptions.format(),
@@ -76,7 +89,7 @@ export class TSConfig implements Equalable {
       ...this._additionalData,
     };
 
-    return JSON5.stringify(json);
+    return JSON5.stringify(json, null, 2);
   }
 
   public equals(other: unknown): boolean {

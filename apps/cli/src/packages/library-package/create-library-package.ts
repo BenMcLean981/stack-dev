@@ -11,7 +11,7 @@ export async function createLibraryPackage(name: string): Promise<void> {
   const directory = path.join(rootDir, 'packages', name);
 
   const namespace = await getNamespace(rootDir);
-  const packageName = `@${namespace}/${name}`;
+  const packageName = `${namespace}/${name}`;
 
   console.log(`✨ Creating config package: ${packageName}`);
 

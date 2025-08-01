@@ -68,17 +68,32 @@ export class PackageJSON implements Equalable {
     });
   }
 
+  public removeDependency(name: string): PackageJSON {
+    return new PackageJSON({
+      name: this.name,
+      dependencies: this.dependencies.filter((d) => d.name !== name),
+      devDependencies: this.devDependencies,
+      workspaces: this.workspaces,
+      additionalData: this._additionalData,
+    });
+  }
+
+  public removeDevDependency(name: string): PackageJSON {
+    return new PackageJSON({
+      name: this.name,
+      dependencies: this.dependencies,
+      devDependencies: this.devDependencies.filter((d) => d.name !== name),
+      workspaces: this.workspaces,
+      additionalData: this._additionalData,
+    });
+  }
+
   public static parse(s: string): PackageJSON {
     const json = JSON5.parse(s);
 
     const name = json.name;
-    const dependencies = Object.entries(json.dependencies).map(
-      ([name, version]) => new Dependency(name, version as string),
-    );
-
-    const devDependencies = Object.entries(json.devDependencies).map(
-      ([name, version]) => new Dependency(name, version as string),
-    );
+    const dependencies = PackageJSON.parseDependencies(json);
+    const devDependencies = PackageJSON.parseDevDependencies(json);
 
     const workspaces = json.workspaces as ReadonlyArray<string>;
 
@@ -97,6 +112,26 @@ export class PackageJSON implements Equalable {
     });
   }
 
+  private static parseDependencies(json: Snapshot) {
+    if ('dependencies' in json && typeof json.dependencies === 'object') {
+      return Object.entries(json.dependencies).map(
+        ([name, version]) => new Dependency(name, version as string),
+      );
+    } else {
+      return [];
+    }
+  }
+
+  private static parseDevDependencies(json: Snapshot) {
+    if ('devDependencies' in json && typeof json.devDependencies === 'object') {
+      return Object.entries(json.devDependencies).map(
+        ([name, version]) => new Dependency(name, version as string),
+      );
+    } else {
+      return [];
+    }
+  }
+
   public format(): string {
     const json = {
       name: this._name,
@@ -106,7 +141,7 @@ export class PackageJSON implements Equalable {
       ...this._additionalData,
     };
 
-    return JSON5.stringify(json);
+    return JSON5.stringify(json, null, 2);
   }
 
   public equals(other: unknown): boolean {

@@ -62,8 +62,8 @@ export async function getWorkspaceRoot(
 }
 
 export async function getNamespace(
-  directory: string,
-): Promise<string | undefined> {
+  directory: string = process.cwd(),
+): Promise<string> {
   const root = await getWorkspaceRoot(directory);
 
   const packageJson = await getDirectoryPackageJson(root);
@@ -74,5 +74,5 @@ export async function getNamespace(
     throw new Error('Missing name.');
   }
 
-  return result;
+  return `@${result}`;
 }

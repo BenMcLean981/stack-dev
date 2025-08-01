@@ -8,7 +8,7 @@ export async function createConfigPackage(name: string): Promise<void> {
   const directory = path.join(rootDir, 'configs', name);
 
   const namespace = await getNamespace(rootDir);
-  const packageName = `@${namespace}/${name}`;
+  const packageName = `${namespace}/${name}`;
 
   console.log(`✨ Creating config package: ${packageName}`);
 
