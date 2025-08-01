@@ -26,9 +26,22 @@ export class TSConfig implements Equalable {
     this._additionalData = args?.additionalData ?? {};
   }
 
+  public get compilerOptions(): CompilerOptions {
+    return this._compilerOptions;
+  }
+
   public addReference(reference: Reference): TSConfig {
     return new TSConfig({
+      compilerOptions: this._compilerOptions,
       references: [...this._references, reference],
+      additionalData: this._additionalData,
+    });
+  }
+
+  public setCompilerOptions(compilerOptions: CompilerOptions): TSConfig {
+    return new TSConfig({
+      compilerOptions,
+      references: this._references,
       additionalData: this._additionalData,
     });
   }

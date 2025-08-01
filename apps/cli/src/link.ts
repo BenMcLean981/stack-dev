@@ -3,6 +3,7 @@ import { getDirectoryPackageJson, getPackageJSONPath } from './utils/utils';
 
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { TSConfig } from './tsconfig';
 import { Package } from './utils/package';
 
 export async function linkPackages(
@@ -44,21 +45,18 @@ function addDependency(
 async function updateTSConfig(current: Package, target: Package) {
   const tsconfigPath = path.join(current.directory, 'tsconfig.json');
   const tsconfigContents = await fs.readFile(tsconfigPath, 'utf8');
-  const tsconfig = JSON.parse(tsconfigContents);
-
-  if (tsconfig.compilerOptions === undefined) {
-    tsconfig.compilerOptions = {};
-  }
-
-  if (tsconfig.compilerOptions.paths === undefined) {
-    tsconfig.compilerOptions.paths = {};
-  }
+  const tsconfig = TSConfig.parse(tsconfigContents);
 
   const targetDirectory = path.join(target.directory, 'src', 'index.ts');
 
-  tsconfig.compilerOptions.paths[target.name] = [
-    path.relative(current.directory, targetDirectory),
-  ];
+  const updatedPaths = {
+    ...tsconfig.compilerOptions.paths,
+    [target.name]: [path.relative(current.directory, targetDirectory)],
+  };
+  const updatedCompilerOptions =
+    tsconfig.compilerOptions.setPaths(updatedPaths);
 
-  await fs.writeFile(tsconfigPath, JSON.stringify(tsconfig, null, 2));
+  const updated = tsconfig.setCompilerOptions(updatedCompilerOptions);
+
+  await fs.writeFile(tsconfigPath, updated.format());
 }

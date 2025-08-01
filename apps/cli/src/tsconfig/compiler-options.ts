@@ -17,6 +17,10 @@ export class CompilerOptions implements Equalable {
     this._additionalData = args?.additionalData ?? {};
   }
 
+  public get paths(): Record<string, ReadonlyArray<string>> {
+    return this._paths;
+  }
+
   public setPaths(
     paths: Record<string, ReadonlyArray<string>>,
   ): CompilerOptions {
