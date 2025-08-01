@@ -88,7 +88,9 @@ export class TSConfig implements Equalable {
       );
 
       return (
-        sameReferences && isEqual(this._additionalData, other._additionalData)
+        this._compilerOptions.equals(other._compilerOptions) &&
+        sameReferences &&
+        isEqual(this._additionalData, other._additionalData)
       );
     } else {
       return false;
