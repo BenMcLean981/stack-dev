@@ -1,4 +1,4 @@
-import { Equalable, haveSameItems } from '@stack-dev/core';
+import { Equalable, haveSameItems, sortKeys } from '@stack-dev/core';
 
 import { Snapshot } from '@stack-dev/core';
 import JSON5 from 'json5';
@@ -124,7 +124,9 @@ export class PackageJSON implements Equalable {
       ...this._additionalData,
     };
 
-    return JSON.stringify(json, null, 2);
+    const orederd = sortKeys(json, comparePackageJSONKeys);
+
+    return JSON.stringify(orederd, null, 2);
   }
 
   public equals(other: unknown): boolean {
@@ -170,18 +172,47 @@ function makeDependencyObject(
   return result;
 }
 
-function comparePackageNames(
-  n1: string,
-  n2: string,
-  namespace: string,
-): number {
-  if (n1.startsWith(namespace) && n2.startsWith(namespace)) {
-    return n1.localeCompare(n2);
-  } else if (n1.startsWith(namespace)) {
+function comparePackageNames(a: string, b: string, namespace: string): number {
+  if (a.startsWith(namespace) && b.startsWith(namespace)) {
+    return a.localeCompare(b);
+  } else if (a.startsWith(namespace)) {
     return -1;
-  } else if (n2.startsWith(namespace)) {
+  } else if (b.startsWith(namespace)) {
     return 1;
   } else {
-    return n1.localeCompare(n2);
+    return a.localeCompare(b);
+  }
+}
+
+function comparePackageJSONKeys(a: string, b: string): number {
+  return getKeyIndex(a) - getKeyIndex(b);
+}
+
+function getKeyIndex(s: string): number {
+  switch (s.toLowerCase()) {
+    case 'name':
+      return 0;
+    case 'version':
+      return 1;
+    case 'private':
+      return 2;
+    case 'bin':
+      return 3;
+    case 'main':
+      return 4;
+    case 'module':
+      return 5;
+    case 'types':
+      return 6;
+    case 'exports':
+      return 7;
+    case 'scripts':
+      return 8;
+    case 'dependencies':
+      return 9;
+    case 'devDependencies':
+      return 10;
+    default:
+      return Number.MAX_VALUE;
   }
 }

@@ -31,7 +31,7 @@ export async function makeRootPackage(
     'turbo.json',
     JSON.stringify(
       {
-        pipeline: {
+        tasks: {
           build: {
             dependsOn: ['^build'],
             outputs: ['dist/**'],
@@ -191,4 +191,6 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+.turbo
 `;

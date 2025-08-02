@@ -1,5 +1,17 @@
 {
   "name": "@stack-dev/cli",
+  "version": "0.1.0",
+  "bin": {
+    "stack": "./dist/index.js"
+  },
+  "scripts": {
+    "dev": "tsup src/index.ts --watch",
+    "build": "tsup src/index.ts --dts --format esm,cjs",
+    "start": "node dist/index.js",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier . --write"
+  },
   "dependencies": {
     "@stack-dev/core": "workspace:*",
     "commander": "^11.1.0",
@@ -20,17 +32,5 @@
     "prettier": "^3.6.2",
     "prettier-plugin-organize-imports": "^4.2.0",
     "tsup": "^7.3.0"
-  },
-  "version": "0.1.0",
-  "bin": {
-    "stack": "./dist/index.js"
-  },
-  "scripts": {
-    "dev": "tsup src/index.ts --watch",
-    "build": "tsup src/index.ts --dts --format esm,cjs",
-    "start": "node dist/index.js",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint .",
-    "format": "prettier . --write"
   }
 }
