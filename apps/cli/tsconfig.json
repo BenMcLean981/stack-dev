@@ -1,4 +1,5 @@
 {
+  "extends": "@stack-dev/typescript-config/tsconfig.node.json",
   "compilerOptions": {
     "paths": {
       "@stack-dev/core": [
@@ -7,7 +8,6 @@
     }
   },
   "references": [],
-  "extends": "@stack-dev/typescript-config/tsconfig.node.json",
   "include": [
     "src"
   ]

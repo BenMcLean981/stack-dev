@@ -1,4 +1,4 @@
-import { Equalable, Snapshot } from '@stack-dev/core';
+import { Equalable, Snapshot, sortKeys } from '@stack-dev/core';
 
 import { isEqual } from 'lodash';
 
@@ -36,11 +36,13 @@ export class CompilerOptions implements Equalable {
 
   public format(): string {
     const json = {
-      compilerOptions: this._paths,
+      paths: this._paths,
       ...this._additionalData,
     };
 
-    return JSON.stringify(json, null, 2);
+    const ordered = sortKeys(json, compareKeys);
+
+    return JSON.stringify(ordered, null, 2);
   }
 
   public equals(other: unknown): boolean {
@@ -54,5 +56,28 @@ export class CompilerOptions implements Equalable {
     } else {
       return false;
     }
+  }
+}
+
+function compareKeys(a: string, b: string): number {
+  return getKeyIndex(a) - getKeyIndex(b);
+}
+
+function getKeyIndex(s: string): number {
+  const order = [
+    'target',
+    'module',
+    'moduleResolution',
+    'esModuleInterop',
+    'lib',
+    'types',
+    'strict',
+    'allowJs',
+  ];
+
+  if (order.every((key) => key !== s)) {
+    return Number.MAX_VALUE;
+  } else {
+    return order.indexOf(s);
   }
 }

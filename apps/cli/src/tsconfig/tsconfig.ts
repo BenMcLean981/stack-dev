@@ -1,6 +1,6 @@
 import * as JSON5 from 'json5';
 
-import { Equalable, haveSameItems } from '@stack-dev/core';
+import { Equalable, haveSameItems, sortKeys } from '@stack-dev/core';
 
 import { Snapshot } from '@stack-dev/core';
 import { isEqual } from 'lodash';
@@ -83,16 +83,17 @@ export class TSConfig implements Equalable {
   }
 
   public format(): string {
+    const compilerOptions = JSON5.parse(this.compilerOptions.format());
+
     const json = {
-      compilerOptions: {
-        paths: this._compilerOptions.paths,
-        ...this._compilerOptions.additionalData,
-      },
+      compilerOptions,
       references: this._references.map((r) => ({ path: r.path })),
       ...this._additionalData,
     };
 
-    return JSON.stringify(json, null, 2);
+    const ordered = sortKeys(json, compareKeys);
+
+    return JSON.stringify(ordered, null, 2);
   }
 
   public equals(other: unknown): boolean {
@@ -111,5 +112,26 @@ export class TSConfig implements Equalable {
     } else {
       return false;
     }
+  }
+}
+
+// TODO: orderKeys (by array);
+function compareKeys(a: string, b: string): number {
+  return getKeyIndex(a) - getKeyIndex(b);
+}
+
+function getKeyIndex(s: string): number {
+  const order = [
+    'extends',
+    'compilerOptions',
+    'include',
+    'exclude',
+    'references',
+  ];
+
+  if (order.every((key) => key !== s)) {
+    return Number.MAX_VALUE;
+  } else {
+    return order.indexOf(s);
   }
 }
