@@ -5,6 +5,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { TSConfig } from './tsconfig';
 import { Package } from './utils/package';
+import { getNamespace } from './utils/workspace';
 
 export async function linkPackages(
   current: Package,
@@ -20,12 +21,14 @@ async function updatePackageJSON(
   target: Package,
   development: boolean,
 ) {
+  const namespace = await getNamespace();
+
   const packageJSON = await getDirectoryPackageJson(current.directory);
   const updated = addDependency(packageJSON, target, development);
 
   const packageJSONPath = getPackageJSONPath(current.directory);
 
-  await fs.writeFile(packageJSONPath, updated.format());
+  await fs.writeFile(packageJSONPath, updated.format(namespace));
 }
 
 function addDependency(

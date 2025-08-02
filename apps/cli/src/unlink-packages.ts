@@ -4,6 +4,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { TSConfig } from './tsconfig';
 import { Package } from './utils/package';
+import { getNamespace } from './utils/workspace';
 
 export async function unlinkPackages(
   current: Package,
@@ -14,6 +15,8 @@ export async function unlinkPackages(
 }
 
 async function updatePackageJSON(current: Package, target: Package) {
+  const namespace = await getNamespace();
+
   const packageJSON = await getDirectoryPackageJson(current.directory);
   const updated = packageJSON
     .removeDependency(target.name)
@@ -21,7 +24,7 @@ async function updatePackageJSON(current: Package, target: Package) {
 
   const packageJSONPath = getPackageJSONPath(current.directory);
 
-  await fs.writeFile(packageJSONPath, updated.format());
+  await fs.writeFile(packageJSONPath, updated.format(namespace));
 }
 
 async function updateTSConfig(current: Package, target: Package) {

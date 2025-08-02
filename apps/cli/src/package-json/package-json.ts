@@ -116,11 +116,11 @@ export class PackageJSON implements Equalable {
     }
   }
 
-  public format(): string {
+  public format(namespace: string): string {
     const json = {
       name: this._name,
-      dependencies: makeDependencyObject(this._dependencies),
-      devDependencies: makeDependencyObject(this._devDependencies),
+      dependencies: makeDependencyObject(this._dependencies, namespace),
+      devDependencies: makeDependencyObject(this._devDependencies, namespace),
       ...this._additionalData,
     };
 
@@ -155,15 +155,33 @@ export class PackageJSON implements Equalable {
 
 function makeDependencyObject(
   dependencies: ReadonlyArray<Dependency>,
+  namespace: string,
 ): Record<string, string> | undefined {
-  // TODO: isEmpty
   if (dependencies.length === 0) {
     return undefined;
   }
 
   const result: Record<string, string> = {};
 
-  dependencies.forEach((d) => (result[d.name] = d.version));
+  dependencies
+    .toSorted((a, b) => comparePackageNames(a.name, b.name, namespace))
+    .forEach((d) => (result[d.name] = d.version));
 
   return result;
+}
+
+function comparePackageNames(
+  n1: string,
+  n2: string,
+  namespace: string,
+): number {
+  if (n1.startsWith(namespace) && n2.startsWith(namespace)) {
+    return n1.localeCompare(n2);
+  } else if (n1.startsWith(namespace)) {
+    return -1;
+  } else if (n2.startsWith(namespace)) {
+    return 1;
+  } else {
+    return n1.localeCompare(n2);
+  }
 }

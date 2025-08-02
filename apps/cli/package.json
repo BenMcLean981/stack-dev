@@ -1,14 +1,14 @@
 {
   "name": "@stack-dev/cli",
   "dependencies": {
+    "@stack-dev/core": "workspace:*",
     "commander": "^11.1.0",
     "enquirer": "^2.4.1",
     "fast-glob": "^3.3.3",
     "glob": "^11.0.3",
     "json5": "^2.2.3",
     "lodash": "^4.17.21",
-    "yaml": "^2.8.0",
-    "@stack-dev/core": "workspace:*"
+    "yaml": "^2.8.0"
   },
   "devDependencies": {
     "@stack-dev/eslint-config": "workspace:*",
