@@ -1,4 +1,8 @@
-import { createConfigPackage, createLibraryPackage } from './packages';
+import {
+  createConfigPackage,
+  createLibraryPackage,
+  createReactPackage,
+} from './packages';
 import {
   comparePackages,
   getAllPackages,
@@ -6,6 +10,7 @@ import {
   getPackageByName,
 } from './utils/package';
 import { packageTypes, pickPackageType } from './utils/package-type';
+import { pickStyleType, styleTypes } from './utils/style-type';
 
 import { Command } from 'commander';
 import { prompt } from 'enquirer';
@@ -43,8 +48,11 @@ program
     '-t, --type <type>',
     `Type of package to generate (${packageTypes.join(', ')})`,
   )
+  .option('--style <style>', `Styling system to use (${styleTypes.join(', ')})`)
   .action(async (name, options) => {
-    const type = await pickPackageType(options);
+    const type = await pickPackageType(options.type);
+
+    // TODO: Vite, fastify.
 
     switch (type) {
       case 'library':
@@ -54,7 +62,7 @@ program
         await createConfigPackage(name);
         break;
       case 'react':
-        // await createReactPackage(name)
+        await createReactPackage(name, await pickStyleType(options.style));
         break;
       case 'cli':
         // await createCliPackage(name)

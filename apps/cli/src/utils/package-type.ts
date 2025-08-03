@@ -11,7 +11,7 @@ export const packageTypes = [
 export type PackageType = (typeof packageTypes)[number];
 
 export async function pickPackageType(
-  options: Record<string, string>,
+  options: Record<string, string | undefined>,
 ): Promise<PackageType> {
   if (options.type && isPackageType(options.type)) {
     return options.type;
