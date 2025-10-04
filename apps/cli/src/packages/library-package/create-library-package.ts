@@ -2,9 +2,16 @@ import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 
 import path from 'node:path';
 import { PackageJsonGenerator } from '../../file-generator';
-import { FileGeneratorImp } from '../../file-generator/file-generator-imp';
 import { Dependency } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
+import { ADD_FILE_GENERATOR } from './files/add-file-generator';
+import { ADD_SPEC_FILE_GENERATOR } from './files/add-spec-file-generator';
+import { ESLINT_CONFIG_FILE_GENERATOR } from './files/eslint-config-file-generator';
+import { INDEX_FILE_GENERATOR } from './files/index-file-generator';
+import { PRETTIER_CONFIG_FILE_GENERATOR } from './files/prettier-config-file-generator';
+import { TSCONFIG_FILE_GENERATOR } from './files/tsconfig-file-generator';
+import { TSUP_CONFIG_FILE_GENERATOR } from './files/tsup-config-file-generator';
+import { VITEST_CONFIG_FILE_GENERATOR } from './files/vitest-config-file-generator';
 
 export async function createLibraryPackage(name: string): Promise<void> {
   const rootDir = await getWorkspaceRoot();
@@ -53,14 +60,14 @@ export async function createLibraryPackage(name: string): Promise<void> {
       },
     ),
     [
-      new FileGeneratorImp('src/index.ts', INDEX_TS),
-      new FileGeneratorImp('src/add.ts', ADD_TS),
-      new FileGeneratorImp('src/spec/add.spec.ts', ADD_SPEC_TS),
-      new FileGeneratorImp('tsup.config.ts', TSUP_CONFIG),
-      new FileGeneratorImp('tsconfig.json', TSCONFIG),
-      new FileGeneratorImp('prettier.config.mjs', PRETTIER_CONFIG),
-      new FileGeneratorImp('eslint.config.mjs', ESLINT_CONFIG),
-      new FileGeneratorImp('vitest.config.ts', VITEST_CONFIG),
+      INDEX_FILE_GENERATOR,
+      ADD_FILE_GENERATOR,
+      ADD_SPEC_FILE_GENERATOR,
+      TSUP_CONFIG_FILE_GENERATOR,
+      TSCONFIG_FILE_GENERATOR,
+      PRETTIER_CONFIG_FILE_GENERATOR,
+      ESLINT_CONFIG_FILE_GENERATOR,
+      VITEST_CONFIG_FILE_GENERATOR,
     ],
   );
 
@@ -68,66 +75,3 @@ export async function createLibraryPackage(name: string): Promise<void> {
 
   console.log(`✅ Config package created at: ${directory}`);
 }
-
-const INDEX_TS = `export * from './add';
-`;
-
-const ADD_TS = `export function add(n1: number, n2: number): number {
-  return n1 + n2;
-}
-`;
-
-const ADD_SPEC_TS = `import { describe, it, expect } from 'vitest';
-
-import { add } from '../add';
-
-describe('add', () => {
-  it('adds two numbers', () => {
-    expect(add(2, 3)).toBe(5);
-  });
-});
-`;
-
-const TSUP_CONFIG = `import { defineConfig } from 'tsup';
-
-export default defineConfig({
-  entry: ['src/index.ts'],
-  format: ['esm', 'cjs'],   // Tree-shakable ESM + CommonJS for broader support
-  dts: true,                // Emit type declarations
-  sourcemap: true,
-  clean: true,
-  target: 'esnext',
-});
-`;
-
-const TSCONFIG = `{
-  "extends": "@stack-dev/typescript-config/tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "dist"
-  },
-  "include": ["src"]
-}
-`;
-
-const PRETTIER_CONFIG = `import base from '@stack-dev/prettier-config/base.mjs';
-
-export default base;
-`;
-
-const ESLINT_CONFIG = `import base from '@stack-dev/eslint-config/base.mjs';
-
-export default [...base, { ignores: ['**/dist/**'] }];
-`;
-
-const VITEST_CONFIG = `import { defineConfig } from 'vitest/config';
-
-export default defineConfig({
-  test: {
-    globals: true,
-    coverage: {
-      provider: 'v8',
-    },
-    environment: 'node',
-  },
-});
-`;
