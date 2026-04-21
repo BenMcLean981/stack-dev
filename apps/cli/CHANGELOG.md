@@ -1,5 +1,11 @@
 # @stack-dev/cli
 
+## 0.3.4
+
+### Patch Changes
+
+- 44abf97: Fixed linking and CLI node types.
+
 ## 0.3.3
 
 ### Patch Changes
