@@ -48,12 +48,13 @@ export class TSConfig implements Equalable {
 
   public static parse(s: string): TSConfig {
     const json = JSON5.parse(s);
-
     const references = TSConfig.parseReferences(json);
 
+    const { paths, ...otherCompilerOptions } = json.compilerOptions || {};
+
     const compilerOptions = new CompilerOptions({
-      paths: json.compilerOptions?.paths,
-      ...json.compilerOptions,
+      paths: paths ?? {},
+      additionalData: otherCompilerOptions,
     });
 
     const additionalData = { ...json };
