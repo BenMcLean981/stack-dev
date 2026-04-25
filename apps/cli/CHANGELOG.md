@@ -1,5 +1,11 @@
 # @stack-dev/cli
 
+## 0.3.5
+
+### Patch Changes
+
+- e741b66: Added missing dependency for UI package.
+
 ## 0.3.4
 
 ### Patch Changes
