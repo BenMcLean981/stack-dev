@@ -73,6 +73,7 @@ function makePackageGenerator(packageName: string, namespace: string) {
       // Testing
       new Dependency('vitest', '^3.2.4'),
       new Dependency('@vitest/coverage-v8', '^3.2.4'),
+      new Dependency('@vitejs/plugin-react', '^4.7.0'),
       new Dependency('@testing-library/react', '^16.0.0'),
       new Dependency('@testing-library/jest-dom', '^6.0.0'),
       new Dependency('jsdom', '^25.0.0'),
