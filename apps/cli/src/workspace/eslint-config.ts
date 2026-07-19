@@ -1,5 +1,5 @@
 import path from 'path';
-import { PackageJsonGenerator } from '../file-generator';
+import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
 import { Dependency, PackageJSON } from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
@@ -8,6 +8,17 @@ export async function makeEslintConfig(
   directory: string,
   namespace: string,
 ): Promise<PackageGenerator> {
+  const fullPath = path.join(directory, 'configs/eslint-config');
+
+  return new PackageGenerator(
+    fullPath,
+    makeEslintConfigFileGenerators(namespace),
+  );
+}
+
+export function makeEslintConfigFileGenerators(
+  namespace: string,
+): ReadonlyArray<FileGenerator> {
   const packageJsonModel = new PackageJSON({
     name: `${namespace}/eslint-config`,
     peerDependencies: [
@@ -25,13 +36,11 @@ export async function makeEslintConfig(
     },
   });
 
-  const fullPath = path.join(directory, 'configs/eslint-config');
-
-  return new PackageGenerator(
-    fullPath,
+  return [
     new PackageJsonGenerator(packageJsonModel, namespace),
-    [BASE_FILE_GENERATOR, REACT_FILE_GENERATOR],
-  );
+    BASE_FILE_GENERATOR,
+    REACT_FILE_GENERATOR,
+  ];
 }
 
 const BASE = `import eslint from "@eslint/js";

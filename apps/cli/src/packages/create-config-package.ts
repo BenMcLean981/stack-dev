@@ -1,6 +1,6 @@
 import path from 'node:path';
 import { PackageJSON } from '../package-json';
-import { PackageJsonGenerator } from '../file-generator';
+import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { PackageGenerator } from '../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../utils/workspace';
 
@@ -11,6 +11,18 @@ export async function createConfigPackage(name: string): Promise<void> {
   const namespace = await getNamespace(rootDir);
   const packageName = `${namespace}/${name}`;
 
+  const generator = new PackageGenerator(
+    directory,
+    makeConfigPackageFileGenerators(packageName, namespace),
+  );
+
+  await generator.generate();
+}
+
+export function makeConfigPackageFileGenerators(
+  packageName: string,
+  namespace: string,
+): ReadonlyArray<FileGenerator> {
   const packageJsonModel = new PackageJSON({
     name: packageName,
     additionalData: {
@@ -19,11 +31,5 @@ export async function createConfigPackage(name: string): Promise<void> {
     },
   });
 
-  const generator = new PackageGenerator(
-    directory,
-    new PackageJsonGenerator(packageJsonModel, namespace),
-    [],
-  );
-
-  await generator.generate();
+  return [new PackageJsonGenerator(packageJsonModel, namespace)];
 }
