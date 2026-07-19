@@ -1,5 +1,5 @@
 import path from 'path';
-import { PackageJsonGenerator } from '../../file-generator';
+import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
 import { Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
@@ -22,18 +22,25 @@ export async function createFastifyApp(name: string): Promise<void> {
 
   const generator = new PackageGenerator(
     directory,
-    makeAppPackageGenerator(packageName, namespace),
-    [
-      INDEX_FILE_GENERATOR,
-      makeBaseTsconfigFileGenerator('tsconfig.json', namespace),
-      TSUP_FILE_GENERATOR,
-      makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
-      makeEslintConfigGenerator('eslint.config.mjs', namespace),
-      VITEST_CONFIG_FILE_GENERATOR,
-    ],
+    makeFastifyAppFileGenerators(packageName, namespace),
   );
 
   await generator.generate();
+}
+
+export function makeFastifyAppFileGenerators(
+  packageName: string,
+  namespace: string,
+): ReadonlyArray<FileGenerator> {
+  return [
+    makeAppPackageGenerator(packageName, namespace),
+    INDEX_FILE_GENERATOR,
+    makeBaseTsconfigFileGenerator('tsconfig.json', namespace),
+    TSUP_FILE_GENERATOR,
+    makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
+    makeEslintConfigGenerator('eslint.config.mjs', namespace),
+    VITEST_CONFIG_FILE_GENERATOR,
+  ];
 }
 
 function makeAppPackageGenerator(packageName: string, namespace: string) {

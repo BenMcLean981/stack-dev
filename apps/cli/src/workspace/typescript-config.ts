@@ -1,6 +1,6 @@
 import path from 'path';
 import { PackageJSON } from '../package-json';
-import { PackageJsonGenerator } from '../file-generator';
+import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
 import { Dependency } from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
@@ -9,6 +9,17 @@ export async function makeTypescriptConfig(
   directory: string,
   namespace: string,
 ): Promise<PackageGenerator> {
+  const fullPath = path.join(directory, 'configs/typescript-config');
+
+  return new PackageGenerator(
+    fullPath,
+    makeTypescriptConfigFileGenerators(namespace),
+  );
+}
+
+export function makeTypescriptConfigFileGenerators(
+  namespace: string,
+): ReadonlyArray<FileGenerator> {
   const packageJsonModel = new PackageJSON({
     name: `${namespace}/typescript-config`,
     devDependencies: [new Dependency('typescript', '^5.8.3')],
@@ -19,13 +30,12 @@ export async function makeTypescriptConfig(
     },
   });
 
-  const fullPath = path.join(directory, 'configs/typescript-config');
-
-  return new PackageGenerator(
-    fullPath,
+  return [
     new PackageJsonGenerator(packageJsonModel, namespace),
-    [BASE, REACT, NODE],
-  );
+    BASE,
+    REACT,
+    NODE,
+  ];
 }
 
 export const BASE = new FileGeneratorImp(

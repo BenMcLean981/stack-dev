@@ -1,5 +1,5 @@
 import path from 'path';
-import { PackageJsonGenerator } from '../../file-generator';
+import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
 import { Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
@@ -25,20 +25,27 @@ export async function createViteReactApp(name: string): Promise<void> {
 
   const generator = new PackageGenerator(
     directory,
-    makeAppPackageGenerator(packageName, namespace),
-    [
-      VITE_CONFIG_FILE_GENERATOR,
-      INDEX_HTML_FILE_GENERATOR,
-      MAIN_FILE_GENERATOR,
-      APP_FILE_GENERATOR,
-      makeReactTsconfigFileGenerator('tsconfig.json', namespace),
-      makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
-      makeReactEslintConfigGenerator('eslint.config.mjs', namespace),
-      VITEST_CONFIG_FILE_GENERATOR,
-    ],
+    makeViteReactAppFileGenerators(packageName, namespace),
   );
 
   await generator.generate();
+}
+
+export function makeViteReactAppFileGenerators(
+  packageName: string,
+  namespace: string,
+): ReadonlyArray<FileGenerator> {
+  return [
+    makeAppPackageGenerator(packageName, namespace),
+    VITE_CONFIG_FILE_GENERATOR,
+    INDEX_HTML_FILE_GENERATOR,
+    MAIN_FILE_GENERATOR,
+    APP_FILE_GENERATOR,
+    makeReactTsconfigFileGenerator('tsconfig.json', namespace),
+    makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
+    makeReactEslintConfigGenerator('eslint.config.mjs', namespace),
+    VITEST_CONFIG_FILE_GENERATOR,
+  ];
 }
 
 function makeAppPackageGenerator(packageName: string, namespace: string) {

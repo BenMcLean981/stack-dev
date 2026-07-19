@@ -1,7 +1,7 @@
 import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 
 import path from 'node:path';
-import { PackageJsonGenerator } from '../../file-generator';
+import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
 import { Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
 import { makeEslintConfigGenerator } from '../files/eslint-config-file-generator';
@@ -24,22 +24,29 @@ export async function createLibraryPackage(name: string): Promise<void> {
 
   const generator = new PackageGenerator(
     directory,
-    makePackageGenerator(packageName, namespace),
-    [
-      INDEX_FILE_GENERATOR,
-      ADD_FILE_GENERATOR,
-      ADD_SPEC_FILE_GENERATOR,
-      TSUP_CONFIG_FILE_GENERATOR,
-      makeBaseTsconfigFileGenerator('tsconfig.json', namespace),
-      makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
-      makeEslintConfigGenerator('eslint.config.mjs', namespace),
-      VITEST_CONFIG_FILE_GENERATOR,
-    ],
+    makeLibraryPackageFileGenerators(packageName, namespace),
   );
 
   await generator.generate();
 
   console.log(`✅ Config package created at: ${directory}`);
+}
+
+export function makeLibraryPackageFileGenerators(
+  packageName: string,
+  namespace: string,
+): ReadonlyArray<FileGenerator> {
+  return [
+    makePackageGenerator(packageName, namespace),
+    INDEX_FILE_GENERATOR,
+    ADD_FILE_GENERATOR,
+    ADD_SPEC_FILE_GENERATOR,
+    TSUP_CONFIG_FILE_GENERATOR,
+    makeBaseTsconfigFileGenerator('tsconfig.json', namespace),
+    makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
+    makeEslintConfigGenerator('eslint.config.mjs', namespace),
+    VITEST_CONFIG_FILE_GENERATOR,
+  ];
 }
 
 function makePackageGenerator(packageName: string, namespace: string) {

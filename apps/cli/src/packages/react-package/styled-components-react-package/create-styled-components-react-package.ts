@@ -1,5 +1,5 @@
 import path from 'path';
-import { PackageJsonGenerator } from '../../../file-generator';
+import { FileGenerator, PackageJsonGenerator } from '../../../file-generator';
 import { Dependency, PackageJSON } from '../../../package-json';
 import { PackageGenerator } from '../../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../../utils/workspace';
@@ -25,22 +25,29 @@ export async function createStyledComponentsReactPackage(
 
   const generator = new PackageGenerator(
     directory,
-    makePackageGenerator(packageName, namespace),
-    [
-      INDEX_FILE_GENERATOR,
-      BUTTON_FILE_GENERATOR,
-      BUTTON_SPEC_FILE_GENERATOR,
-      TSUP_CONFIG_FILE_GENERATOR,
-      makeReactTsconfigFileGenerator('tsconfig.json', namespace),
-      makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
-      makeReactEslintConfigGenerator('eslint.config.mjs', namespace),
-      VITEST_CONFIG_FILE_GENERATOR,
-    ],
+    makeStyledComponentsReactPackageFileGenerators(packageName, namespace),
   );
 
   await generator.generate();
 
   console.log(`✅ Library created at: ${directory}`);
+}
+
+export function makeStyledComponentsReactPackageFileGenerators(
+  packageName: string,
+  namespace: string,
+): ReadonlyArray<FileGenerator> {
+  return [
+    makePackageGenerator(packageName, namespace),
+    INDEX_FILE_GENERATOR,
+    BUTTON_FILE_GENERATOR,
+    BUTTON_SPEC_FILE_GENERATOR,
+    TSUP_CONFIG_FILE_GENERATOR,
+    makeReactTsconfigFileGenerator('tsconfig.json', namespace),
+    makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
+    makeReactEslintConfigGenerator('eslint.config.mjs', namespace),
+    VITEST_CONFIG_FILE_GENERATOR,
+  ];
 }
 
 function makePackageGenerator(packageName: string, namespace: string) {

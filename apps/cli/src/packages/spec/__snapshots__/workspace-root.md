@@ -1,64 +1,7 @@
-import { FileGenerator, PackageJsonGenerator } from '../file-generator';
-import { FileGeneratorImp } from '../file-generator/file-generator-imp';
-import { Dependency, PackageJSON } from '../package-json';
-import { PackageGenerator } from '../utils/package-generator';
+## .gitignore
 
-export async function makeRootPackage(
-  directory: string,
-  name: string,
-): Promise<PackageGenerator> {
-  return new PackageGenerator(directory, makeRootPackageFileGenerators(name));
-}
-
-export function makeRootPackageFileGenerators(
-  name: string,
-): ReadonlyArray<FileGenerator> {
-  const packageJsonModel = new PackageJSON({
-    name: name,
-    devDependencies: [new Dependency('turbo', '^2.5.4')],
-    additionalData: {
-      description: '',
-      keywords: [],
-      author: '',
-      license: 'ISC',
-      packageManager: 'pnpm@10.13.1',
-    },
-  });
-
-  const PNPM_WORKSPACE = new FileGeneratorImp(
-    'pnpm-workspace.yaml',
-    ['packages:', '  - apps/*', '  - packages/*', '  - configs/*'].join('\n'),
-  );
-
-  const GITIGNORE = new FileGeneratorImp('.gitignore', GITIGNORE_CONTENT);
-
-  const TURBO_JSON = new FileGeneratorImp(
-    'turbo.json',
-    JSON.stringify(
-      {
-        tasks: {
-          build: {
-            dependsOn: ['^build'],
-            outputs: ['dist/**'],
-          },
-          lint: {},
-          test: {},
-        },
-      },
-      null,
-      2,
-    ),
-  );
-
-  return [
-    new PackageJsonGenerator(packageJsonModel, ''),
-    PNPM_WORKSPACE,
-    GITIGNORE,
-    TURBO_JSON,
-  ];
-}
-
-const GITIGNORE_CONTENT = `# Logs
+```
+# Logs
 logs
 *.log
 npm-debug.log*
@@ -199,4 +142,48 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 .turbo
-`;
+```
+
+## package.json
+
+```
+{
+  "name": "acme",
+  "devDependencies": {
+    "turbo": "^2.5.4"
+  },
+  "description": "",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.13.1"
+}
+```
+
+## pnpm-workspace.yaml
+
+```
+packages:
+  - apps/*
+  - packages/*
+  - configs/*
+```
+
+## turbo.json
+
+```
+{
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
+    },
+    "lint": {},
+    "test": {}
+  }
+}
+```
