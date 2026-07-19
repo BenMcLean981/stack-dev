@@ -53,6 +53,7 @@ export class PackageJSON implements Equalable {
       name: this.name,
       dependencies: [...this.dependencies, dependency],
       devDependencies: this.devDependencies,
+      peerDependencies: this.peerDependencies,
       additionalData: this._additionalData,
     });
   }
@@ -62,6 +63,7 @@ export class PackageJSON implements Equalable {
       name: this.name,
       dependencies: this.dependencies,
       devDependencies: [...this.devDependencies, dependency],
+      peerDependencies: this.peerDependencies,
       additionalData: this._additionalData,
     });
   }
@@ -81,6 +83,7 @@ export class PackageJSON implements Equalable {
       name: this.name,
       dependencies: this.dependencies.filter((d) => d.name !== name),
       devDependencies: this.devDependencies,
+      peerDependencies: this.peerDependencies,
       additionalData: this._additionalData,
     });
   }
@@ -90,6 +93,7 @@ export class PackageJSON implements Equalable {
       name: this.name,
       dependencies: this.dependencies,
       devDependencies: this.devDependencies.filter((d) => d.name !== name),
+      peerDependencies: this.peerDependencies,
       additionalData: this._additionalData,
     });
   }
@@ -259,7 +263,7 @@ function getKeyIndex(s: string): number {
       return 8;
     case 'dependencies':
       return 9;
-    case 'devDependencies':
+    case 'devdependencies':
       return 10;
     case 'peerdependencies':
       return 11;
