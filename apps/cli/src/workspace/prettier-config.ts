@@ -1,7 +1,7 @@
 import path from 'path';
 import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
-import { Dependency, PackageJSON } from '../package-json';
+import { catalogDependency, Dependency, PackageJSON } from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
 
 export async function makePrettierConfig(
@@ -22,9 +22,7 @@ export function makePrettierConfigFileGenerators(
   const packageJsonModel = new PackageJSON({
     name: `${namespace}/prettier-config`,
     peerDependencies: [new Dependency('prettier', '^3.6.2')],
-    dependencies: [
-      new Dependency('prettier-plugin-organize-imports', '^4.2.0'),
-    ],
+    dependencies: [catalogDependency('prettier-plugin-organize-imports')],
     additionalData: {
       version: '0.1.0',
       private: true,

@@ -25,24 +25,22 @@ export default [...base, { ignores: ['**/dist/**'] }];
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@fastify/swagger": "^9.6.1",
-    "@fastify/swagger-ui": "^5.2.3",
-    "fastify": "^5.6.2",
-    "pino-pretty": "^13.1.3"
+    "@fastify/swagger": "catalog:",
+    "@fastify/swagger-ui": "catalog:",
+    "fastify": "catalog:",
+    "pino-pretty": "catalog:"
   },
   "devDependencies": {
     "@acme/eslint-config": "workspace:*",
     "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
-    "eslint": "^9.32.0",
-    "prettier": "^3.6.2",
-    "tsup": "^8.5.1",
-    "tsx": "^4.21.0",
-    "vitest": "^3.2.4"
-  },
-  "peerDependencies": {
-    "@types/node": "^25.0.3",
-    "typescript": "^5.9.3"
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "tsup": "catalog:",
+    "tsx": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "type": "module"
 }

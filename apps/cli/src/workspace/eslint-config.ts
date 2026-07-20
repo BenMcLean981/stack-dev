@@ -1,7 +1,7 @@
 import path from 'path';
 import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
-import { Dependency, PackageJSON } from '../package-json';
+import { catalogDependency, Dependency, PackageJSON } from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
 
 export async function makeEslintConfig(
@@ -26,9 +26,9 @@ export function makeEslintConfigFileGenerators(
       new Dependency('typescript', '^5.8.3'),
     ],
     dependencies: [
-      new Dependency('@eslint/js', '^9.32.0'),
-      new Dependency('eslint-plugin-react', '^7.37.5'),
-      new Dependency('typescript-eslint', '^8.38.0'),
+      catalogDependency('@eslint/js'),
+      catalogDependency('eslint-plugin-react'),
+      catalogDependency('typescript-eslint'),
     ],
     additionalData: {
       version: '0.1.0',

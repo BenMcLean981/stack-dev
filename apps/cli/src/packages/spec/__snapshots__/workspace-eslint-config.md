@@ -26,9 +26,9 @@ export default tseslint.config(
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@eslint/js": "^9.32.0",
-    "eslint-plugin-react": "^7.37.5",
-    "typescript-eslint": "^8.38.0"
+    "@eslint/js": "catalog:",
+    "eslint-plugin-react": "catalog:",
+    "typescript-eslint": "catalog:"
   },
   "peerDependencies": {
     "eslint": "^9.32.0",

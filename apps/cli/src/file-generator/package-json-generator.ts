@@ -7,7 +7,7 @@ export class PackageJsonGenerator implements FileGenerator {
 
   public constructor(
     packageJson: PackageJSON,
-    namespace: string = ''
+    namespace = ''
   ) {
     this._packageJson = packageJson;
     this._namespace = namespace;

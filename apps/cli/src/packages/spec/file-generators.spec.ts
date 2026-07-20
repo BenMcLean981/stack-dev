@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { FileGenerator } from '../../file-generator';
+import { CATALOG } from '../../package-json';
 import {
   makeEslintConfigFileGenerators,
   makePrettierConfigFileGenerators,
@@ -66,6 +67,29 @@ describe('file generators', () => {
 
     it('generates a package.json', () => {
       expect(generators.map((g) => g.filepath)).toContain('package.json');
+    });
+
+    it('only references catalog entries that exist', async () => {
+      const packageJson = generators.find(
+        (g) => g.filepath === 'package.json',
+      );
+
+      if (packageJson === undefined) {
+        throw new Error('expected a package.json generator');
+      }
+
+      const parsed = JSON.parse(await packageJson.generate());
+
+      const versions = ['dependencies', 'devDependencies', 'peerDependencies']
+        .flatMap((section) => Object.entries(parsed[section] ?? {}))
+        .filter(([, version]) => version === 'catalog:')
+        .map(([name]) => name);
+
+      versions.forEach((name) => {
+        expect(name in CATALOG, `"${name}" is missing from the catalog`).toBe(
+          true,
+        );
+      });
     });
   });
 });

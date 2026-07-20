@@ -1,8 +1,7 @@
 import path from 'path';
-import { PackageJSON } from '../package-json';
+import { catalogDependency, PackageJSON } from '../package-json';
 import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
-import { Dependency } from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
 
 export async function makeTypescriptConfig(
@@ -22,7 +21,7 @@ export function makeTypescriptConfigFileGenerators(
 ): ReadonlyArray<FileGenerator> {
   const packageJsonModel = new PackageJSON({
     name: `${namespace}/typescript-config`,
-    devDependencies: [new Dependency('typescript', '^5.8.3')],
+    devDependencies: [catalogDependency('typescript')],
     additionalData: {
       version: '0.1.0',
       private: true,
