@@ -4,13 +4,13 @@ import path from 'node:path';
 import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
 import { catalogDependency, Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
-import { makeEslintConfigGenerator } from '../files/eslint-config-file-generator';
+import { makeOxlintConfigGenerator } from '../files/oxlint-config-file-generator';
 import { makePrettierConfigFileGenerator } from '../files/prettier-config-file-generator';
 import { makeBaseTsconfigFileGenerator } from '../files/tsconfig-file-generator';
 import { ADD_FILE_GENERATOR } from './files/add-file-generator';
 import { ADD_SPEC_FILE_GENERATOR } from './files/add-spec-file-generator';
 import { INDEX_FILE_GENERATOR } from './files/index-file-generator';
-import { TSUP_CONFIG_FILE_GENERATOR } from './files/tsup-config-file-generator';
+import { TSDOWN_CONFIG_FILE_GENERATOR } from './files/tsdown-config-file-generator';
 import { VITEST_CONFIG_FILE_GENERATOR } from './files/vitest-config-file-generator';
 
 export async function createLibraryPackage(name: string): Promise<void> {
@@ -41,10 +41,10 @@ export function makeLibraryPackageFileGenerators(
     INDEX_FILE_GENERATOR,
     ADD_FILE_GENERATOR,
     ADD_SPEC_FILE_GENERATOR,
-    TSUP_CONFIG_FILE_GENERATOR,
-    makeBaseTsconfigFileGenerator('tsconfig.json', namespace),
+    TSDOWN_CONFIG_FILE_GENERATOR,
+    makeBaseTsconfigFileGenerator('tsconfig.json', namespace, true),
     makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
-    makeEslintConfigGenerator('eslint.config.mjs', namespace),
+    makeOxlintConfigGenerator('.oxlintrc.json'),
     VITEST_CONFIG_FILE_GENERATOR,
   ];
 }
@@ -53,13 +53,13 @@ function makePackageGenerator(packageName: string, namespace: string) {
   const packageJsonModel = new PackageJSON({
     name: packageName,
     devDependencies: [
-      new Dependency(`${namespace}/eslint-config`, 'workspace:*'),
+      new Dependency(`${namespace}/oxlint-config`, 'workspace:*'),
       new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
-      catalogDependency('eslint'),
+      catalogDependency('typescript'),
+      catalogDependency('oxlint'),
       catalogDependency('prettier'),
-      catalogDependency('prettier-plugin-organize-imports'),
-      catalogDependency('tsup'),
+      catalogDependency('tsdown'),
       catalogDependency('vitest'),
       catalogDependency('@vitest/coverage-v8'),
     ],
@@ -80,9 +80,9 @@ function makePackageGenerator(packageName: string, namespace: string) {
       },
       scripts: {
         prebuild: 'pnpm check-types',
-        build: 'tsup',
+        build: 'tsdown',
         'check-types': 'tsc --noEmit',
-        lint: 'eslint .',
+        lint: 'oxlint',
         format: 'prettier . --write',
         test: 'vitest run',
         'test:watch': 'vitest',

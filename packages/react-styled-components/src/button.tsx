@@ -1,4 +1,4 @@
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactElement } from 'react';
 
 import styled from 'styled-components';
 
@@ -16,6 +16,6 @@ const StyledButton = styled.button`
   }
 `;
 
-export function Button(props: HTMLAttributes<HTMLButtonElement>) {
+export function Button(props: HTMLAttributes<HTMLButtonElement>): ReactElement {
   return <StyledButton {...props} />;
 }

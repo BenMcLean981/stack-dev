@@ -1,16 +1,13 @@
-## eslint.config.mjs
+## .oxlintrc.json
 
 ```
-import base from '@acme/eslint-config/base.mjs';
-import react from '@acme/eslint-config/react.mjs';
-
-export default [
-  ...base,
-  ...react,
-  { 
-    ignores: ['**/dist/**', '**/coverage/**'] 
-  }
-];
+{
+  "extends": [
+    "../../configs/oxlint-config/base.oxlintrc.json",
+    "../../configs/oxlint-config/react.oxlintrc.json"
+  ],
+  "ignorePatterns": ["**/dist/**", "**/coverage/**"]
+}
 ```
 
 ## package.json
@@ -33,16 +30,16 @@ export default [
   },
   "scripts": {
     "prebuild": "pnpm check-types",
-    "build": "tsup",
-    "dev": "tsup --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "check-types": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
+    "@acme/oxlint-config": "workspace:*",
     "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "catalog:",
@@ -52,14 +49,14 @@ export default [
     "@types/styled-components": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@vitest/coverage-v8": "catalog:",
-    "eslint": "catalog:",
     "jsdom": "catalog:",
+    "oxlint": "catalog:",
     "prettier": "catalog:",
-    "prettier-plugin-organize-imports": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "styled-components": "catalog:",
-    "tsup": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "peerDependencies": {
@@ -114,7 +111,7 @@ describe('Button', () => {
 ## src/button.tsx
 
 ```
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, ReactElement } from 'react';
 import styled from 'styled-components';
 
 // This is your "Styled" version of the button
@@ -133,7 +130,7 @@ const StyledButton = styled.button`
   }
 `;
 
-export function Button(props: HTMLAttributes<HTMLButtonElement>) {
+export function Button(props: HTMLAttributes<HTMLButtonElement>): ReactElement {
   return <StyledButton {...props} />;
 }
 ```
@@ -150,26 +147,27 @@ export * from './button';
 {
   "extends": "@acme/typescript-config/tsconfig.react.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "declaration": true,
+    "isolatedDeclarations": true
   },
   "include": ["src"]
 }
 ```
 
-## tsup.config.ts
+## tsdown.config.ts
 
 ```
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsdown';
 
 export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm', 'cjs'],
   dts: true,
   clean: true,
-  external: ['react', 'react-dom', 'styled-components'],
-  outExtension({ format }) {
+  outExtensions({ format }) {
     return {
-      js: format === 'esm' ? '.mjs' : '.js',
+      js: format === 'es' ? '.mjs' : '.js',
     };
   },
 });

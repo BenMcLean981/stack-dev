@@ -1,7 +1,9 @@
 {
   "extends": "@stack-dev/typescript-config/tsconfig.react.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "declaration": true,
+    "isolatedDeclarations": true
   },
   "include": ["src"]
 }

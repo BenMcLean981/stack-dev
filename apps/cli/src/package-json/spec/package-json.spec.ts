@@ -30,7 +30,7 @@ describe('PackageJSON', () => {
         additionalData: {
           sideEffects: false,
           version: '0.1.0',
-          scripts: { build: 'tsup' },
+          scripts: { build: 'tsdown' },
           private: true,
         },
       });

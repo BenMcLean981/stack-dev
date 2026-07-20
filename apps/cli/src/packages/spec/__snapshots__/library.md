@@ -1,9 +1,10 @@
-## eslint.config.mjs
+## .oxlintrc.json
 
 ```
-import base from '@acme/eslint-config/base.mjs';
-
-export default [...base, { ignores: ['**/dist/**'] }];
+{
+  "extends": ["../../configs/oxlint-config/base.oxlintrc.json"],
+  "ignorePatterns": ["**/dist/**"]
+}
 ```
 
 ## package.json
@@ -26,22 +27,22 @@ export default [...base, { ignores: ['**/dist/**'] }];
   },
   "scripts": {
     "prebuild": "pnpm check-types",
-    "build": "tsup",
+    "build": "tsdown",
     "check-types": "tsc --noEmit",
-    "lint": "eslint .",
+    "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
+    "@acme/oxlint-config": "workspace:*",
     "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
     "@vitest/coverage-v8": "catalog:",
-    "eslint": "catalog:",
+    "oxlint": "catalog:",
     "prettier": "catalog:",
-    "prettier-plugin-organize-imports": "catalog:",
-    "tsup": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "type": "module",
@@ -91,16 +92,18 @@ describe('add', () => {
 {
   "extends": "@acme/typescript-config/tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "dist"
+    "outDir": "dist",
+    "declaration": true,
+    "isolatedDeclarations": true
   },
   "include": ["src"]
 }
 ```
 
-## tsup.config.ts
+## tsdown.config.ts
 
 ```
-import { defineConfig } from 'tsup';
+import { defineConfig } from 'tsdown';
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -108,10 +111,9 @@ export default defineConfig({
   dts: true,
   sourcemap: true,
   clean: true,
-  target: 'esnext',
-  outExtension({ format }) {
+  outExtensions({ format }) {
     return {
-      js: format === 'esm' ? '.mjs' : '.js',
+      js: format === 'es' ? '.mjs' : '.js',
     };
   },
 });
