@@ -1,16 +1,13 @@
-## eslint.config.mjs
+## .oxlintrc.json
 
 ```
-import base from '@acme/eslint-config/base.mjs';
-import react from '@acme/eslint-config/react.mjs';
-
-export default [
-  ...base,
-  ...react,
-  { 
-    ignores: ['**/dist/**', '**/coverage/**'] 
-  }
-];
+{
+  "extends": [
+    "../../configs/oxlint-config/base.oxlintrc.json",
+    "../../configs/oxlint-config/react.oxlintrc.json"
+  ],
+  "ignorePatterns": ["**/dist/**", "**/coverage/**"]
+}
 ```
 
 ## index.html
@@ -39,11 +36,11 @@ export default [
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsgo && vite build",
     "preview": "vite preview",
     "start": "pnpm run preview",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint .",
+    "check-types": "tsgo --noEmit",
+    "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -53,15 +50,15 @@ export default [
     "react-dom": "catalog:"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
+    "@acme/oxlint-config": "workspace:*",
     "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
+    "@typescript/native-preview": "catalog:",
     "@vitejs/plugin-react": "catalog:",
-    "eslint": "catalog:",
+    "oxlint": "catalog:",
     "prettier": "catalog:",
-    "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
   },

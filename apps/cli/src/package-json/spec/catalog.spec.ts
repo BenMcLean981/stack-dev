@@ -5,9 +5,9 @@ import { Dependency } from '../dependency';
 
 describe('catalogDependency', () => {
   it('creates a dependency that references the catalog', () => {
-    const dependency = catalogDependency('eslint');
+    const dependency = catalogDependency('oxlint');
 
-    expect(dependency.equals(new Dependency('eslint', 'catalog:'))).toBe(true);
+    expect(dependency.equals(new Dependency('oxlint', 'catalog:'))).toBe(true);
   });
 
   it('throws when the dependency is not in the catalog', () => {

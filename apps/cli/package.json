@@ -8,10 +8,10 @@
     "stack": "./dist/index.js"
   },
   "scripts": {
-    "build": "tsup src/index.ts --dts --format esm,cjs",
+    "build": "tsdown",
     "start": "node dist/index.js",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint .",
+    "check-types": "tsgo --noEmit",
+    "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -27,15 +27,15 @@
     "yaml": "catalog:"
   },
   "devDependencies": {
-    "@stack-dev/eslint-config": "workspace:*",
+    "@stack-dev/oxlint-config": "workspace:*",
     "@stack-dev/prettier-config": "workspace:*",
     "@stack-dev/typescript-config": "workspace:*",
     "@types/lodash": "catalog:",
     "@types/node": "catalog:",
-    "eslint": "catalog:",
+    "@typescript/native-preview": "catalog:",
+    "oxlint": "catalog:",
     "prettier": "catalog:",
-    "prettier-plugin-organize-imports": "catalog:",
-    "tsup": "catalog:",
+    "tsdown": "catalog:",
     "vitest": "catalog:",
     "@vitest/coverage-v8": "catalog:"
   }

@@ -3,6 +3,6 @@
   "version": "0.2.1",
   "license": "MIT",
   "dependencies": {
-    "typescript": "catalog:"
+    "@typescript/native-preview": "catalog:"
   }
 }

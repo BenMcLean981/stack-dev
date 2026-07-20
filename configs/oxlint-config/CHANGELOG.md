@@ -1,4 +1,4 @@
-# @stack-dev/eslint-config
+# @stack-dev/oxlint-config
 
 ## 0.2.1
 

@@ -1,9 +1,10 @@
-## eslint.config.mjs
+## .oxlintrc.json
 
 ```
-import base from '@acme/eslint-config/base.mjs';
-
-export default [...base, { ignores: ['**/dist/**'] }];
+{
+  "extends": ["../../configs/oxlint-config/base.oxlintrc.json"],
+  "ignorePatterns": ["**/dist/**"]
+}
 ```
 
 ## package.json
@@ -16,10 +17,10 @@ export default [...base, { ignores: ['**/dist/**'] }];
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "prebuild": "pnpm check-types",
-    "build": "tsup",
+    "build": "tsdown",
     "start": "node dist/index.mjs",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint .",
+    "check-types": "tsgo --noEmit",
+    "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -28,15 +29,15 @@ export default [...base, { ignores: ['**/dist/**'] }];
     "commander": "catalog:"
   },
   "devDependencies": {
-    "@acme/eslint-config": "workspace:*",
+    "@acme/oxlint-config": "workspace:*",
     "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
     "@types/node": "catalog:",
-    "eslint": "catalog:",
+    "@typescript/native-preview": "catalog:",
+    "oxlint": "catalog:",
     "prettier": "catalog:",
-    "tsup": "catalog:",
+    "tsdown": "catalog:",
     "tsx": "catalog:",
-    "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "type": "module"
@@ -89,10 +90,10 @@ program.parse();
 }
 ```
 
-## tsup.config.ts
+## tsdown.config.ts
 
 ```
-import { defineConfig } from "tsup";
+import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: ["src/index.ts"],
@@ -100,11 +101,10 @@ export default defineConfig({
   dts: false,
   sourcemap: true,
   clean: true,
-  target: "esnext",
   platform: "node",
-  outExtension({ format }) {
+  outExtensions({ format }) {
     return {
-      js: format === "esm" ? ".mjs" : ".js",
+      js: format === "es" ? ".mjs" : ".js",
     };
   },
 });

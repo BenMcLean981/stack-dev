@@ -21,7 +21,7 @@ export function makeTypescriptConfigFileGenerators(
 ): ReadonlyArray<FileGenerator> {
   const packageJsonModel = new PackageJSON({
     name: `${namespace}/typescript-config`,
-    devDependencies: [catalogDependency('typescript')],
+    devDependencies: [catalogDependency('@typescript/native-preview')],
     additionalData: {
       version: '0.1.0',
       private: true,

@@ -15,9 +15,9 @@
     }
   },
   "scripts": {
-    "build": "tsup",
-    "dev": "tsup --watch",
-    "lint": "eslint .",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -28,7 +28,7 @@
     "styled-components": ">=6"
   },
   "devDependencies": {
-    "@stack-dev/eslint-config": "workspace:*",
+    "@stack-dev/oxlint-config": "workspace:*",
     "@stack-dev/prettier-config": "workspace:*",
     "@stack-dev/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "catalog:",
@@ -38,14 +38,13 @@
     "@types/styled-components": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@vitest/coverage-v8": "catalog:",
-    "eslint": "catalog:",
     "jsdom": "catalog:",
+    "oxlint": "catalog:",
     "prettier": "catalog:",
-    "prettier-plugin-organize-imports": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "styled-components": "catalog:",
-    "tsup": "catalog:",
+    "tsdown": "catalog:",
     "vitest": "catalog:"
   },
   "type": "module",
