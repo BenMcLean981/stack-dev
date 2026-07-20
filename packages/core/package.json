@@ -7,10 +7,10 @@
     "@stack-dev/oxlint-config": "workspace:*",
     "@stack-dev/prettier-config": "workspace:*",
     "@stack-dev/typescript-config": "workspace:*",
-    "@typescript/native-preview": "catalog:",
     "oxlint": "catalog:",
     "prettier": "catalog:",
     "tsdown": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:",
     "@vitest/coverage-v8": "catalog:"
   },
@@ -25,7 +25,7 @@
     }
   },
   "scripts": {
-    "check-types": "tsgo --noEmit",
+    "check-types": "tsc --noEmit",
     "build": "tsdown",
     "lint": "oxlint",
     "format": "prettier . --write",

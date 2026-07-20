@@ -20,7 +20,6 @@ export const CATALOG: Record<string, string> = {
   '@types/react': '^18.3.1',
   '@types/react-dom': '^18.3.1',
   '@types/styled-components': '^5.1.34',
-  '@typescript/native-preview': '^7.0.0-dev.20260707.2',
   '@vitejs/plugin-react': '^4.7.0',
   '@vitest/coverage-v8': '^3.2.4',
   commander: '14.0.2',
@@ -35,6 +34,7 @@ export const CATALOG: Record<string, string> = {
   tsdown: '^0.22.12',
   tsx: '^4.21.0',
   turbo: '^2.5.4',
+  typescript: '^7.0.2',
   vite: '^5.4.2',
   vitest: '^3.2.4',
 };

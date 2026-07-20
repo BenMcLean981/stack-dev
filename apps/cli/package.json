@@ -10,7 +10,7 @@
   "scripts": {
     "build": "tsdown",
     "start": "node dist/index.js",
-    "check-types": "tsgo --noEmit",
+    "check-types": "tsc --noEmit",
     "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
@@ -32,10 +32,10 @@
     "@stack-dev/typescript-config": "workspace:*",
     "@types/lodash": "catalog:",
     "@types/node": "catalog:",
-    "@typescript/native-preview": "catalog:",
     "oxlint": "catalog:",
     "prettier": "catalog:",
     "tsdown": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:",
     "@vitest/coverage-v8": "catalog:"
   }

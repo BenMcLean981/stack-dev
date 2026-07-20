@@ -19,7 +19,7 @@
     "prebuild": "pnpm check-types",
     "build": "tsdown",
     "start": "node dist/index.mjs",
-    "check-types": "tsgo --noEmit",
+    "check-types": "tsc --noEmit",
     "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
@@ -36,11 +36,11 @@
     "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
     "@types/node": "catalog:",
-    "@typescript/native-preview": "catalog:",
     "oxlint": "catalog:",
     "prettier": "catalog:",
     "tsdown": "catalog:",
     "tsx": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "type": "module"

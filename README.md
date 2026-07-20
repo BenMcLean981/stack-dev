@@ -1,6 +1,6 @@
 # Stack-Dev Workspace
 
-An opinionated, high-velocity TypeScript monorepo manager built on `pnpm` and the oxc toolchain (`oxlint`, `tsdown`) with TypeScript 7 (`tsgo`). This workspace provides the scaffolding for building shared libraries, React components, and CLI tools with minimal configuration overhead.
+An opinionated, high-velocity TypeScript monorepo manager built on `pnpm` and the oxc toolchain (`oxlint`, `tsdown`) with TypeScript 7. This workspace provides the scaffolding for building shared libraries, React components, and CLI tools with minimal configuration overhead.
 
 ---
 

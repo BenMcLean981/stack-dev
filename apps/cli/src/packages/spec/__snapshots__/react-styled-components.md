@@ -32,7 +32,7 @@
     "prebuild": "pnpm check-types",
     "build": "tsdown",
     "dev": "tsdown --watch",
-    "check-types": "tsgo --noEmit",
+    "check-types": "tsc --noEmit",
     "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
@@ -47,7 +47,6 @@
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@types/styled-components": "catalog:",
-    "@typescript/native-preview": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "jsdom": "catalog:",
@@ -57,6 +56,7 @@
     "react-dom": "catalog:",
     "styled-components": "catalog:",
     "tsdown": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "peerDependencies": {

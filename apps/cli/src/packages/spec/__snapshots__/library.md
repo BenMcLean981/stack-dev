@@ -28,7 +28,7 @@
   "scripts": {
     "prebuild": "pnpm check-types",
     "build": "tsdown",
-    "check-types": "tsgo --noEmit",
+    "check-types": "tsc --noEmit",
     "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
@@ -38,11 +38,11 @@
     "@acme/oxlint-config": "workspace:*",
     "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
-    "@typescript/native-preview": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "oxlint": "catalog:",
     "prettier": "catalog:",
     "tsdown": "catalog:",
+    "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "type": "module",

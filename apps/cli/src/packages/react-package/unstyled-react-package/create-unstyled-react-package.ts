@@ -70,7 +70,7 @@ function makePackageGenerator(packageName: string, namespace: string) {
       catalogDependency('@types/react'),
       catalogDependency('@types/react-dom'),
       // Type-checking
-      catalogDependency('@typescript/native-preview'),
+      catalogDependency('typescript'),
       // Linting & Formatting
       catalogDependency('oxlint'),
       catalogDependency('prettier'),
@@ -103,7 +103,7 @@ function makePackageGenerator(packageName: string, namespace: string) {
         prebuild: 'pnpm check-types',
         build: 'tsdown',
         dev: 'tsdown --watch', // Helpful for local lib dev
-        'check-types': 'tsgo --noEmit',
+        'check-types': 'tsc --noEmit',
         lint: 'oxlint',
         format: 'prettier . --write',
         test: 'vitest run',

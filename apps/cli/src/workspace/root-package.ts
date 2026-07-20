@@ -22,6 +22,9 @@ export function makeRootPackageFileGenerators(
       author: '',
       license: 'ISC',
       packageManager: 'pnpm@10.13.1',
+      engines: {
+        node: '>=22',
+      },
     },
   });
 

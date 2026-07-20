@@ -6,7 +6,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "@typescript/native-preview": "catalog:"
+    "typescript": "catalog:"
   },
   "files": [
     "*.json"

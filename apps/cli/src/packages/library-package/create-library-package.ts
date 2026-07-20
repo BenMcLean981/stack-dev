@@ -56,7 +56,7 @@ function makePackageGenerator(packageName: string, namespace: string) {
       new Dependency(`${namespace}/oxlint-config`, 'workspace:*'),
       new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
-      catalogDependency('@typescript/native-preview'),
+      catalogDependency('typescript'),
       catalogDependency('oxlint'),
       catalogDependency('prettier'),
       catalogDependency('tsdown'),
@@ -81,7 +81,7 @@ function makePackageGenerator(packageName: string, namespace: string) {
       scripts: {
         prebuild: 'pnpm check-types',
         build: 'tsdown',
-        'check-types': 'tsgo --noEmit',
+        'check-types': 'tsc --noEmit',
         lint: 'oxlint',
         format: 'prettier . --write',
         test: 'vitest run',
