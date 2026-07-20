@@ -96,7 +96,7 @@ await registerSwagger();
 registerRoutes();
 
 function registerRoutes() {
-  fastify.get("/", async (request, reply) => {
+  fastify.get("/", async () => {
     return { hello: "world", docs: "/docs" };
   });
 
@@ -124,7 +124,7 @@ function registerRoutes() {
         },
       },
     },
-    async (request, reply) => {
+    async (request) => {
       // request.params.a should now be recognized as a string
       const a = Number(request.params.a);
       const b = Number(request.params.b);
@@ -181,7 +181,7 @@ async function registerSwagger() {
     },
     staticCSP: true,
     transformStaticCSP: (header) => header,
-    transformSpecification: (swaggerObject, request, reply) => {
+    transformSpecification: (swaggerObject) => {
       return swaggerObject;
     },
     transformSpecificationClone: true,
@@ -190,7 +190,8 @@ async function registerSwagger() {
 
 async function start() {
   try {
-    await fastify.listen({ port: 3000 });
+    const port = Number(process.env.PORT) || 3000;
+    await fastify.listen({ port });
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);
@@ -240,6 +241,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     globals: true,
+    passWithNoTests: true,
     coverage: {
       provider: 'v8',
     },

@@ -1,6 +1,6 @@
 import { FileGeneratorImp } from '../../../../file-generator/file-generator-imp';
 
-const BUTTON = `import React, { HTMLAttributes } from 'react';
+const BUTTON = `import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 // This is your "Styled" version of the button

@@ -12,6 +12,7 @@
     "check-types": "turbo check-types",
     "build": "turbo build",
     "test": "turbo test",
+    "test:e2e": "./e2e/run-e2e.sh",
     "sync-readme": "cp ./README.md ./apps/cli/README.md",
     "sync-license": "node scripts/sync-license.js",
     "prepare": "husky"

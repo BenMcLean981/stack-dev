@@ -66,6 +66,7 @@ function makeAppPackageGenerator(packageName: string, namespace: string) {
       new Dependency('typescript', '^5.5.4'),
       new Dependency('eslint', '^9.32.0'),
       new Dependency('prettier', '^3.6.2'),
+      new Dependency('vitest', '^3.2.4'),
     ],
     additionalData: {
       version: '0.1.0',
