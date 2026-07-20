@@ -62,7 +62,8 @@ export default [
     "eslint": "^9.32.0",
     "prettier": "^3.6.2",
     "typescript": "^5.5.4",
-    "vite": "^5.4.2"
+    "vite": "^5.4.2",
+    "vitest": "^3.2.4"
   },
   "type": "module"
 }
@@ -79,7 +80,7 @@ export default base;
 ## src/App.tsx
 
 ```
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export function App() {
   const [count, setCount] = useState(0);
@@ -107,14 +108,20 @@ export function App() {
 ## src/main.tsx
 
 ```
-import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
 import { App } from './App';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+const rootElement = document.getElementById('root');
+
+if (!rootElement) {
+  throw new Error('Root element "#root" was not found');
+}
+
+createRoot(rootElement).render(
+  <StrictMode>
     <App />
-  </React.StrictMode>,
+  </StrictMode>,
 );
 ```
 
@@ -152,6 +159,7 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   test: {
     globals: true,
+    passWithNoTests: true,
     coverage: {
       provider: 'v8',
     },

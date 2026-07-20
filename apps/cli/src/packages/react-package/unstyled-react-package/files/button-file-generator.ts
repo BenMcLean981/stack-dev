@@ -1,6 +1,6 @@
 import { FileGeneratorImp } from '../../../../file-generator/file-generator-imp';
 
-const BUTTON = `import React, { HTMLAttributes } from 'react';
+const BUTTON = `import { HTMLAttributes } from 'react';
 
 export function Button(props: HTMLAttributes<HTMLButtonElement>) {
   return <button {...props} />;

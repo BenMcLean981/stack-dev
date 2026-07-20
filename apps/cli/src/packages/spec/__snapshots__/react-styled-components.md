@@ -83,7 +83,8 @@ export default base;
 ## src/button.spec.tsx
 
 ```
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+import { render, screen } from '@testing-library/react';
 import { Button } from './button';
 
 describe('Button', () => {
@@ -113,7 +114,7 @@ describe('Button', () => {
 ## src/button.tsx
 
 ```
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 // This is your "Styled" version of the button

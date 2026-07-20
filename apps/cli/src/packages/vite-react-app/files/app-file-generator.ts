@@ -1,6 +1,6 @@
 import { FileGeneratorImp } from '../../../file-generator/file-generator-imp';
 
-const APP = `import React, { useState } from 'react';
+const APP = `import { useState } from 'react';
 
 export function App() {
   const [count, setCount] = useState(0);
