@@ -1,6 +1,6 @@
 import { FileGeneratorImp } from "../../file-generator/file-generator-imp";
 
-export async function createTailwindReactPackage(name: string): Promise<void> {
+export async function createTailwindReactPackage(): Promise<void> {
   throw new Error('Not implemented.');
 }
 

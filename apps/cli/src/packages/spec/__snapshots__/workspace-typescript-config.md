@@ -6,7 +6,7 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "typescript": "^5.8.3"
+    "typescript": "catalog:"
   },
   "files": [
     "*.json"

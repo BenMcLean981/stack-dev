@@ -1,6 +1,6 @@
 import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
-import { Dependency, PackageJSON } from '../package-json';
+import { catalogDependency, makeCatalogYaml, PackageJSON } from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
 
 export async function makeRootPackage(
@@ -15,7 +15,7 @@ export function makeRootPackageFileGenerators(
 ): ReadonlyArray<FileGenerator> {
   const packageJsonModel = new PackageJSON({
     name: name,
-    devDependencies: [new Dependency('turbo', '^2.5.4')],
+    devDependencies: [catalogDependency('turbo')],
     additionalData: {
       description: '',
       keywords: [],
@@ -27,7 +27,14 @@ export function makeRootPackageFileGenerators(
 
   const PNPM_WORKSPACE = new FileGeneratorImp(
     'pnpm-workspace.yaml',
-    ['packages:', '  - apps/*', '  - packages/*', '  - configs/*'].join('\n'),
+    [
+      'packages:',
+      '  - apps/*',
+      '  - packages/*',
+      '  - configs/*',
+      '',
+      makeCatalogYaml(),
+    ].join('\n'),
   );
 
   const GITIGNORE = new FileGeneratorImp('.gitignore', GITIGNORE_CONTENT);

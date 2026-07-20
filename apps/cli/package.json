@@ -18,25 +18,25 @@
   },
   "dependencies": {
     "@stack-dev/core": "workspace:*",
-    "commander": "^11.1.0",
-    "enquirer": "^2.4.1",
-    "fast-glob": "^3.3.3",
-    "glob": "^11.1.0",
-    "json5": "^2.2.3",
-    "lodash": "^4.17.21",
-    "yaml": "^2.8.0"
+    "commander": "catalog:",
+    "enquirer": "catalog:",
+    "fast-glob": "catalog:",
+    "glob": "catalog:",
+    "json5": "catalog:",
+    "lodash": "catalog:",
+    "yaml": "catalog:"
   },
   "devDependencies": {
     "@stack-dev/eslint-config": "workspace:*",
     "@stack-dev/prettier-config": "workspace:*",
     "@stack-dev/typescript-config": "workspace:*",
-    "@types/lodash": "^4.17.20",
-    "@types/node": "^24.0.15",
-    "eslint": "^9.32.0",
-    "prettier": "^3.6.2",
-    "prettier-plugin-organize-imports": "^4.2.0",
-    "tsup": "^7.3.0",
-    "vitest": "^3.2.4",
-    "@vitest/coverage-v8": "^3.2.4"
+    "@types/lodash": "catalog:",
+    "@types/node": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "prettier-plugin-organize-imports": "catalog:",
+    "tsup": "catalog:",
+    "vitest": "catalog:",
+    "@vitest/coverage-v8": "catalog:"
   }
 }

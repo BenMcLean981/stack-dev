@@ -22,7 +22,7 @@ export default config;
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "prettier-plugin-organize-imports": "^4.2.0"
+    "prettier-plugin-organize-imports": "catalog:"
   },
   "peerDependencies": {
     "prettier": "^3.6.2"

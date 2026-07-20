@@ -37,12 +37,12 @@ export default [...base, { ignores: ['**/dist/**'] }];
     "@acme/eslint-config": "workspace:*",
     "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
-    "@vitest/coverage-v8": "^3.2.4",
-    "eslint": "^9.32.0",
-    "prettier": "^3.6.2",
-    "prettier-plugin-organize-imports": "^4.2.0",
-    "tsup": "^7.3.0",
-    "vitest": "^3.2.4"
+    "@vitest/coverage-v8": "catalog:",
+    "eslint": "catalog:",
+    "prettier": "catalog:",
+    "prettier-plugin-organize-imports": "catalog:",
+    "tsup": "catalog:",
+    "vitest": "catalog:"
   },
   "type": "module",
   "sideEffects": false

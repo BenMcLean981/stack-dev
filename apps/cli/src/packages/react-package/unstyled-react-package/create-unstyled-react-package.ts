@@ -1,6 +1,10 @@
 import path from 'path';
 import { FileGenerator, PackageJsonGenerator } from '../../../file-generator';
-import { Dependency, PackageJSON } from '../../../package-json';
+import {
+  catalogDependency,
+  Dependency,
+  PackageJSON,
+} from '../../../package-json';
 import { PackageGenerator } from '../../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../../utils/workspace';
 import { makeReactEslintConfigGenerator } from '../../files/eslint-config-file-generator';
@@ -61,23 +65,23 @@ function makePackageGenerator(packageName: string, namespace: string) {
       new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
       // Development React binaries
-      new Dependency('react', '^18.3.1'),
-      new Dependency('react-dom', '^18.3.1'),
-      new Dependency('@types/react', '^18.3.1'),
-      new Dependency('@types/react-dom', '^18.3.1'),
+      catalogDependency('react'),
+      catalogDependency('react-dom'),
+      catalogDependency('@types/react'),
+      catalogDependency('@types/react-dom'),
       // Linting & Formatting
-      new Dependency('eslint', '^9.32.0'),
-      new Dependency('prettier', '^3.6.2'),
-      new Dependency('prettier-plugin-organize-imports', '^4.2.0'),
+      catalogDependency('eslint'),
+      catalogDependency('prettier'),
+      catalogDependency('prettier-plugin-organize-imports'),
       // Build
-      new Dependency('tsup', '^8.0.0'),
+      catalogDependency('tsup'),
       // Testing
-      new Dependency('vitest', '^3.2.4'),
-      new Dependency('@vitest/coverage-v8', '^3.2.4'),
-      new Dependency('@vitejs/plugin-react', '^4.7.0'),
-      new Dependency('@testing-library/react', '^16.0.0'),
-      new Dependency('@testing-library/jest-dom', '^6.0.0'),
-      new Dependency('jsdom', '^25.0.0'),
+      catalogDependency('vitest'),
+      catalogDependency('@vitest/coverage-v8'),
+      catalogDependency('@vitejs/plugin-react'),
+      catalogDependency('@testing-library/react'),
+      catalogDependency('@testing-library/jest-dom'),
+      catalogDependency('jsdom'),
     ],
     additionalData: {
       version: '0.1.0',

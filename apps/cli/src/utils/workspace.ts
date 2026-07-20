@@ -75,7 +75,7 @@ export async function tryGettingNamespace(
     } else {
       return `@${result}`;
     }
-  } catch (e) {
+  } catch {
     return undefined;
   }
 }

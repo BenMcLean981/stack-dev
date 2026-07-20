@@ -1,6 +1,6 @@
 import path from 'path';
 import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
-import { Dependency, PackageJSON } from '../../package-json';
+import { catalogDependency, Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 
@@ -52,21 +52,21 @@ function makeAppPackageGenerator(packageName: string, namespace: string) {
   const packageJsonModel = new PackageJSON({
     name: packageName,
     dependencies: [
-      new Dependency('react', '^18.3.1'),
-      new Dependency('react-dom', '^18.3.1'),
+      catalogDependency('react'),
+      catalogDependency('react-dom'),
     ],
     devDependencies: [
       new Dependency(`${namespace}/eslint-config`, 'workspace:*'),
       new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
-      new Dependency('@types/react', '^18.3.1'),
-      new Dependency('@types/react-dom', '^18.3.1'),
-      new Dependency('@vitejs/plugin-react', '^4.3.1'),
-      new Dependency('vite', '^5.4.2'),
-      new Dependency('typescript', '^5.5.4'),
-      new Dependency('eslint', '^9.32.0'),
-      new Dependency('prettier', '^3.6.2'),
-      new Dependency('vitest', '^3.2.4'),
+      catalogDependency('@types/react'),
+      catalogDependency('@types/react-dom'),
+      catalogDependency('@vitejs/plugin-react'),
+      catalogDependency('vite'),
+      catalogDependency('typescript'),
+      catalogDependency('eslint'),
+      catalogDependency('prettier'),
+      catalogDependency('vitest'),
     ],
     additionalData: {
       version: '0.1.0',

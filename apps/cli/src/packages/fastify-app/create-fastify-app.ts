@@ -1,6 +1,6 @@
 import path from 'path';
 import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
-import { Dependency, PackageJSON } from '../../package-json';
+import { catalogDependency, Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 
@@ -46,25 +46,23 @@ export function makeFastifyAppFileGenerators(
 function makeAppPackageGenerator(packageName: string, namespace: string) {
   const packageJsonModel = new PackageJSON({
     name: packageName,
-    peerDependencies: [
-      new Dependency('typescript', '^5.9.3'),
-      new Dependency('@types/node', '^25.0.3'),
-    ],
     dependencies: [
-      new Dependency('fastify', '^5.6.2'),
-      new Dependency('@fastify/swagger', '^9.6.1'),
-      new Dependency('@fastify/swagger-ui', '^5.2.3'),
-      new Dependency('pino-pretty', '^13.1.3'),
+      catalogDependency('fastify'),
+      catalogDependency('@fastify/swagger'),
+      catalogDependency('@fastify/swagger-ui'),
+      catalogDependency('pino-pretty'),
     ],
     devDependencies: [
       new Dependency(`${namespace}/eslint-config`, 'workspace:*'),
       new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
-      new Dependency('tsup', '^8.5.1'),
-      new Dependency('tsx', '^4.21.0'),
-      new Dependency('eslint', '^9.32.0'),
-      new Dependency('prettier', '^3.6.2'),
-      new Dependency('vitest', '^3.2.4'),
+      catalogDependency('@types/node'),
+      catalogDependency('typescript'),
+      catalogDependency('tsup'),
+      catalogDependency('tsx'),
+      catalogDependency('eslint'),
+      catalogDependency('prettier'),
+      catalogDependency('vitest'),
     ],
     additionalData: {
       version: '0.1.0',

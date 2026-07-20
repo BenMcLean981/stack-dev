@@ -11,6 +11,7 @@
   "scripts": {
     "check-types": "turbo check-types",
     "build": "turbo build",
+    "lint": "turbo lint",
     "test": "turbo test",
     "test:e2e": "./e2e/run-e2e.sh",
     "sync-readme": "cp ./README.md ./apps/cli/README.md",
@@ -18,10 +19,10 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "husky": "^9.1.7",
-    "turbo": "^2.5.4"
+    "husky": "catalog:",
+    "turbo": "catalog:"
   },
   "dependencies": {
-    "@changesets/cli": "^2.29.8"
+    "@changesets/cli": "catalog:"
   }
 }

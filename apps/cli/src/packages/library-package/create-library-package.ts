@@ -2,7 +2,7 @@ import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 
 import path from 'node:path';
 import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
-import { Dependency, PackageJSON } from '../../package-json';
+import { catalogDependency, Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
 import { makeEslintConfigGenerator } from '../files/eslint-config-file-generator';
 import { makePrettierConfigFileGenerator } from '../files/prettier-config-file-generator';
@@ -56,12 +56,12 @@ function makePackageGenerator(packageName: string, namespace: string) {
       new Dependency(`${namespace}/eslint-config`, 'workspace:*'),
       new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
-      new Dependency('eslint', '^9.32.0'),
-      new Dependency('prettier', '^3.6.2'),
-      new Dependency('prettier-plugin-organize-imports', '^4.2.0'),
-      new Dependency('tsup', '^7.3.0'),
-      new Dependency('vitest', '^3.2.4'),
-      new Dependency('@vitest/coverage-v8', '^3.2.4'),
+      catalogDependency('eslint'),
+      catalogDependency('prettier'),
+      catalogDependency('prettier-plugin-organize-imports'),
+      catalogDependency('tsup'),
+      catalogDependency('vitest'),
+      catalogDependency('@vitest/coverage-v8'),
     ],
     additionalData: {
       version: '0.1.0',
