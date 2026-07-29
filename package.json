@@ -8,6 +8,9 @@
   "author": "",
   "license": "MIT",
   "packageManager": "pnpm@10.13.1",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "check-types": "turbo check-types",
     "build": "turbo build",

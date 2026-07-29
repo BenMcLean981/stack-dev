@@ -1,6 +1,6 @@
 import { FileGeneratorImp } from '../../../../file-generator/file-generator-imp';
 
-const BUTTON = `import { HTMLAttributes } from 'react';
+const BUTTON = `import { HTMLAttributes, ReactElement } from 'react';
 import styled from 'styled-components';
 
 // This is your "Styled" version of the button
@@ -19,7 +19,7 @@ const StyledButton = styled.button\`
   }
 \`;
 
-export function Button(props: HTMLAttributes<HTMLButtonElement>) {
+export function Button(props: HTMLAttributes<HTMLButtonElement>): ReactElement {
   return <StyledButton {...props} />;
 }
 `;

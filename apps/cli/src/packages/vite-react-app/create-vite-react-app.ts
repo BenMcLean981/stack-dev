@@ -8,7 +8,7 @@ import { INDEX_HTML_FILE_GENERATOR } from './files/index-html-file-generator';
 import { MAIN_FILE_GENERATOR } from './files/main-file-generator';
 import { VITE_CONFIG_FILE_GENERATOR } from './files/vite-config-file-generator';
 
-import { makeReactEslintConfigGenerator } from '../files/eslint-config-file-generator';
+import { makeReactOxlintConfigGenerator } from '../files/oxlint-config-file-generator';
 import { makePrettierConfigFileGenerator } from '../files/prettier-config-file-generator';
 import { makeReactTsconfigFileGenerator } from '../files/tsconfig-file-generator';
 import { APP_FILE_GENERATOR } from './files/app-file-generator';
@@ -43,7 +43,7 @@ export function makeViteReactAppFileGenerators(
     APP_FILE_GENERATOR,
     makeReactTsconfigFileGenerator('tsconfig.json', namespace),
     makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
-    makeReactEslintConfigGenerator('eslint.config.mjs', namespace),
+    makeReactOxlintConfigGenerator('.oxlintrc.json'),
     VITEST_CONFIG_FILE_GENERATOR,
   ];
 }
@@ -56,7 +56,7 @@ function makeAppPackageGenerator(packageName: string, namespace: string) {
       catalogDependency('react-dom'),
     ],
     devDependencies: [
-      new Dependency(`${namespace}/eslint-config`, 'workspace:*'),
+      new Dependency(`${namespace}/oxlint-config`, 'workspace:*'),
       new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
       catalogDependency('@types/react'),
@@ -64,7 +64,7 @@ function makeAppPackageGenerator(packageName: string, namespace: string) {
       catalogDependency('@vitejs/plugin-react'),
       catalogDependency('vite'),
       catalogDependency('typescript'),
-      catalogDependency('eslint'),
+      catalogDependency('oxlint'),
       catalogDependency('prettier'),
       catalogDependency('vitest'),
     ],
@@ -78,7 +78,7 @@ function makeAppPackageGenerator(packageName: string, namespace: string) {
         preview: 'vite preview',
         start: 'pnpm run preview',
         'check-types': 'tsc --noEmit',
-        lint: 'eslint .',
+        lint: 'oxlint',
         format: 'prettier . --write',
         test: 'vitest run',
         'test:watch': 'vitest',

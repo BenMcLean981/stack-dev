@@ -1,0 +1,11 @@
+{
+  "plugins": ["typescript", "unicorn", "oxc"],
+  "categories": {
+    "correctness": "error"
+  },
+  "rules": {
+    "typescript/array-type": ["error", { "default": "generic" }],
+    "typescript/consistent-type-definitions": "off",
+    "typescript/class-literal-property-style": ["error", "getters"]
+  }
+}

@@ -1,6 +1,6 @@
 import { FileGeneratorImp } from '../../../file-generator/file-generator-imp';
 
-const TSUP = `import { defineConfig } from "tsup";
+const TSDOWN = `import { defineConfig } from "tsdown";
 
 export default defineConfig({
   entry: ["src/index.ts"],
@@ -8,14 +8,13 @@ export default defineConfig({
   dts: false,
   sourcemap: true,
   clean: true,
-  target: "esnext",
   platform: "node",
-  outExtension({ format }) {
+  outExtensions({ format }) {
     return {
-      js: format === "esm" ? ".mjs" : ".js",
+      js: format === "es" ? ".mjs" : ".js",
     };
   },
 });
 `;
 
-export const TSUP_FILE_GENERATOR = new FileGeneratorImp('tsup.config.ts', TSUP);
+export const TSDOWN_FILE_GENERATOR = new FileGeneratorImp('tsdown.config.ts', TSDOWN);

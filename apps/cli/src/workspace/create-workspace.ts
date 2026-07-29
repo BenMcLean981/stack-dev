@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { tryGettingNamespace } from '../utils/workspace';
-import { makeEslintConfig } from './eslint-config';
+import { makeOxlintConfig } from './oxlint-config';
 import { makePrettierConfig } from './prettier-config';
 import { makeRootPackage } from './root-package';
 import { makeTypescriptConfig } from './typescript-config';
@@ -19,7 +19,7 @@ export async function createWorkspace(name: string, directory: string) {
   const PACKAGES = [
     await makeRootPackage(fullPath, name),
     await makeTypescriptConfig(fullPath, namespace),
-    await makeEslintConfig(fullPath, namespace),
+    await makeOxlintConfig(fullPath, namespace),
     await makePrettierConfig(fullPath, namespace),
   ];
 

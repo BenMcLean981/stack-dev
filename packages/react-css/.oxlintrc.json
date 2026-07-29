@@ -1,0 +1,7 @@
+{
+  "extends": [
+    "../../configs/oxlint-config/base.oxlintrc.json",
+    "../../configs/oxlint-config/react.oxlintrc.json"
+  ],
+  "ignorePatterns": ["**/dist/**", "**/coverage/**"]
+}

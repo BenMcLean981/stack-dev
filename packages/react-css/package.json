@@ -13,11 +13,11 @@
       "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./index.css": "./dist/index.css"
+    "./index.css": "./dist/style.css"
   },
   "scripts": {
-    "build": "tsup",
-    "lint": "eslint .",
+    "build": "tsdown",
+    "lint": "oxlint",
     "format": "prettier . --write",
     "test": "vitest run",
     "test:watch": "vitest"
@@ -27,23 +27,23 @@
     "react-dom": ">=18"
   },
   "devDependencies": {
-    "@stack-dev/eslint-config": "workspace:*",
+    "@stack-dev/oxlint-config": "workspace:*",
     "@stack-dev/prettier-config": "workspace:*",
     "@stack-dev/typescript-config": "workspace:*",
+    "@tsdown/css": "catalog:",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
     "@vitest/coverage-v8": "catalog:",
-    "eslint": "catalog:",
     "jsdom": "catalog:",
+    "oxlint": "catalog:",
     "postcss": "catalog:",
     "prettier": "catalog:",
-    "prettier-plugin-organize-imports": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
-    "tsup": "catalog:",
+    "tsdown": "catalog:",
     "vitest": "catalog:"
   },
   "sideEffects": [

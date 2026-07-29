@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { FileGenerator } from '../../file-generator';
 import { CATALOG } from '../../package-json';
 import {
-  makeEslintConfigFileGenerators,
+  makeOxlintConfigFileGenerators,
   makePrettierConfigFileGenerators,
   makeRootPackageFileGenerators,
   makeTypescriptConfigFileGenerators,
@@ -39,7 +39,7 @@ const PACKAGE_TYPES = [
 
 const WORKSPACE_PACKAGES = [
   ['workspace-root', makeRootPackageFileGenerators('acme')],
-  ['workspace-eslint-config', makeEslintConfigFileGenerators(NAMESPACE)],
+  ['workspace-oxlint-config', makeOxlintConfigFileGenerators(NAMESPACE)],
   ['workspace-prettier-config', makePrettierConfigFileGenerators(NAMESPACE)],
   [
     'workspace-typescript-config',

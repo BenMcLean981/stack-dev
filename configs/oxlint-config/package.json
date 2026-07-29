@@ -1,0 +1,12 @@
+{
+  "name": "@stack-dev/oxlint-config",
+  "version": "0.2.1",
+  "private": false,
+  "license": "MIT",
+  "files": [
+    "*.oxlintrc.json"
+  ],
+  "devDependencies": {
+    "oxlint": "catalog:"
+  }
+}
