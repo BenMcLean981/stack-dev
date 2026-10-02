@@ -130,6 +130,27 @@ describe('PackageJSON', () => {
     });
   });
 
+  describe('withAdditionalData', () => {
+    it('maps the unmodeled keys and leaves dependencies alone', () => {
+      const packageJson = new PackageJSON({
+        name: '@ns/thing',
+        devDependencies: [new Dependency('oxfmt', 'catalog:')],
+        additionalData: { version: '0.1.0', scripts: { lint: 'oxlint' } },
+      });
+
+      const updated = packageJson.withAdditionalData((data) => ({
+        ...data,
+        scripts: { lint: 'oxlint', format: 'oxfmt .' },
+      }));
+
+      const parsed = JSON.parse(updated.format('@ns'));
+
+      expect(parsed.scripts).toEqual({ lint: 'oxlint', format: 'oxfmt .' });
+      expect(parsed.version).toBe('0.1.0');
+      expect(updated.devDependencies).toEqual(packageJson.devDependencies);
+    });
+  });
+
   describe('equals', () => {
     it('ignores dependency ordering', () => {
       const a = new PackageJSON({

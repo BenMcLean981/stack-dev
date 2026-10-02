@@ -3,6 +3,7 @@ import { prompt } from 'enquirer';
 
 import { version } from '../package.json';
 import { linkPackages } from './link-packages';
+import { applyMigration, isWorkingTreeClean, planMigration } from './migration';
 import {
   createCliApp,
   createConfigPackage,
@@ -21,7 +22,7 @@ import {
 import { packageTypes, pickPackageType } from './utils/package-type';
 import { pickStyleType, styleTypes } from './utils/style-type';
 import { getDirectoryPackageJson } from './utils/utils';
-import { getNamespace } from './utils/workspace';
+import { getNamespace, getWorkspaceRoot } from './utils/workspace';
 import { createWorkspace } from './workspace';
 
 const program = new Command();
@@ -82,6 +83,47 @@ program
 
     console.log('');
     console.log('Run pnpm install to finish linking.');
+  });
+
+program
+  .command('migrate')
+  .description('Bring an existing workspace up to the current stack')
+  .option('--dry-run', 'Show what would change without writing anything', false)
+  .option('--force', 'Run even with uncommitted changes', false)
+  .action(async (options) => {
+    const root = await getWorkspaceRoot();
+
+    const changes = await planMigration(root);
+
+    if (changes.length === 0) {
+      console.log('✅ Already up to date.');
+
+      return;
+    }
+
+    console.log(`Found ${changes.length} change(s) in ${root}:`);
+    console.log('');
+    changes.forEach((change) => console.log(`  ${change.describe()}`));
+    console.log('');
+
+    if (options.dryRun) {
+      console.log('Dry run: nothing written.');
+
+      return;
+    }
+
+    if (!options.force && !(await isWorkingTreeClean(root))) {
+      throw new Error(
+        'Working tree has uncommitted changes. Commit them first so the ' +
+          'migration is reviewable with "git diff", or pass --force.',
+      );
+    }
+
+    await applyMigration(root, changes);
+
+    console.log('✅ Migrated.');
+    console.log('');
+    console.log('Run pnpm install, then "pnpm exec turbo run format".');
   });
 
 program

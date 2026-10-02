@@ -19,6 +19,7 @@
     "format:check": "turbo format:check && oxfmt --check README.md",
     "test": "turbo test",
     "test:e2e": "./e2e/run-e2e.sh",
+    "test:e2e:migrate": "./e2e/run-migrate-e2e.sh",
     "sync-readme": "cp ./README.md ./apps/cli/README.md",
     "sync-license": "node scripts/sync-license.js",
     "prepare": "husky"
