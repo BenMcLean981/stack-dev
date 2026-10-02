@@ -1,10 +1,10 @@
-import { Dependency, PackageJSON } from './package-json';
-import { getDirectoryPackageJson, getPackageJSONPath } from './utils/utils';
-
 import fs from 'node:fs/promises';
 import path from 'node:path';
+
+import { Dependency, PackageJSON } from './package-json';
 import { TSConfig } from './tsconfig';
 import { Package } from './utils/package';
+import { getDirectoryPackageJson, getPackageJSONPath } from './utils/utils';
 import { getNamespace } from './utils/workspace';
 
 export async function linkPackages(

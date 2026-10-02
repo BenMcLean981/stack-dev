@@ -1,5 +1,6 @@
 import { Command } from 'commander';
 import { prompt } from 'enquirer';
+
 import { version } from '../package.json';
 import { linkPackages } from './link-packages';
 import {

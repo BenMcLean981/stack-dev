@@ -7,6 +7,14 @@
 }
 ```
 
+## oxfmt.config.mts
+
+```
+import config from '@acme/oxfmt-config/base';
+
+export default config;
+```
+
 ## package.json
 
 ```
@@ -21,7 +29,8 @@
     "start": "node dist/index.mjs",
     "check-types": "tsc --noEmit",
     "lint": "oxlint",
-    "format": "prettier . --write",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -29,12 +38,12 @@
     "commander": "catalog:"
   },
   "devDependencies": {
+    "@acme/oxfmt-config": "workspace:*",
     "@acme/oxlint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
     "@types/node": "catalog:",
+    "oxfmt": "catalog:",
     "oxlint": "catalog:",
-    "prettier": "catalog:",
     "tsdown": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
@@ -44,18 +53,10 @@
 }
 ```
 
-## prettier.config.mjs
-
-```
-import base from '@acme/prettier-config/base.mjs';
-
-export default base;
-```
-
 ## src/index.ts
 
 ```
-import { Command } from "commander";;
+import { Command } from 'commander';
 
 const program = new Command();
 
@@ -64,7 +65,8 @@ program
   .description('CLI to some JavaScript string utilities')
   .version('0.8.0');
 
-program.command('split')
+program
+  .command('split')
   .description('Split a string into substrings and display as an array')
   .argument('<string>', 'string to split')
   .option('--first', 'display just the first substring')
@@ -93,18 +95,18 @@ program.parse();
 ## tsdown.config.ts
 
 ```
-import { defineConfig } from "tsdown";
+import { defineConfig } from 'tsdown';
 
 export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["esm"],
+  entry: ['src/index.ts'],
+  format: ['esm'],
   dts: false,
   sourcemap: true,
   clean: true,
-  platform: "node",
+  platform: 'node',
   outExtensions({ format }) {
     return {
-      js: format === "es" ? ".mjs" : ".js",
+      js: format === 'es' ? '.mjs' : '.js',
     };
   },
 });

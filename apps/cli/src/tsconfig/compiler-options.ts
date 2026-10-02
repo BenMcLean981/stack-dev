@@ -1,5 +1,4 @@
 import { Equalable, Snapshot, sortKeys } from '@stack-dev/core';
-
 import { isEqual } from 'lodash';
 
 export type ConstructorArgs = {

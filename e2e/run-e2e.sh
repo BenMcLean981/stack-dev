@@ -95,6 +95,11 @@ step "turbo run lint"
 pnpm exec turbo run lint
 pass "linted"
 
+# A freshly generated workspace must already satisfy its own formatter.
+step "turbo run format:check"
+pnpm exec turbo run format:check
+pass "formatted"
+
 # --- Run the generated apps ---------------------------------------------------
 
 step "Running the CLI app"

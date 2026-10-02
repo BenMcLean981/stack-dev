@@ -5,6 +5,34 @@ import { Reference } from '../reference';
 import { TSConfig } from '../tsconfig';
 
 describe('TSConfig', () => {
+  describe('format', () => {
+    it('keeps short arrays on one line so the formatter leaves them alone', () => {
+      const tsconfig = TSConfig.parse(
+        JSON.stringify({
+          include: ['src'],
+          compilerOptions: {
+            types: ['node'],
+            paths: { '@ns/core': ['../core/src/index.ts'] },
+          },
+        }),
+      );
+
+      const formatted = tsconfig.format();
+
+      expect(formatted).toContain('"include": ["src"]');
+      expect(formatted).toContain('"types": ["node"]');
+      expect(formatted).toContain('"@ns/core": ["../core/src/index.ts"]');
+    });
+
+    it('wraps arrays that would exceed the print width', () => {
+      const long = 'x'.repeat(90);
+
+      const tsconfig = TSConfig.parse(JSON.stringify({ include: [long] }));
+
+      expect(tsconfig.format()).toContain('"include": [\n');
+    });
+  });
+
   describe('parse', () => {
     it('lifts paths out of compilerOptions', () => {
       const tsconfig = TSConfig.parse(

@@ -23,6 +23,12 @@ describe('PackageJSON', () => {
       ]);
     });
 
+    it('ends with a trailing newline', () => {
+      const packageJson = new PackageJSON({ name: '@ns/thing' });
+
+      expect(packageJson.format('@ns').endsWith('\n')).toBe(true);
+    });
+
     it('orders well known keys ahead of unrecognized ones', () => {
       const packageJson = new PackageJSON({
         name: '@ns/thing',

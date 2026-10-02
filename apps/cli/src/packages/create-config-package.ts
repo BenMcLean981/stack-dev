@@ -1,6 +1,7 @@
 import path from 'node:path';
-import { PackageJSON } from '../package-json';
+
 import { FileGenerator, PackageJsonGenerator } from '../file-generator';
+import { PackageJSON } from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../utils/workspace';
 

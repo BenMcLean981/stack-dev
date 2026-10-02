@@ -1,4 +1,5 @@
 import path from 'path';
+
 import { FileGenerator, PackageJsonGenerator } from '../../../file-generator';
 import {
   catalogDependency,
@@ -7,8 +8,8 @@ import {
 } from '../../../package-json';
 import { PackageGenerator } from '../../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../../utils/workspace';
+import { makeReactOxfmtConfigFileGenerator } from '../../files/oxfmt-config-file-generator';
 import { makeReactOxlintConfigGenerator } from '../../files/oxlint-config-file-generator';
-import { makePrettierConfigFileGenerator } from '../../files/prettier-config-file-generator';
 import { makeReactTsconfigFileGenerator } from '../../files/tsconfig-file-generator';
 import { BUTTON_FILE_GENERATOR } from './files/button-file-generator';
 import { BUTTON_SPEC_FILE_GENERATOR } from './files/button-spec-file-generator';
@@ -48,7 +49,7 @@ export function makeStyledComponentsReactPackageFileGenerators(
     BUTTON_SPEC_FILE_GENERATOR,
     TSDOWN_CONFIG_FILE_GENERATOR,
     makeReactTsconfigFileGenerator('tsconfig.json', namespace, true),
-    makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
+    makeReactOxfmtConfigFileGenerator('oxfmt.config.mts', namespace),
     makeReactOxlintConfigGenerator('.oxlintrc.json'),
     VITEST_CONFIG_FILE_GENERATOR,
   ];
@@ -65,7 +66,7 @@ function makePackageGenerator(packageName: string, namespace: string) {
     ],
     devDependencies: [
       new Dependency(`${namespace}/oxlint-config`, 'workspace:*'),
-      new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
+      new Dependency(`${namespace}/oxfmt-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
       // Development React binaries
       catalogDependency('react'),
@@ -79,7 +80,7 @@ function makePackageGenerator(packageName: string, namespace: string) {
       catalogDependency('typescript'),
       // Linting & Formatting
       catalogDependency('oxlint'),
-      catalogDependency('prettier'),
+      catalogDependency('oxfmt'),
       // Build
       catalogDependency('tsdown'),
       // Testing
@@ -111,7 +112,8 @@ function makePackageGenerator(packageName: string, namespace: string) {
         dev: 'tsdown --watch', // Helpful for local lib dev
         'check-types': 'tsc --noEmit',
         lint: 'oxlint',
-        format: 'prettier . --write',
+        format: 'oxfmt .',
+        'format:check': 'oxfmt --check .',
         test: 'vitest run',
         'test:watch': 'vitest',
       },

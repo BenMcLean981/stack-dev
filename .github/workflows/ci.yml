@@ -10,7 +10,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        task: [check-types, lint, test]
+        task: [check-types, lint, format:check, test]
     steps:
       - name: Checkout
         uses: actions/checkout@v4

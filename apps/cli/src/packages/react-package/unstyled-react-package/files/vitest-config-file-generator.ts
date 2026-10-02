@@ -1,7 +1,7 @@
 import { FileGeneratorImp } from '../../../../file-generator/file-generator-imp';
 
-const VITEST_CONFIG = `import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
+const VITEST_CONFIG = `import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],

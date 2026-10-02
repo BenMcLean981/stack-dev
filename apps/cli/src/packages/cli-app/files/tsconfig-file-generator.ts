@@ -1,6 +1,9 @@
 import { FileGeneratorImp } from '../../../file-generator/file-generator-imp';
 
-export function makeTsconfigFileGenerator(filepath: string, namespace: string): FileGeneratorImp {
+export function makeTsconfigFileGenerator(
+  filepath: string,
+  namespace: string,
+): FileGeneratorImp {
   const TSCONFIG = `{
   "extends": "${namespace}/typescript-config/tsconfig.base.json",
   "compilerOptions": {
@@ -13,4 +16,3 @@ export function makeTsconfigFileGenerator(filepath: string, namespace: string): 
 
   return new FileGeneratorImp(filepath, TSCONFIG);
 }
-

@@ -1,9 +1,0 @@
-{
-  "name": "@stack-dev/prettier-config",
-  "version": "0.2.1",
-  "private": false,
-  "license": "MIT",
-  "devDependencies": {
-    "prettier": "catalog:"
-  }
-}

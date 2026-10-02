@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+
 import { FileGenerator } from '../file-generator';
 
 export class PackageGenerator {

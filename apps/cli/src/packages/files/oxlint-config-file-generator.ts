@@ -11,7 +11,9 @@ export function makeOxlintConfigGenerator(filepath: string): FileGenerator {
   return new FileGeneratorImp(filepath, OXLINT_CONFIG);
 }
 
-export function makeReactOxlintConfigGenerator(filepath: string): FileGenerator {
+export function makeReactOxlintConfigGenerator(
+  filepath: string,
+): FileGenerator {
   const OXLINT_CONFIG = `{
   "extends": [
     "../../configs/oxlint-config/base.oxlintrc.json",

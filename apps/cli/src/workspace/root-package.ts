@@ -1,6 +1,10 @@
 import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
-import { catalogDependency, makeCatalogYaml, PackageJSON } from '../package-json';
+import {
+  catalogDependency,
+  makeCatalogYaml,
+  PackageJSON,
+} from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
 
 export async function makeRootPackage(
@@ -37,6 +41,7 @@ export function makeRootPackageFileGenerators(
       '  - configs/*',
       '',
       makeCatalogYaml(),
+      '',
     ].join('\n'),
   );
 
@@ -44,7 +49,7 @@ export function makeRootPackageFileGenerators(
 
   const TURBO_JSON = new FileGeneratorImp(
     'turbo.json',
-    JSON.stringify(
+    `${JSON.stringify(
       {
         tasks: {
           build: {
@@ -52,12 +57,16 @@ export function makeRootPackageFileGenerators(
             outputs: ['dist/**'],
           },
           lint: {},
+          format: {
+            cache: false,
+          },
+          'format:check': {},
           test: {},
         },
       },
       null,
       2,
-    ),
+    )}\n`,
   );
 
   return [

@@ -1,13 +1,23 @@
 {
   "tasks": {
     "check-types": {
-      "dependsOn": ["^check-types"]
+      "dependsOn": [
+        "^check-types"
+      ]
     },
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "dist/**"
+      ]
     },
     "lint": {},
-    "test": {}
+    "test": {},
+    "format": {
+      "cache": false
+    },
+    "format:check": {}
   }
 }

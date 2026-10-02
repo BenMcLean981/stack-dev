@@ -27,6 +27,14 @@
 </html>
 ```
 
+## oxfmt.config.mts
+
+```
+import config from '@acme/oxfmt-config/react';
+
+export default config;
+```
+
 ## package.json
 
 ```
@@ -41,7 +49,8 @@
     "start": "pnpm run preview",
     "check-types": "tsc --noEmit",
     "lint": "oxlint",
-    "format": "prettier . --write",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
     "test": "vitest run",
     "test:watch": "vitest"
   },
@@ -50,28 +59,20 @@
     "react-dom": "catalog:"
   },
   "devDependencies": {
+    "@acme/oxfmt-config": "workspace:*",
     "@acme/oxlint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
     "@types/react": "catalog:",
     "@types/react-dom": "catalog:",
     "@vitejs/plugin-react": "catalog:",
+    "oxfmt": "catalog:",
     "oxlint": "catalog:",
-    "prettier": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
   },
   "type": "module"
 }
-```
-
-## prettier.config.mjs
-
-```
-import base from '@acme/prettier-config/base.mjs';
-
-export default base;
 ```
 
 ## src/App.tsx
@@ -83,14 +84,20 @@ export function App() {
   const [count, setCount] = useState(0);
 
   return (
-    <div style={{ 
-      padding: '2rem', 
-      fontFamily: 'system-ui, sans-serif',
-      textAlign: 'center'
-    }}>
+    <div
+      style={{
+        padding: '2rem',
+        fontFamily: 'system-ui, sans-serif',
+        textAlign: 'center',
+      }}
+    >
       <h1>Stack-Dev App</h1>
-      <div className="card">
-        <button onClick={function() { setCount(count + 1) }}>
+      <div className='card'>
+        <button
+          onClick={function () {
+            setCount(count + 1);
+          }}
+        >
           Count is {count}
         </button>
       </div>
@@ -107,6 +114,7 @@ export function App() {
 ```
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+
 import { App } from './App';
 
 const rootElement = document.getElementById('root');
@@ -137,8 +145,8 @@ createRoot(rootElement).render(
 ## vite.config.ts
 
 ```
-import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
 
 export default defineConfig({
   plugins: [react()],

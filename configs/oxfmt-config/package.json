@@ -1,0 +1,20 @@
+{
+  "name": "@stack-dev/oxfmt-config",
+  "version": "0.2.1",
+  "private": false,
+  "type": "module",
+  "license": "MIT",
+  "exports": {
+    "./base": "./base.ts",
+    "./react": "./react.ts"
+  },
+  "files": [
+    "*.ts"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "oxfmt": "catalog:"
+  }
+}

@@ -8,5 +8,8 @@
   ],
   "devDependencies": {
     "oxlint": "catalog:"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

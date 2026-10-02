@@ -1,14 +1,15 @@
 import path from 'path';
+
 import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
 import { catalogDependency, Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
+import { makeOxfmtConfigFileGenerator } from '../files/oxfmt-config-file-generator';
 import { makeOxlintConfigGenerator } from '../files/oxlint-config-file-generator';
-import { makePrettierConfigFileGenerator } from '../files/prettier-config-file-generator';
 import { INDEX_FILE_GENERATOR } from './files/index-file-generator';
+import { makeTsconfigFileGenerator } from './files/tsconfig-file-generator';
 import { TSDOWN_FILE_GENERATOR } from './files/tsdown-file-generator';
 import { VITEST_CONFIG_FILE_GENERATOR } from './files/vitest-config-file-generator';
-import { makeTsconfigFileGenerator } from './files/tsconfig-file-generator';
 
 export async function createCliApp(name: string): Promise<void> {
   const rootDir = await getWorkspaceRoot();
@@ -36,7 +37,7 @@ export function makeCliAppFileGenerators(
     INDEX_FILE_GENERATOR,
     makeTsconfigFileGenerator('tsconfig.json', namespace),
     TSDOWN_FILE_GENERATOR,
-    makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
+    makeOxfmtConfigFileGenerator('oxfmt.config.mts', namespace),
     makeOxlintConfigGenerator('.oxlintrc.json'),
     VITEST_CONFIG_FILE_GENERATOR,
   ];
@@ -48,14 +49,14 @@ function makeAppPackageGenerator(packageName: string, namespace: string) {
     dependencies: [catalogDependency('commander')],
     devDependencies: [
       new Dependency(`${namespace}/oxlint-config`, 'workspace:*'),
-      new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
+      new Dependency(`${namespace}/oxfmt-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
       catalogDependency('@types/node'),
       catalogDependency('typescript'),
       catalogDependency('tsdown'),
       catalogDependency('tsx'),
       catalogDependency('oxlint'),
-      catalogDependency('prettier'),
+      catalogDependency('oxfmt'),
       catalogDependency('vitest'),
     ],
     additionalData: {
@@ -69,7 +70,8 @@ function makeAppPackageGenerator(packageName: string, namespace: string) {
         start: 'node dist/index.mjs',
         'check-types': 'tsc --noEmit',
         lint: 'oxlint',
-        format: 'prettier . --write',
+        format: 'oxfmt .',
+        'format:check': 'oxfmt --check .',
         test: 'vitest run',
         'test:watch': 'vitest',
       },

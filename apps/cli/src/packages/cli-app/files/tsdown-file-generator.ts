@@ -1,17 +1,17 @@
 import { FileGeneratorImp } from '../../../file-generator/file-generator-imp';
 
-const TSDOWN = `import { defineConfig } from "tsdown";
+const TSDOWN = `import { defineConfig } from 'tsdown';
 
 export default defineConfig({
-  entry: ["src/index.ts"],
-  format: ["esm"],
+  entry: ['src/index.ts'],
+  format: ['esm'],
   dts: false,
   sourcemap: true,
   clean: true,
-  platform: "node",
+  platform: 'node',
   outExtensions({ format }) {
     return {
-      js: format === "es" ? ".mjs" : ".js",
+      js: format === 'es' ? '.mjs' : '.js',
     };
   },
 });

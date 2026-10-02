@@ -1,7 +1,8 @@
 import path from 'path';
-import { catalogDependency, PackageJSON } from '../package-json';
+
 import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
+import { catalogDependency, PackageJSON } from '../package-json';
 import { PackageGenerator } from '../utils/package-generator';
 
 export async function makeTypescriptConfig(
@@ -39,7 +40,7 @@ export function makeTypescriptConfigFileGenerators(
 
 export const BASE = new FileGeneratorImp(
   'tsconfig.base.json',
-  JSON.stringify(
+  `${JSON.stringify(
     {
       compilerOptions: {
         target: 'ES2022',
@@ -58,12 +59,12 @@ export const BASE = new FileGeneratorImp(
     },
     null,
     2,
-  ),
+  )}\n`,
 );
 
 const REACT = new FileGeneratorImp(
   'tsconfig.react.json',
-  JSON.stringify(
+  `${JSON.stringify(
     {
       extends: './tsconfig.base.json',
       compilerOptions: {
@@ -74,12 +75,12 @@ const REACT = new FileGeneratorImp(
     },
     null,
     2,
-  ),
+  )}\n`,
 );
 
 const NODE = new FileGeneratorImp(
   'tsconfig.node.json',
-  JSON.stringify(
+  `${JSON.stringify(
     {
       extends: './tsconfig.base.json',
       compilerOptions: {
@@ -89,5 +90,5 @@ const NODE = new FileGeneratorImp(
     },
     null,
     2,
-  ),
+  )}\n`,
 );

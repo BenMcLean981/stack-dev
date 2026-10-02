@@ -1,13 +1,13 @@
 import { FileGeneratorImp } from '../../../file-generator/file-generator-imp';
 
-const INDEX = `import Fastify from "fastify";
-import fastifySwagger from "@fastify/swagger";
-import fastifySwaggerUI from "@fastify/swagger-ui";
+const INDEX = `import fastifySwagger from '@fastify/swagger';
+import fastifySwaggerUI from '@fastify/swagger-ui';
+import Fastify from 'fastify';
 
 const fastify = Fastify({
   logger: {
     transport: {
-      target: "pino-pretty",
+      target: 'pino-pretty',
     },
     serializers: {
       res(reply) {
@@ -37,29 +37,29 @@ await registerSwagger();
 registerRoutes();
 
 function registerRoutes() {
-  fastify.get("/", async () => {
-    return { hello: "world", docs: "/docs" };
+  fastify.get('/', async () => {
+    return { hello: 'world', docs: '/docs' };
   });
 
   fastify.get<{
     Params: { a: string; b: string };
   }>(
-    "/add/:a/:b",
+    '/add/:a/:b',
     {
       schema: {
         params: {
-          type: "object",
+          type: 'object',
           properties: {
-            a: { type: "string" },
-            b: { type: "string" },
+            a: { type: 'string' },
+            b: { type: 'string' },
           },
-          required: ["a", "b"],
+          required: ['a', 'b'],
         },
         response: {
           200: {
-            type: "object",
+            type: 'object',
             properties: {
-              result: { type: "number" },
+              result: { type: 'number' },
             },
           },
         },
@@ -71,45 +71,45 @@ function registerRoutes() {
       const b = Number(request.params.b);
 
       return { result: a + b };
-    }
+    },
   );
 }
 
 async function registerSwagger() {
   await fastify.register(fastifySwagger, {
     openapi: {
-      openapi: "3.0.0",
+      openapi: '3.0.0',
       info: {
-        title: "Test swagger",
-        description: "Testing the Fastify swagger API",
-        version: "0.1.0",
+        title: 'Test swagger',
+        description: 'Testing the Fastify swagger API',
+        version: '0.1.0',
       },
       servers: [
         {
-          url: "http://localhost:3000",
-          description: "Development server",
+          url: 'http://localhost:3000',
+          description: 'Development server',
         },
       ],
       components: {
         securitySchemes: {
           apiKey: {
-            type: "apiKey",
-            name: "apiKey",
-            in: "header",
+            type: 'apiKey',
+            name: 'apiKey',
+            in: 'header',
           },
         },
       },
       externalDocs: {
-        url: "https://swagger.io",
-        description: "Find more info here",
+        url: 'https://swagger.io',
+        description: 'Find more info here',
       },
     },
   });
 
   await fastify.register(fastifySwaggerUI, {
-    routePrefix: "/docs",
+    routePrefix: '/docs',
     uiConfig: {
-      docExpansion: "list",
+      docExpansion: 'list',
       deepLinking: false,
     },
     uiHooks: {
