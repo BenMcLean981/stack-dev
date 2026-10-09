@@ -1,8 +1,8 @@
 {
   "name": "@stack-dev/cli",
   "version": "0.3.5",
-  "license": "MIT",
   "homepage": "https://github.com/BenMcLean981/stack-dev#readme",
+  "license": "MIT",
   "repository": "github:BenMcLean981/stack-dev",
   "bin": {
     "stack": "./dist/index.js"
@@ -12,9 +12,10 @@
     "start": "node dist/index.js",
     "check-types": "tsc --noEmit",
     "lint": "oxlint",
-    "format": "prettier . --write",
+    "format": "oxfmt .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "format:check": "oxfmt --check ."
   },
   "dependencies": {
     "@stack-dev/core": "workspace:*",
@@ -27,16 +28,16 @@
     "yaml": "catalog:"
   },
   "devDependencies": {
+    "@stack-dev/oxfmt-config": "workspace:*",
     "@stack-dev/oxlint-config": "workspace:*",
-    "@stack-dev/prettier-config": "workspace:*",
     "@stack-dev/typescript-config": "workspace:*",
     "@types/lodash": "catalog:",
     "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "oxfmt": "catalog:",
     "oxlint": "catalog:",
-    "prettier": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",
-    "vitest": "catalog:",
-    "@vitest/coverage-v8": "catalog:"
+    "vitest": "catalog:"
   }
 }

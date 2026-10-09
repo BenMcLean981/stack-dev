@@ -1,14 +1,11 @@
-import { FileGenerator } from './file-generator';
 import { PackageJSON } from '../package-json';
+import { FileGenerator } from './file-generator';
 
 export class PackageJsonGenerator implements FileGenerator {
   private readonly _packageJson: PackageJSON;
   private readonly _namespace: string;
 
-  public constructor(
-    packageJson: PackageJSON,
-    namespace = ''
-  ) {
+  public constructor(packageJson: PackageJSON, namespace = '') {
     this._packageJson = packageJson;
     this._namespace = namespace;
   }

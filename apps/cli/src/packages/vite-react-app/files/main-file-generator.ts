@@ -2,6 +2,7 @@ import { FileGeneratorImp } from '../../../file-generator/file-generator-imp';
 
 const MAIN = `import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
+
 import { App } from './App';
 
 const rootElement = document.getElementById('root');

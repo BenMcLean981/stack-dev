@@ -1,9 +1,8 @@
-import * as JSON5 from 'json5';
-
 import { Equalable, haveSameItems, sortKeys } from '@stack-dev/core';
-
 import { Snapshot } from '@stack-dev/core';
+import * as JSON5 from 'json5';
 import { isEqual } from 'lodash';
+
 import { CompilerOptions } from './compiler-options';
 import { Reference } from './reference';
 
@@ -94,7 +93,7 @@ export class TSConfig implements Equalable {
 
     const ordered = sortKeys(json, compareKeys);
 
-    return JSON.stringify(ordered, null, 2);
+    return `${stringifyWithInlineArrays(ordered)}\n`;
   }
 
   public equals(other: unknown): boolean {
@@ -135,4 +134,93 @@ function getKeyIndex(s: string): number {
   } else {
     return order.indexOf(s);
   }
+}
+
+const PRINT_WIDTH = 80;
+
+const INDENT = '  ';
+
+/**
+ * Serializes `value` like `JSON.stringify(value, null, 2)`, except that an
+ * array of primitives is kept on one line when it fits within the print width.
+ *
+ * `JSON.stringify` always expands arrays, which the workspace formatter would
+ * then collapse again — leaving a file this CLI just wrote failing its own
+ * `format:check`. Matching the formatter here keeps a single source of truth.
+ */
+function stringifyWithInlineArrays(value: unknown, depth = 0): string {
+  if (Array.isArray(value)) {
+    return stringifyArray(value, depth);
+  }
+
+  if (isRecord(value)) {
+    return stringifyRecord(value, depth);
+  }
+
+  return JSON.stringify(value) ?? 'null';
+}
+
+function stringifyArray(value: ReadonlyArray<unknown>, depth: number): string {
+  if (value.length === 0) {
+    return '[]';
+  }
+
+  const items = value.map((item) => stringifyWithInlineArrays(item, depth + 1));
+
+  if (value.every(isPrimitive)) {
+    const inline = `[${items.join(', ')}]`;
+
+    if (indentOf(depth).length + inline.length <= PRINT_WIDTH) {
+      return inline;
+    }
+  }
+
+  return wrap('[', items, ']', depth);
+}
+
+function stringifyRecord(
+  value: Record<string, unknown>,
+  depth: number,
+): string {
+  const entries = Object.entries(value).filter(
+    ([, item]) => item !== undefined,
+  );
+
+  if (entries.length === 0) {
+    return '{}';
+  }
+
+  const items = entries.map(
+    ([key, item]) =>
+      `${JSON.stringify(key)}: ${stringifyWithInlineArrays(item, depth + 1)}`,
+  );
+
+  return wrap('{', items, '}', depth);
+}
+
+function wrap(
+  open: string,
+  items: ReadonlyArray<string>,
+  close: string,
+  depth: number,
+): string {
+  const inner = indentOf(depth + 1);
+
+  return [
+    open,
+    items.map((item) => `${inner}${item}`).join(',\n'),
+    `${indentOf(depth)}${close}`,
+  ].join('\n');
+}
+
+function indentOf(depth: number): string {
+  return INDENT.repeat(depth);
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isPrimitive(value: unknown): boolean {
+  return value === null || typeof value !== 'object';
 }

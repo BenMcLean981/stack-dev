@@ -10,6 +10,14 @@
 }
 ```
 
+## oxfmt.config.mts
+
+```
+import config from '@acme/oxfmt-config/react';
+
+export default config;
+```
+
 ## package.json
 
 ```
@@ -34,13 +42,14 @@
     "dev": "tsdown --watch",
     "check-types": "tsc --noEmit",
     "lint": "oxlint",
-    "format": "prettier . --write",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "@acme/oxfmt-config": "workspace:*",
     "@acme/oxlint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "catalog:",
     "@testing-library/react": "catalog:",
@@ -50,8 +59,8 @@
     "@vitejs/plugin-react": "catalog:",
     "@vitest/coverage-v8": "catalog:",
     "jsdom": "catalog:",
+    "oxfmt": "catalog:",
     "oxlint": "catalog:",
-    "prettier": "catalog:",
     "react": "catalog:",
     "react-dom": "catalog:",
     "styled-components": "catalog:",
@@ -69,19 +78,12 @@
 }
 ```
 
-## prettier.config.mjs
-
-```
-import base from '@acme/prettier-config/base.mjs';
-
-export default base;
-```
-
 ## src/button.spec.tsx
 
 ```
-import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+
 import { Button } from './button';
 
 describe('Button', () => {
@@ -96,8 +98,8 @@ describe('Button', () => {
     expect(buttonElement.tagName).toBe('BUTTON');
   });
 
-  /* Note: Testing for specific CSS classes with CSS Modules is tricky 
-     because class names are mangled (e.g., _styledButton_123). 
+  /* Note: Testing for specific CSS classes with CSS Modules is tricky
+     because class names are mangled (e.g., _styledButton_123).
      Usually, we just test that the class attribute exists.
   */
   it('applies a class name', () => {
@@ -176,8 +178,8 @@ export default defineConfig({
 ## vitest.config.ts
 
 ```
-import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [react()],

@@ -1,4 +1,5 @@
 import path from 'path';
+
 import { FileGenerator, PackageJsonGenerator } from '../file-generator';
 import { FileGeneratorImp } from '../file-generator/file-generator-imp';
 import { catalogDependency, PackageJSON } from '../package-json';

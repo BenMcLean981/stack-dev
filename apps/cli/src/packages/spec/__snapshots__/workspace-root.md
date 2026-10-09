@@ -185,15 +185,15 @@ catalog:
   commander: 14.0.2
   fastify: ^5.6.2
   jsdom: ^25.0.0
-  oxlint: ^1.74.0
+  oxfmt: ^0.71.0
+  oxlint: ^1.86.0
   pino-pretty: ^13.1.3
-  prettier: ^3.6.2
   react: ^18.3.1
   react-dom: ^18.3.1
   styled-components: ^6.1.13
-  tsdown: ^0.22.12
+  tsdown: ^0.23.0
   tsx: ^4.21.0
-  turbo: ^2.5.4
+  turbo: ^2.11.6
   typescript: ^7.0.2
   vite: ^5.4.2
   vitest: ^3.2.4
@@ -213,6 +213,10 @@ catalog:
       ]
     },
     "lint": {},
+    "format": {
+      "cache": false
+    },
+    "format:check": {},
     "test": {}
   }
 }

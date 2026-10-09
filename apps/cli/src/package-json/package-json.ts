@@ -1,8 +1,8 @@
 import { Equalable, haveSameItems, sortKeys } from '@stack-dev/core';
-
 import { Snapshot } from '@stack-dev/core';
 import JSON5 from 'json5';
 import { isEqual } from 'lodash';
+
 import { Dependency } from './dependency';
 
 export type ConstructorArgs = {
@@ -75,7 +75,7 @@ export class PackageJSON implements Equalable {
       devDependencies: this.devDependencies,
       peerDependencies: [...this.peerDependencies, dependency],
       additionalData: this._additionalData,
-    })
+    });
   }
 
   public removeDependency(name: string): PackageJSON {
@@ -152,7 +152,10 @@ export class PackageJSON implements Equalable {
   }
 
   private static parsePeerDependencies(json: Snapshot) {
-    if ('peerDependencies' in json && typeof json.peerDependencies === 'object') {
+    if (
+      'peerDependencies' in json &&
+      typeof json.peerDependencies === 'object'
+    ) {
       return Object.entries(json.peerDependencies).map(
         ([name, version]) => new Dependency(name, version as string),
       );
@@ -172,7 +175,7 @@ export class PackageJSON implements Equalable {
 
     const ordered = sortKeys(json, comparePackageJSONKeys);
 
-    return JSON.stringify(ordered, null, 2);
+    return `${JSON.stringify(ordered, null, 2)}\n`;
   }
 
   public equals(other: unknown): boolean {
@@ -193,7 +196,7 @@ export class PackageJSON implements Equalable {
         this._peerDependencies,
         other._peerDependencies,
         (d1, d2) => d1.equals(d2),
-      )
+      );
 
       return (
         this._name === other._name &&

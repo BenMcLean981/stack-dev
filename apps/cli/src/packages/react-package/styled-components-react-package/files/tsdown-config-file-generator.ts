@@ -12,7 +12,8 @@ export default defineConfig({
       js: format === 'es' ? '.mjs' : '.js',
     };
   },
-});`;
+});
+`;
 
 export const TSDOWN_CONFIG_FILE_GENERATOR = new FileGeneratorImp(
   'tsdown.config.ts',

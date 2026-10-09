@@ -1,11 +1,11 @@
-import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
-
 import path from 'node:path';
+
 import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
 import { catalogDependency, Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
+import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
+import { makeOxfmtConfigFileGenerator } from '../files/oxfmt-config-file-generator';
 import { makeOxlintConfigGenerator } from '../files/oxlint-config-file-generator';
-import { makePrettierConfigFileGenerator } from '../files/prettier-config-file-generator';
 import { makeBaseTsconfigFileGenerator } from '../files/tsconfig-file-generator';
 import { ADD_FILE_GENERATOR } from './files/add-file-generator';
 import { ADD_SPEC_FILE_GENERATOR } from './files/add-spec-file-generator';
@@ -43,7 +43,7 @@ export function makeLibraryPackageFileGenerators(
     ADD_SPEC_FILE_GENERATOR,
     TSDOWN_CONFIG_FILE_GENERATOR,
     makeBaseTsconfigFileGenerator('tsconfig.json', namespace, true),
-    makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
+    makeOxfmtConfigFileGenerator('oxfmt.config.mts', namespace),
     makeOxlintConfigGenerator('.oxlintrc.json'),
     VITEST_CONFIG_FILE_GENERATOR,
   ];
@@ -54,11 +54,11 @@ function makePackageGenerator(packageName: string, namespace: string) {
     name: packageName,
     devDependencies: [
       new Dependency(`${namespace}/oxlint-config`, 'workspace:*'),
-      new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
+      new Dependency(`${namespace}/oxfmt-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
       catalogDependency('typescript'),
       catalogDependency('oxlint'),
-      catalogDependency('prettier'),
+      catalogDependency('oxfmt'),
       catalogDependency('tsdown'),
       catalogDependency('vitest'),
       catalogDependency('@vitest/coverage-v8'),
@@ -83,7 +83,8 @@ function makePackageGenerator(packageName: string, namespace: string) {
         build: 'tsdown',
         'check-types': 'tsc --noEmit',
         lint: 'oxlint',
-        format: 'prettier . --write',
+        format: 'oxfmt .',
+        'format:check': 'oxfmt --check .',
         test: 'vitest run',
         'test:watch': 'vitest',
       },

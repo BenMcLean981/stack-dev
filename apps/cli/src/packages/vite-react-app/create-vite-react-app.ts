@@ -1,17 +1,16 @@
 import path from 'path';
+
 import { FileGenerator, PackageJsonGenerator } from '../../file-generator';
 import { catalogDependency, Dependency, PackageJSON } from '../../package-json';
 import { PackageGenerator } from '../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
-
+import { makeReactOxfmtConfigFileGenerator } from '../files/oxfmt-config-file-generator';
+import { makeReactOxlintConfigGenerator } from '../files/oxlint-config-file-generator';
+import { makeReactTsconfigFileGenerator } from '../files/tsconfig-file-generator';
+import { APP_FILE_GENERATOR } from './files/app-file-generator';
 import { INDEX_HTML_FILE_GENERATOR } from './files/index-html-file-generator';
 import { MAIN_FILE_GENERATOR } from './files/main-file-generator';
 import { VITE_CONFIG_FILE_GENERATOR } from './files/vite-config-file-generator';
-
-import { makeReactOxlintConfigGenerator } from '../files/oxlint-config-file-generator';
-import { makePrettierConfigFileGenerator } from '../files/prettier-config-file-generator';
-import { makeReactTsconfigFileGenerator } from '../files/tsconfig-file-generator';
-import { APP_FILE_GENERATOR } from './files/app-file-generator';
 import { VITEST_CONFIG_FILE_GENERATOR } from './files/vitest-config-file-generator';
 
 export async function createViteReactApp(name: string): Promise<void> {
@@ -42,7 +41,7 @@ export function makeViteReactAppFileGenerators(
     MAIN_FILE_GENERATOR,
     APP_FILE_GENERATOR,
     makeReactTsconfigFileGenerator('tsconfig.json', namespace),
-    makePrettierConfigFileGenerator('prettier.config.mjs', namespace),
+    makeReactOxfmtConfigFileGenerator('oxfmt.config.mts', namespace),
     makeReactOxlintConfigGenerator('.oxlintrc.json'),
     VITEST_CONFIG_FILE_GENERATOR,
   ];
@@ -51,13 +50,10 @@ export function makeViteReactAppFileGenerators(
 function makeAppPackageGenerator(packageName: string, namespace: string) {
   const packageJsonModel = new PackageJSON({
     name: packageName,
-    dependencies: [
-      catalogDependency('react'),
-      catalogDependency('react-dom'),
-    ],
+    dependencies: [catalogDependency('react'), catalogDependency('react-dom')],
     devDependencies: [
       new Dependency(`${namespace}/oxlint-config`, 'workspace:*'),
-      new Dependency(`${namespace}/prettier-config`, 'workspace:*'),
+      new Dependency(`${namespace}/oxfmt-config`, 'workspace:*'),
       new Dependency(`${namespace}/typescript-config`, 'workspace:*'),
       catalogDependency('@types/react'),
       catalogDependency('@types/react-dom'),
@@ -65,7 +61,7 @@ function makeAppPackageGenerator(packageName: string, namespace: string) {
       catalogDependency('vite'),
       catalogDependency('typescript'),
       catalogDependency('oxlint'),
-      catalogDependency('prettier'),
+      catalogDependency('oxfmt'),
       catalogDependency('vitest'),
     ],
     additionalData: {
@@ -79,7 +75,8 @@ function makeAppPackageGenerator(packageName: string, namespace: string) {
         start: 'pnpm run preview',
         'check-types': 'tsc --noEmit',
         lint: 'oxlint',
-        format: 'prettier . --write',
+        format: 'oxfmt .',
+        'format:check': 'oxfmt --check .',
         test: 'vitest run',
         'test:watch': 'vitest',
       },

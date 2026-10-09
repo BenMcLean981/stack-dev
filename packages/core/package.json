@@ -3,17 +3,7 @@
   "version": "0.2.1",
   "private": false,
   "license": "MIT",
-  "devDependencies": {
-    "@stack-dev/oxlint-config": "workspace:*",
-    "@stack-dev/prettier-config": "workspace:*",
-    "@stack-dev/typescript-config": "workspace:*",
-    "oxlint": "catalog:",
-    "prettier": "catalog:",
-    "tsdown": "catalog:",
-    "typescript": "catalog:",
-    "vitest": "catalog:",
-    "@vitest/coverage-v8": "catalog:"
-  },
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
@@ -28,9 +18,20 @@
     "check-types": "tsc --noEmit",
     "build": "tsdown",
     "lint": "oxlint",
-    "format": "prettier . --write",
+    "format": "oxfmt .",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "format:check": "oxfmt --check ."
   },
-  "sideEffects": false
+  "devDependencies": {
+    "@stack-dev/oxfmt-config": "workspace:*",
+    "@stack-dev/oxlint-config": "workspace:*",
+    "@stack-dev/typescript-config": "workspace:*",
+    "@vitest/coverage-v8": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
 }

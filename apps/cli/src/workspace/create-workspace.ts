@@ -1,8 +1,9 @@
 import fs from 'fs/promises';
 import path from 'path';
+
 import { tryGettingNamespace } from '../utils/workspace';
+import { makeOxfmtConfig } from './oxfmt-config';
 import { makeOxlintConfig } from './oxlint-config';
-import { makePrettierConfig } from './prettier-config';
 import { makeRootPackage } from './root-package';
 import { makeTypescriptConfig } from './typescript-config';
 
@@ -20,7 +21,7 @@ export async function createWorkspace(name: string, directory: string) {
     await makeRootPackage(fullPath, name),
     await makeTypescriptConfig(fullPath, namespace),
     await makeOxlintConfig(fullPath, namespace),
-    await makePrettierConfig(fullPath, namespace),
+    await makeOxfmtConfig(fullPath, namespace),
   ];
 
   await Promise.all(PACKAGES.map((p) => p.generate()));

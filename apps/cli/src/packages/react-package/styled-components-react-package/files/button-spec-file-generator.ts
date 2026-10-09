@@ -1,7 +1,8 @@
 import { FileGeneratorImp } from '../../../../file-generator/file-generator-imp';
 
-const BUTTON_SPEC = `import { describe, it, expect } from 'vitest';
-import { render, screen } from '@testing-library/react';
+const BUTTON_SPEC = `import { render, screen } from '@testing-library/react';
+import { describe, it, expect } from 'vitest';
+
 import { Button } from './button';
 
 describe('Button', () => {
@@ -16,8 +17,8 @@ describe('Button', () => {
     expect(buttonElement.tagName).toBe('BUTTON');
   });
 
-  /* Note: Testing for specific CSS classes with CSS Modules is tricky 
-     because class names are mangled (e.g., _styledButton_123). 
+  /* Note: Testing for specific CSS classes with CSS Modules is tricky
+     because class names are mangled (e.g., _styledButton_123).
      Usually, we just test that the class attribute exists.
   */
   it('applies a class name', () => {

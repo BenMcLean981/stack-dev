@@ -4,7 +4,7 @@ import { FileGenerator } from '../../file-generator';
 import { CATALOG } from '../../package-json';
 import {
   makeOxlintConfigFileGenerators,
-  makePrettierConfigFileGenerators,
+  makeOxfmtConfigFileGenerators,
   makeRootPackageFileGenerators,
   makeTypescriptConfigFileGenerators,
 } from '../../workspace';
@@ -40,7 +40,7 @@ const PACKAGE_TYPES = [
 const WORKSPACE_PACKAGES = [
   ['workspace-root', makeRootPackageFileGenerators('acme')],
   ['workspace-oxlint-config', makeOxlintConfigFileGenerators(NAMESPACE)],
-  ['workspace-prettier-config', makePrettierConfigFileGenerators(NAMESPACE)],
+  ['workspace-oxfmt-config', makeOxfmtConfigFileGenerators(NAMESPACE)],
   [
     'workspace-typescript-config',
     makeTypescriptConfigFileGenerators(NAMESPACE),
@@ -69,10 +69,24 @@ describe('file generators', () => {
       expect(generators.map((g) => g.filepath)).toContain('package.json');
     });
 
-    it('only references catalog entries that exist', async () => {
-      const packageJson = generators.find(
-        (g) => g.filepath === 'package.json',
+    it('ends every file with exactly one trailing newline', async () => {
+      const contents = await Promise.all(
+        generators.map(async (g) => [g.filepath, await g.generate()] as const),
       );
+
+      const missing = contents
+        .filter(([, text]) => !text.endsWith('\n'))
+        .map(([filepath]) => filepath);
+
+      const extra = contents
+        .filter(([, text]) => text.endsWith('\n\n'))
+        .map(([filepath]) => filepath);
+
+      expect({ missing, extra }).toEqual({ missing: [], extra: [] });
+    });
+
+    it('only references catalog entries that exist', async () => {
+      const packageJson = generators.find((g) => g.filepath === 'package.json');
 
       if (packageJson === undefined) {
         throw new Error('expected a package.json generator');

@@ -1,6 +1,6 @@
 import { FileGeneratorImp } from '../../../file-generator/file-generator-imp';
 
-const INDEX = `import { Command } from "commander";;
+const INDEX = `import { Command } from 'commander';
 
 const program = new Command();
 
@@ -9,7 +9,8 @@ program
   .description('CLI to some JavaScript string utilities')
   .version('0.8.0');
 
-program.command('split')
+program
+  .command('split')
   .description('Split a string into substrings and display as an array')
   .argument('<string>', 'string to split')
   .option('--first', 'display just the first substring')
@@ -19,6 +20,7 @@ program.command('split')
     console.log(str.split(options.separator, limit));
   });
 
-program.parse();`;
+program.parse();
+`;
 
 export const INDEX_FILE_GENERATOR = new FileGeneratorImp('src/index.ts', INDEX);

@@ -7,6 +7,14 @@
 }
 ```
 
+## oxfmt.config.mts
+
+```
+import config from '@acme/oxfmt-config/base';
+
+export default config;
+```
+
 ## package.json
 
 ```
@@ -30,17 +38,18 @@
     "build": "tsdown",
     "check-types": "tsc --noEmit",
     "lint": "oxlint",
-    "format": "prettier . --write",
+    "format": "oxfmt .",
+    "format:check": "oxfmt --check .",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "@acme/oxfmt-config": "workspace:*",
     "@acme/oxlint-config": "workspace:*",
-    "@acme/prettier-config": "workspace:*",
     "@acme/typescript-config": "workspace:*",
     "@vitest/coverage-v8": "catalog:",
+    "oxfmt": "catalog:",
     "oxlint": "catalog:",
-    "prettier": "catalog:",
     "tsdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
@@ -48,14 +57,6 @@
   "type": "module",
   "sideEffects": false
 }
-```
-
-## prettier.config.mjs
-
-```
-import base from '@acme/prettier-config/base.mjs';
-
-export default base;
 ```
 
 ## src/add.ts

@@ -1,9 +1,10 @@
-import { fileExists, getDirectoryPackageJson } from './utils';
-
-import { Snapshot } from '@stack-dev/core';
 import fs from 'node:fs/promises';
 import path from 'path';
+
+import { Snapshot } from '@stack-dev/core';
 import yaml from 'yaml';
+
+import { fileExists, getDirectoryPackageJson } from './utils';
 
 export type WorkspaceYaml = {
   packages: ReadonlyArray<string>;
