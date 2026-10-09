@@ -14,6 +14,7 @@ import { Dependency } from './dependency';
 export const CATALOG: Record<string, string> = {
   '@fastify/swagger': '^9.6.1',
   '@fastify/swagger-ui': '^5.2.3',
+  '@pothos/core': '^4.15.1',
   '@testing-library/jest-dom': '^6.0.0',
   '@testing-library/react': '^16.0.0',
   '@types/node': '^25.0.3',
@@ -24,6 +25,8 @@ export const CATALOG: Record<string, string> = {
   '@vitest/coverage-v8': '^3.2.4',
   commander: '14.0.2',
   fastify: '^5.6.2',
+  graphql: '^17.0.2',
+  'graphql-yoga': '^5.24.4',
   jsdom: '^25.0.0',
   oxfmt: '^0.71.0',
   oxlint: '^1.86.0',

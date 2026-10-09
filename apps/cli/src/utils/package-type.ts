@@ -6,6 +6,7 @@ export const packageTypes = [
   'react',
   'vite',
   'fastify',
+  'graphql',
   'next',
   'cli',
 ] as const;
