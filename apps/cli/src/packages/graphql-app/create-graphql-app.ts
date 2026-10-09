@@ -7,11 +7,14 @@ import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 import { makeOxfmtConfigFileGenerator } from '../files/oxfmt-config-file-generator';
 import { makeOxlintConfigGenerator } from '../files/oxlint-config-file-generator';
 import { makeNodeTsconfigFileGenerator } from '../files/tsconfig-file-generator';
+import { BOOK_SPEC_FILE_GENERATOR } from './files/book-spec-file-generator';
+import { BOOK_TYPE_FILE_GENERATOR } from './files/book-type-file-generator';
 import { BOOKS_FILE_GENERATOR } from './files/books-file-generator';
 import { CONTEXT_FILE_GENERATOR } from './files/context-file-generator';
+import { EXECUTE_OPERATION_FILE_GENERATOR } from './files/execute-operation-file-generator';
 import { INDEX_FILE_GENERATOR } from './files/index-file-generator';
-import { SCHEMA_FILE_GENERATORS } from './files/schema-file-generators';
-import { SPEC_FILE_GENERATORS } from './files/spec-file-generators';
+import { SCHEMA_BUILDER_FILE_GENERATOR } from './files/schema-builder-file-generator';
+import { SCHEMA_INDEX_FILE_GENERATOR } from './files/schema-index-file-generator';
 import { TSDOWN_FILE_GENERATOR } from './files/tsdown-file-generator';
 import { VITEST_CONFIG_FILE_GENERATOR } from './files/vitest-config-file-generator';
 
@@ -41,8 +44,11 @@ export function makeGraphqlAppFileGenerators(
     INDEX_FILE_GENERATOR,
     CONTEXT_FILE_GENERATOR,
     BOOKS_FILE_GENERATOR,
-    ...SCHEMA_FILE_GENERATORS,
-    ...SPEC_FILE_GENERATORS,
+    SCHEMA_BUILDER_FILE_GENERATOR,
+    SCHEMA_INDEX_FILE_GENERATOR,
+    BOOK_TYPE_FILE_GENERATOR,
+    EXECUTE_OPERATION_FILE_GENERATOR,
+    BOOK_SPEC_FILE_GENERATOR,
     makeNodeTsconfigFileGenerator('tsconfig.json', namespace),
     TSDOWN_FILE_GENERATOR,
     makeOxfmtConfigFileGenerator('oxfmt.config.mts', namespace),
