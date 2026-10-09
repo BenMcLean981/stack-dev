@@ -48,6 +48,15 @@ without binding a port.
 
 ---
 
+## Releasing
+
+Merging the **Version Packages** PR publishes to npm. See
+[docs/releasing.md](docs/releasing.md) for how publishing authenticates, how to
+move off the expiring `NPM_TOKEN`, what to do when a release fails, and the
+extra step a brand new package needs.
+
+---
+
 ## 🛠 Commands
 
 | Command               | Alias | Description                                             |
