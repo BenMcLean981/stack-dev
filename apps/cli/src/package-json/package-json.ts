@@ -78,6 +78,22 @@ export class PackageJSON implements Equalable {
     });
   }
 
+  /**
+   * Returns a copy whose unmodeled keys (scripts, exports, and anything else
+   * this class does not interpret) are replaced by `map`'s result.
+   */
+  public withAdditionalData(
+    map: (additionalData: Snapshot) => Snapshot,
+  ): PackageJSON {
+    return new PackageJSON({
+      name: this.name,
+      dependencies: this.dependencies,
+      devDependencies: this.devDependencies,
+      peerDependencies: this.peerDependencies,
+      additionalData: map(this._additionalData),
+    });
+  }
+
   public removeDependency(name: string): PackageJSON {
     return new PackageJSON({
       name: this.name,
