@@ -114,9 +114,15 @@ importers:
         specifier: 'catalog:'
         version: 2.29.8(@types/node@25.0.3)
     devDependencies:
+      '@stack-dev/oxfmt-config':
+        specifier: workspace:*
+        version: link:configs/oxfmt-config
       husky:
         specifier: 'catalog:'
         version: 9.1.7
+      oxfmt:
+        specifier: 'catalog:'
+        version: 0.71.0
       turbo:
         specifier: 'catalog:'
         version: 2.11.6
