@@ -6,8 +6,8 @@ import { PackageGenerator } from '../../utils/package-generator';
 import { getNamespace, getWorkspaceRoot } from '../../utils/workspace';
 import { makeOxfmtConfigFileGenerator } from '../files/oxfmt-config-file-generator';
 import { makeOxlintConfigGenerator } from '../files/oxlint-config-file-generator';
+import { makeNodeTsconfigFileGenerator } from '../files/tsconfig-file-generator';
 import { INDEX_FILE_GENERATOR } from './files/index-file-generator';
-import { makeTsconfigFileGenerator } from './files/tsconfig-file-generator';
 import { TSDOWN_FILE_GENERATOR } from './files/tsdown-file-generator';
 import { VITEST_CONFIG_FILE_GENERATOR } from './files/vitest-config-file-generator';
 
@@ -35,7 +35,7 @@ export function makeCliAppFileGenerators(
   return [
     makeAppPackageGenerator(packageName, namespace),
     INDEX_FILE_GENERATOR,
-    makeTsconfigFileGenerator('tsconfig.json', namespace),
+    makeNodeTsconfigFileGenerator('tsconfig.json', namespace),
     TSDOWN_FILE_GENERATOR,
     makeOxfmtConfigFileGenerator('oxfmt.config.mts', namespace),
     makeOxlintConfigGenerator('.oxlintrc.json'),

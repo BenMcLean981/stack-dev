@@ -18,6 +18,23 @@ export function makeBaseTsconfigFileGenerator(
   return new FileGeneratorImp(filepath, TSCONFIG);
 }
 
+export function makeNodeTsconfigFileGenerator(
+  filepath: string,
+  namespace: string,
+): FileGenerator {
+  const TSCONFIG = `{
+  "extends": "${namespace}/typescript-config/tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}
+`;
+
+  return new FileGeneratorImp(filepath, TSCONFIG);
+}
+
 export function makeReactTsconfigFileGenerator(
   filepath: string,
   namespace: string,
