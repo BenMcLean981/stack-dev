@@ -289,6 +289,23 @@ describe('planMigration', () => {
     expect(turbo.$schema).toBe('https://turbo.build/schema.json');
   });
 
+  it('refuses a workspace it did not create', async () => {
+    // A pnpm workspace with no namespaced config package is somebody else's
+    // monorepo, and migrating it would rewrite every package.json in it.
+    await write(root, 'package.json', JSON.stringify({ name: 'not-stack' }));
+    await write(root, 'pnpm-workspace.yaml', 'packages:\n  - "packages/*"\n');
+    await write(
+      root,
+      'packages/thing/package.json',
+      JSON.stringify({
+        name: '@not-stack/thing',
+        devDependencies: { prettier: '^3.6.2' },
+      }),
+    );
+
+    await expect(planMigration(root)).rejects.toThrow(/created by stack/i);
+  });
+
   it('finds nothing to do in a freshly generated workspace', async () => {
     await generateCurrentWorkspace(root);
 
@@ -334,6 +351,17 @@ async function writeWorkspace(
     root,
     'pnpm-workspace.yaml',
     'packages:\n  - "apps/*"\n  - "packages/*"\n  - "configs/*"\n',
+  );
+
+  // Every workspace stack creates has shared config packages, and migration
+  // refuses to run without one. Already aligned, so it contributes no changes.
+  await write(
+    root,
+    'configs/typescript-config/package.json',
+    JSON.stringify({
+      name: '@ws/typescript-config',
+      devDependencies: { typescript: 'catalog:' },
+    }),
   );
 
   for (const [filepath, contents] of Object.entries(files)) {

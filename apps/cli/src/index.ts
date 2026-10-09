@@ -3,7 +3,11 @@ import { prompt } from 'enquirer';
 
 import { version } from '../package.json';
 import { linkPackages } from './link-packages';
-import { applyMigration, isWorkingTreeClean, planMigration } from './migration';
+import {
+  applyMigration,
+  planMigration,
+  readWorkingTreeStatus,
+} from './migration';
 import {
   createCliApp,
   createConfigPackage,
@@ -112,11 +116,23 @@ program
       return;
     }
 
-    if (!options.force && !(await isWorkingTreeClean(root))) {
-      throw new Error(
-        'Working tree has uncommitted changes. Commit them first so the ' +
-          'migration is reviewable with "git diff", or pass --force.',
-      );
+    if (!options.force) {
+      const status = await readWorkingTreeStatus(root);
+
+      if (status === 'dirty') {
+        throw new Error(
+          'Working tree has uncommitted changes. Commit them first so the ' +
+            'migration is reviewable with "git diff", or pass --force.',
+        );
+      }
+
+      if (status === 'not-a-repository') {
+        throw new Error(
+          `"${root}" is not a git repository. Run "git init" and commit ` +
+            'first so the migration is reviewable with "git diff", or pass ' +
+            '--force.',
+        );
+      }
     }
 
     await applyMigration(root, changes);

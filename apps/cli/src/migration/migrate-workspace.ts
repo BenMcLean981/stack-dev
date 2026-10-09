@@ -1,4 +1,4 @@
-import { getAllPackages } from '../utils/package';
+import { getAllPackages, Package } from '../utils/package';
 import { getNamespace } from '../utils/workspace';
 import { CatalogDependencyMigration } from './catalog-dependency-migration';
 import { ConfigPackageMigration } from './config-package-migration';
@@ -40,9 +40,34 @@ const MIGRATIONS: ReadonlyArray<Migration> = [
 ];
 
 async function readWorkspace(root: string): Promise<MigratingWorkspace> {
-  return {
-    root,
-    namespace: await getNamespace(root),
-    packages: await getAllPackages(root),
-  };
+  const namespace = await getNamespace(root);
+  const packages = await getAllPackages(root);
+
+  validateCreatedByStack(root, namespace, packages);
+
+  return { root, namespace, packages };
+}
+
+/**
+ * A migration rewrites every package.json in the workspace, so it has to be
+ * sure the workspace is one this CLI created. The signature is a namespaced
+ * shared config package, which `stack create` always generates and nothing
+ * else would have.
+ */
+function validateCreatedByStack(
+  root: string,
+  namespace: string,
+  packages: ReadonlyArray<Package>,
+): void {
+  const hasConfigPackage = packages.some(
+    (p) => p.name.startsWith(`${namespace}/`) && p.name.endsWith('-config'),
+  );
+
+  if (!hasConfigPackage) {
+    throw new Error(
+      `"${root}" does not look like a workspace created by stack: ` +
+        `no "${namespace}/*-config" package found. Refusing to migrate, ` +
+        'because migrating rewrites every package.json in the workspace.',
+    );
+  }
 }
