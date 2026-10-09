@@ -11,6 +11,7 @@ import {
 import { makeCliAppFileGenerators } from '../cli-app/create-cli-app';
 import { makeConfigPackageFileGenerators } from '../create-config-package';
 import { makeFastifyAppFileGenerators } from '../fastify-app/create-fastify-app';
+import { makeGraphqlAppFileGenerators } from '../graphql-app/create-graphql-app';
 import { makeLibraryPackageFileGenerators } from '../library-package/create-library-package';
 import { makeStyledComponentsReactPackageFileGenerators } from '../react-package/styled-components-react-package/create-styled-components-react-package';
 import { makeUnstyledReactPackageFileGenerators } from '../react-package/unstyled-react-package/create-unstyled-react-package';
@@ -24,6 +25,7 @@ const PACKAGE_TYPES = [
   ['library', makeLibraryPackageFileGenerators(PACKAGE_NAME, NAMESPACE)],
   ['cli-app', makeCliAppFileGenerators(PACKAGE_NAME, NAMESPACE)],
   ['fastify-app', makeFastifyAppFileGenerators(PACKAGE_NAME, NAMESPACE)],
+  ['graphql-app', makeGraphqlAppFileGenerators(PACKAGE_NAME, NAMESPACE)],
   ['vite-react-app', makeViteReactAppFileGenerators(PACKAGE_NAME, NAMESPACE)],
   [
     'react-unstyled',

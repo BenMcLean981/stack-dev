@@ -73,8 +73,9 @@ stack g my-lib --type library
 stack g my-ui --type react --style styled-components
 stack g my-cli --type cli
 stack g my-api --type fastify
+stack g my-gql --type graphql
 stack g my-web --type vite
-pass "generated library, react, cli, fastify, and vite packages"
+pass "generated library, react, cli, fastify, graphql, and vite packages"
 
 step "Linking my-lib into my-cli"
 ( cd "$WORKDIR/ws/apps/my-cli" && stack link @ws/my-lib )
@@ -118,6 +119,21 @@ api_add="$(curl -s "http://localhost:$api_port/add/2/3")"
 echo "$api_root" | grep -q '"hello":"world"' || fail "fastify / body was: $api_root"
 echo "$api_add" | grep -q '"result":5' || fail "fastify /add/2/3 body was: $api_add"
 pass "fastify serves 200 with expected payloads"
+
+step "Running the GraphQL app"
+gql_port="$(free_port)"
+PORT="$gql_port" node "$WORKDIR/ws/apps/my-gql/dist/index.mjs" >/dev/null 2>&1 &
+BG_PIDS+=($!)
+wait_for_200 "http://localhost:$gql_port/health" || fail "graphql never answered /health"
+gql_query="$(curl -s -X POST "http://localhost:$gql_port/graphql" \
+  -H 'content-type: application/json' \
+  -d '{"query":"{ books { id title } }"}')"
+echo "$gql_query" | grep -q '"title":"Refactoring"' || fail "graphql query body was: $gql_query"
+gql_mutation="$(curl -s -X POST "http://localhost:$gql_port/graphql" \
+  -H 'content-type: application/json' \
+  -d '{"query":"mutation { addBook(title:\"TDD\", author:\"Kent Beck\") { id title } }"}')"
+echo "$gql_mutation" | grep -q '"title":"TDD"' || fail "graphql mutation body was: $gql_mutation"
+pass "graphql serves queries and mutations"
 
 step "Running the Vite app"
 web_port="$(free_port)"

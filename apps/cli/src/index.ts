@@ -12,6 +12,7 @@ import {
   createCliApp,
   createConfigPackage,
   createFastifyApp,
+  createGraphqlApp,
   createLibraryPackage,
   createReactPackage,
   createViteReactApp,
@@ -79,6 +80,9 @@ program
         break;
       case 'fastify':
         await createFastifyApp(name);
+        break;
+      case 'graphql':
+        await createGraphqlApp(name);
         break;
       case 'next':
         // await createNextPackage(name)

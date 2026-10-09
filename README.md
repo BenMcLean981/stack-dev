@@ -35,7 +35,16 @@ stack g ui-kit --type react --style styled-components
 
 # Generate a Vite + React application
 stack g web-app --type vite
+
+# Generate a GraphQL API (GraphQL Yoga + Pothos)
+stack g api --type graphql
 ```
+
+The GraphQL app is code-first: the schema is built with
+[Pothos](https://pothos-graphql.dev) and served by
+[GraphQL Yoga](https://the-guild.dev/graphql/yoga-server). Because Yoga is
+built on fetch, the generated tests run operations against the real schema
+without binding a port.
 
 ---
 
